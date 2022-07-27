@@ -32,5 +32,5 @@ Allows the player to store boosts while crouching on campfires, consuming them w
 Incompatible with Cloudskipper.
 
 ### Cloudskipper
-Horizontal drag is reduced depending on the player's vertical height, allowing them to glide for much longer and at much higher speeds while above the cloud layer.
+Horizontal drag is reduced depending on the player's altitude, allowing them to glide for much longer and at much higher speeds while above the cloud layer.
 Incompatible with Smokestack.
