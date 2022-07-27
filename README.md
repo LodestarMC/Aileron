@@ -7,7 +7,7 @@
 <br>
 Aileron is a unique overhaul to Minecraft's Elytra, adding new enchantments and behaviours while rebalancing some of it's existing behavior to be better suited for multiplayer gameplay.
 
-## Mechanics:
+## Mechanics
 ### Barrel Rolling
 Players may now double-tap A or D to barrel roll left or right for quick maneuvering. This also works if they press A or D while holding their sprint key during flight.
 
@@ -26,7 +26,7 @@ Campfire smoke travels higher depending on how many other campfires are adjacent
 ### Firework Contrails
 Fireworks may no longer be used for speed boosts - they instead leaving a lingering trail, purely for cosmetic purposes.
 
-## Enchantments:
+## Enchantments
 ### Smokestack
 Allows the player to store boosts while crouching on campfires, consuming them with the jump key while flying for a burst of speed. One maximum boost may be stored per level, capping at 3.
 Incompatible with Cloudskipper.
