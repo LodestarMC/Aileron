@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "aileron",
+  "version": "${version}",
+  "name": "Aileron",
+  "description": "This is an example description! Tell everyone what your mod is about!",
+  "authors": [
+    "Me!"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "Insert License Here",
+  "icon": "assets/aileron/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.lodestar.aileron.fabric.AileronModFabric"
+    ],
+    "client": [
+      "com.lodestar.aileron.fabric.AileronModFabricClient"
+    ],
+    "modmenu": [
+      "com.lodestar.aileron.fabriclike.FabricLikeModMenuIntegration"
+    ]
+  },
+  "mixins": [
+    "aileron.mixins.json",
+    "aileron-common.mixins.json"
+  ],
+  "depends": {
+    "fabric": "*",
+    "minecraft": ">=1.18.2"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "mixin": [
+    "aileron.mixins.json",
+    "aileron-common.mixins.json"
+  ],
+  "quilt_loader": {
+    "group": "${group}",
+    "id": "aileron",
+    "version": "${version}",
+    "name": "Aileron",
+    "description": "This is an example description! Tell everyone what your mod is about!",
+    "authors": ["Team Lodestar"],
+    "contact": {
+      "sources": "https://github.com/architectury/architectury-templates"
+    },
+    "license": "Insert License Here",
+    "icon": "assets/examplemod/icon.png",
+    "intermediate_mappings": "net.fabricmc:intermediary",
+    "environment": "*",
+    "entrypoints": {
+      "init": [
+        "com.lodestar.aileron.quilt.AileronModQuilt"
+      ],
+      "client": [
+        "com.lodestar.aileron.quilt.AileronModQuiltClient"
+      ],
+      "modmenu": [
+        "com.lodestar.aileron.fabriclike.FabricLikeModMenuIntegration"
+      ]
+    },
+    "depends": [
+      {
+        "id": "quilt_loader",
+        "version": "*"
+      },
+      {
+        "id": "quilt_base",
+        "version": "*"
+      },
+      {
+        "id": "minecraft",
+        "version": ">=1.18.2"
+      }
+    ]
+  }
+}

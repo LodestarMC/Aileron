@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "package": "com.lodestar.aileron.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "MixinGameRenderer",
+    "CameraMixin",
+    "MinecraftMixin",
+    "GuiMixin"
+  ],
+  "mixins": [
+    "MixinFireworkRocketItem",
+    "CampfireBlockEntityMixin",
+    "PlayerEntityMixin",
+    "CampfireBlockMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
