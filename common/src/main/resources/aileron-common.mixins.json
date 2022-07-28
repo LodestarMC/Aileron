@@ -12,7 +12,8 @@
     "MixinFireworkRocketItem",
     "CampfireBlockEntityMixin",
     "PlayerEntityMixin",
-    "CampfireBlockMixin"
+    "CampfireBlockMixin",
+    "LivingEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

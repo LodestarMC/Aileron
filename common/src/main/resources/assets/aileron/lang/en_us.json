@@ -1,4 +1,7 @@
 {
+  "enchantment.aileron.smokestack": "Smokestack",
+  "enchantment.aileron.cloudskipper": "Cloudskipper",
+  "aileron.midnightconfig.title": "Aileron Config",
   "aileron.midnightconfig.cameraSettings": "Camera Settings",
   "aileron.midnightconfig.doCameraRoll": "Tilt Camera on Turns",
   "aileron.midnightconfig.cameraRollScale": "Camera Tilt Scale",
