@@ -19,7 +19,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.*;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 
 import java.awt.*;
 import java.lang.annotation.ElementType;
@@ -106,7 +105,7 @@ public abstract class MidnightConfig {
         info.id = modid;
 
         if (e != null) {
-            if (!e.name().equals("")) info.name = new TranslatableComponent(e.name());
+            if (!e.name().equals("")) info.name = Component.translatable(e.name());
             if (type == int.class) textField(info, Integer::parseInt, INTEGER_ONLY, (int) e.min(), (int) e.max(), true);
             else if (type == float.class) textField(info, Float::parseFloat, DECIMAL_ONLY, (float) e.min(), (float) e.max(), false);
             else if (type == double.class) textField(info, Double::parseDouble, DECIMAL_ONLY, e.min(), e.max(), false);
@@ -114,14 +113,14 @@ public abstract class MidnightConfig {
                 info.max = e.max() == Double.MAX_VALUE ? Integer.MAX_VALUE : (int) e.max();
                 textField(info, String::length, null, Math.min(e.min(), 0), Math.max(e.max(), 1), true);
             } else if (type == boolean.class) {
-                Function<Object, Component> func = value -> new TextComponent((Boolean) value ? "True" : "False").withStyle((Boolean) value ? ChatFormatting.GREEN : ChatFormatting.RED);
+                Function<Object, Component> func = value -> Component.literal((Boolean) value ? "True" : "False").withStyle((Boolean) value ? ChatFormatting.GREEN : ChatFormatting.RED);
                 info.widget = new AbstractMap.SimpleEntry<Button.OnPress, Function<Object, Component>>(button -> {
                     info.value = !(Boolean) info.value;
                     button.setMessage(func.apply(info.value));
                 }, func);
             } else if (type.isEnum()) {
                 List<?> values = Arrays.asList(field.getType().getEnumConstants());
-                Function<Object, Component> func = value -> new TranslatableComponent(modid + ".midnightconfig." + "enum." + type.getSimpleName() + "." + info.value.toString());
+                Function<Object, Component> func = value -> Component.translatable(modid + ".midnightconfig." + "enum." + type.getSimpleName() + "." + info.value.toString());
                 info.widget = new AbstractMap.SimpleEntry<Button.OnPress, Function<Object, Component>>(button -> {
                     int index = values.indexOf(info.value) + 1;
                     info.value = values.get(index >= values.size() ? 0 : index);
@@ -144,7 +143,7 @@ public abstract class MidnightConfig {
             if (!(isNumber && s.isEmpty()) && !s.equals("-") && !s.equals(".")) {
                 value = f.apply(s);
                 inLimits = value.doubleValue() >= min && value.doubleValue() <= max;
-                info.error = inLimits? null : new AbstractMap.SimpleEntry<>(t, new TextComponent(value.doubleValue() < min ?
+                info.error = inLimits? null : new AbstractMap.SimpleEntry<>(t, Component.literal(value.doubleValue() < min ?
                         "§cMinimum " + (isNumber? "value" : "length") + (cast? " is " + (int)min : " is " + min) :
                         "§cMaximum " + (isNumber? "value" : "length") + (cast? " is " + (int)max : " is " + max)));
             }
@@ -165,7 +164,7 @@ public abstract class MidnightConfig {
                 if (!s.contains("#")) s = '#' + s;
                 if (!HEXADECIMAL_ONLY.matcher(s).matches()) return false;
                 try {
-                    info.colorButton.setMessage(new TextComponent("⬛").setStyle(Style.EMPTY.withColor(Color.decode(info.tempValue).getRGB())));
+                    info.colorButton.setMessage(Component.literal("⬛").setStyle(Style.EMPTY.withColor(Color.decode(info.tempValue).getRGB())));
                 } catch (Exception ignored) {}
             }
             return true;
@@ -188,7 +187,7 @@ public abstract class MidnightConfig {
     @Environment(EnvType.CLIENT)
     private static class MidnightConfigScreen extends Screen {
         protected MidnightConfigScreen(Screen parent, String modid) {
-            super(new TranslatableComponent(modid + ".midnightconfig." + "title"));
+            super(Component.translatable(modid + ".midnightconfig." + "title"));
             this.parent = parent;
             this.modid = modid;
             this.translationPrefix = modid + ".midnightconfig.";
@@ -245,8 +244,8 @@ public abstract class MidnightConfig {
             this.addWidget(this.list);
             for (EntryInfo info : entries) {
                 if (info.id.equals(modid)) {
-                    Component name = Objects.requireNonNullElseGet(info.name, () -> new TranslatableComponent(translationPrefix + info.field.getName()));
-                    Button resetButton = new Button(width - 205, 0, 40, 20, new TranslatableComponent("Reset").withStyle(ChatFormatting.RED), (button -> {
+                    Component name = Objects.requireNonNullElseGet(info.name, () -> Component.translatable(translationPrefix + info.field.getName()));
+                    Button resetButton = new Button(width - 205, 0, 40, 20, Component.translatable("Reset").withStyle(ChatFormatting.RED), (button -> {
                         info.value = info.defaultValue;
                         info.tempValue = info.defaultValue.toString();
                         info.index = 0;
@@ -258,7 +257,7 @@ public abstract class MidnightConfig {
 
                     if (info.widget instanceof Map.Entry) {
                         Map.Entry<Button.OnPress, Function<Object, Component>> widget = (Map.Entry<Button.OnPress, Function<Object, Component>>) info.widget;
-                        if (info.field.getType().isEnum()) widget.setValue(value -> new TranslatableComponent(translationPrefix + "enum." + info.field.getType().getSimpleName() + "." + info.value.toString()));
+                        if (info.field.getType().isEnum()) widget.setValue(value -> Component.translatable(translationPrefix + "enum." + info.field.getType().getSimpleName() + "." + info.value.toString()));
                         this.list.addButton(List.of(new Button(width - 160, 0,150, 20, widget.getValue().apply(info.value), widget.getKey()),resetButton), name);
                     } else if (info.field.getType() == List.class) {
                         if (!reload) info.index = 0;
@@ -269,8 +268,8 @@ public abstract class MidnightConfig {
                         Predicate<String> processor = ((BiFunction<EditBox, Button, Predicate<String>>) info.widget).apply(widget, done);
                         widget.setFilter(processor);
                         resetButton.setWidth(20);
-                        resetButton.setMessage(new TextComponent("R").withStyle(ChatFormatting.RED));
-                        Button cycleButton = new Button(width - 185, 0, 20, 20, new TextComponent(String.valueOf(info.index)).withStyle(ChatFormatting.GOLD), (button -> {
+                        resetButton.setMessage(Component.literal("R").withStyle(ChatFormatting.RED));
+                        Button cycleButton = new Button(width - 185, 0, 20, 20, Component.literal(String.valueOf(info.index)).withStyle(ChatFormatting.GOLD), (button -> {
                             ((List<String>)info.value).remove("");
                             double scrollAmount = list.getScrollAmount();
                             this.reload = true;
@@ -288,9 +287,9 @@ public abstract class MidnightConfig {
                         widget.setFilter(processor);
                         if (info.field.getAnnotation(Entry.class).isColor()) {
                             resetButton.setWidth(20);
-                            resetButton.setMessage(new TextComponent("R").withStyle(ChatFormatting.RED));
-                            Button colorButton = new Button(width - 185, 0, 20, 20, new TextComponent("⬛"), (button -> {}));
-                            try {colorButton.setMessage(new TextComponent("⬛").setStyle(Style.EMPTY.withColor(Color.decode(info.tempValue).getRGB())));} catch (Exception ignored) {}
+                            resetButton.setMessage(Component.literal("R").withStyle(ChatFormatting.RED));
+                            Button colorButton = new Button(width - 185, 0, 20, 20, Component.literal("⬛"), (button -> {}));
+                            try {colorButton.setMessage(Component.literal("⬛").setStyle(Style.EMPTY.withColor(Color.decode(info.tempValue).getRGB())));} catch (Exception ignored) {}
                             info.colorButton = colorButton;
                             this.list.addButton(List.of(widget, colorButton, resetButton), name);
                         }
@@ -313,14 +312,14 @@ public abstract class MidnightConfig {
                     if (list.getHoveredButton(mouseX,mouseY).isPresent()) {
                         AbstractWidget buttonWidget = list.getHoveredButton(mouseX,mouseY).get();
                         Component text = ButtonEntry.buttonsWithComponent.get(buttonWidget);
-                        Component name = new TranslatableComponent(this.translationPrefix + info.field.getName());
+                        Component name = Component.translatable(this.translationPrefix + info.field.getName());
                         String key = translationPrefix + info.field.getName() + ".tooltip";
 
                         if (info.error != null && text.equals(name)) renderTooltip(matrices, info.error.getValue(), mouseX, mouseY);
                         else if (I18n.exists(key) && text.equals(name)) {
                             List<Component> list = new ArrayList<>();
                             for (String str : I18n.get(key).split("\n"))
-                                list.add(new TextComponent(str));
+                                list.add(Component.literal(str));
                             renderTooltip(matrices, list, Optional.empty(), mouseX, mouseY);
                         }
                     }
