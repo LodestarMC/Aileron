@@ -47,11 +47,12 @@ public abstract class LivingEntityMixin extends Entity {
         fac *= 0.6;
         fac *= cloudSkipper / 3.0;
 
-        if(fac > 0.1 && !level.isClientSide && tickCount % 4 == 0) {
+        if(fac > 0.1 && !level.isClientSide && tickCount % ((int) (1.0 - fac) * 2 + 1) == 0) {
             ServerLevel serverLevel = ((ServerLevel) level);
 
             for (ServerPlayer player : serverLevel.players()) {
-                serverLevel.sendParticles(player, ParticleTypes.POOF, false, getX(), getY(), getZ(), 2, 0.1, 0.1, 0.1, 0.025);
+                Vec3 pos = instance.position().add(instance.getLookAngle().scale(-1.0));
+                serverLevel.sendParticles(player, ParticleTypes.POOF, false, pos.x, pos.y, pos.z, 1 + (int)(fac * 4.0), 0.1, 0.1, 0.1, 0.025);
             }
         }
 

@@ -34,9 +34,11 @@ public abstract class PlayerEntityMixin implements ISmokeStackChargeData {
 
     @Shadow public abstract boolean isLocalPlayer();
 
+    int campfireDamageIFrames = 0;
     int smokeTrailTicks = 0;
     int chargeTime = 0;
-    boolean charged = false, startFlyingNextTick = false;
+    boolean charged = false;
+    int startFlyingTimer = 0;
 
     @Inject(method = "tick", at = @At("TAIL"))
     public void postTick(CallbackInfo ci) {
@@ -47,6 +49,9 @@ public abstract class PlayerEntityMixin implements ISmokeStackChargeData {
 
         if(boostTicks > 0) boostTicks --;
         if(!self.isFallFlying()) boostTicks = 0;
+
+        if(campfireDamageIFrames > 0) campfireDamageIFrames --;
+        if(startFlyingTimer > 0) startFlyingTimer --;
 
         if(smokeTrailTicks > 0) smokeTrailTicks --;
         if(!self.isFallFlying()) smokeTrailTicks = 0;
@@ -79,15 +84,17 @@ public abstract class PlayerEntityMixin implements ISmokeStackChargeData {
         // smoke trail
         if (smokeTrailTicks > 0 ) {
 
-            if (self.tickCount % 3 == 0) {
+            if (self.tickCount == 0) {
                 final ServerLevel serverLevel = ((ServerLevel) level);
 
                 for (ServerPlayer player : serverLevel.players()) {
-                    serverLevel.sendParticles(player, ParticleTypes.CAMPFIRE_SIGNAL_SMOKE, false, self.getX(), self.getY(), self.getZ(), 2, 0.1, 0.1, 0.1, 0.02);
+                    Vec3 pos = self.position().add(self.getLookAngle().scale(-1.0));
+                    serverLevel.sendParticles(player, ParticleTypes.CAMPFIRE_SIGNAL_SMOKE, false, pos.x, pos.y, pos.z, 2, 0.1, 0.1, 0.1, 0.005);
                 }
             }
 
         }
+
 
 
         if(true) {
@@ -131,11 +138,15 @@ public abstract class PlayerEntityMixin implements ISmokeStackChargeData {
                 }
             } else {
                 chargeTime = 0;
+
+                if (!level.isClientSide && !self.isFallFlying() && campfireDamageIFrames == 0 && !charged) {
+                    self.getEntityData().set(SmokeStocks.DATA_SMOKE_STOCKS, 0);
+                }
             }
 
-            if(startFlyingNextTick) {
+            if(startFlyingTimer == 0 && !level.isClientSide) {
+                startFlyingTimer = -1;
                 self.startFallFlying();
-                startFlyingNextTick = false;
             }
 
             if(!self.isCrouching() && charged) {
@@ -150,12 +161,14 @@ public abstract class PlayerEntityMixin implements ISmokeStackChargeData {
                     serverLevel.sendParticles(player, ParticleTypes.SMOKE, false, self.getX(), self.getY(), self.getZ(), 120, 0.5, 0.5, 0.5, 0.4);
                 }
 
+                setCampfireDamageIFrames(20);
 
                 level.playSound(null, self.blockPosition(), SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 0.8f, 0.8f);
 
-                Aileron.launchClient((ServerPlayer) self);
                 self.startFallFlying();
-                startFlyingNextTick = true;
+                Aileron.launchClient((ServerPlayer) self);
+                self.tryToStartFallFlying();
+                startFlyingTimer = 5;
             }
         }
 
@@ -211,18 +224,14 @@ public abstract class PlayerEntityMixin implements ISmokeStackChargeData {
                 }
             }
 
-            AileronClient.localPlayerTick(self);
         }
+        if(self.level.isClientSide && self.isLocalPlayer())
+            AileronClient.localPlayerTick(self);
     }
 
     @Inject(method = "defineSynchedData", at = @At("TAIL"))
     public void defineSynchedData(CallbackInfo ci) {
         ((Player) (Object) this).getEntityData().define(SmokeStocks.DATA_SMOKE_STOCKS, 0);
-    }
-
-    @Override
-    public boolean getStartFlyingNextTick() {
-        return startFlyingNextTick;
     }
 
     @Override
@@ -245,5 +254,15 @@ public abstract class PlayerEntityMixin implements ISmokeStackChargeData {
     @Override
     public void setSmokeTrailTicks(int boostTicks) {
         this.smokeTrailTicks = boostTicks;
+    }
+
+    @Override
+    public int getCampfireDamageIFrames() {
+        return campfireDamageIFrames;
+    }
+
+    @Override
+    public void setCampfireDamageIFrames(int campfireDamageIFrames) {
+        this.campfireDamageIFrames = campfireDamageIFrames;
     }
 }

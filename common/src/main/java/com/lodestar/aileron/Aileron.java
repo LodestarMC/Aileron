@@ -35,7 +35,7 @@ public class Aileron {
 
     public static void clientLaunchPlayer() {
         LocalPlayer player = Minecraft.getInstance().player;
-        ((ISmokeStackChargeData) player).setBoostTicks(30);
+        ((ISmokeStackChargeData) player).setBoostTicks(50);
     }
 
     public static void playerDashedServer(ServerPlayer player) {
@@ -51,7 +51,7 @@ public class Aileron {
                 serverLevel.sendParticles(serverPlayer, ParticleTypes.SMOKE, false, player.getX(), player.getY(), player.getZ(), 120, 0.5, 0.5, 0.5, 0.4);
             }
 
-            ((ISmokeStackChargeData) player).setBoostTicks(30);
+            ((ISmokeStackChargeData) player).setBoostTicks(50);
         }
     }
 

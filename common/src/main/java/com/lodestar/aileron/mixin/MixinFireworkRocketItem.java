@@ -25,7 +25,8 @@ public class MixinFireworkRocketItem {
             itemStack.shrink(1);
         }
 
-        ((ISmokeStackChargeData) player).setSmokeTrailTicks(40);
+        ((ISmokeStackChargeData) player).setSmokeTrailTicks(100);
+        player.getCooldowns().addCooldown((FireworkRocketItem) (Object) this, 100);
         player.awardStat(Stats.ITEM_USED.get((FireworkRocketItem) (Object) this));
         cir.setReturnValue(InteractionResultHolder.pass(player.getItemInHand(interactionHand)));
     }
