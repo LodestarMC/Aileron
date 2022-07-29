@@ -5,6 +5,7 @@
   "client": [
   ],
   "mixins": [
+    "QuarkCompatMixin"
   ],
   "injectors": {
     "defaultRequire": 1

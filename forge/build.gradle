@@ -24,11 +24,21 @@ configurations {
     developmentForge.extendsFrom common
 }
 
+
+
+repositories {
+    maven {
+        url = "https://www.cursemaven.com"
+        allowInsecureProtocol = true
+    }
+}
+
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+//    modRuntimeOnlyMapped ("curse.maven:quark-243121:3840125")
 }
 
 processResources {
@@ -68,6 +78,14 @@ components.java {
         skip()
     }
 }
+
+loom {
+    forge {
+        mixinConfig "aileron-forge.mixins.json"
+        mixinConfig "aileron-common.mixins.json"
+    }
+}
+
 
 publishing {
     publications {

@@ -25,7 +25,7 @@ public class MixinGameRenderer {
     @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera;setup(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/world/entity/Entity;ZZF)V"))
     public void renderLevel(float partial, long l, PoseStack poseStack, CallbackInfo ci) {
         LocalPlayer player = Minecraft.getInstance().player;
-        if(player != null && player.isFallFlying()) {
+        if(player != null && player.isFallFlying() && !Aileron.isModInstalled("cameraoverhaul")) {
             AileronConfigInfo config = Aileron.getConfigInfo();
 
             float roll = ((ICameraEMA) mainCamera).getSmoothedEMADifference() * 0.225f;

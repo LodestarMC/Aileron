@@ -21,7 +21,7 @@ public abstract class CameraMixin implements ICameraEMA {
 
     @Inject(method = "setup", at = @At("TAIL"))
     public void setup(BlockGetter blockGetter, Entity entity, boolean bl, boolean bl2, float partial, CallbackInfo ci) {
-        smoothedEMADifference = getYRot() - (float) (EMAValue + (EMAValue - previousEMAValue) * partial);
+        smoothedEMADifference = entity.getYRot() - (float) (EMAValue + (EMAValue - previousEMAValue) * partial);
     }
 
     @Override

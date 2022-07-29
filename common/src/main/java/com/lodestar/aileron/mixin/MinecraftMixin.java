@@ -28,7 +28,7 @@ public class MinecraftMixin {
         Camera camera = gameRenderer.getMainCamera();
         ICameraEMA ema = ((ICameraEMA) camera);
 
-        float curYaw = camera.getYRot();
+        float curYaw = camera.getEntity().getYRot();
 
         previousEMA = EMA;
         EMA = (float) (EMA + (curYaw - EMA) * config.cameraRollSpeed);

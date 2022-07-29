@@ -23,13 +23,19 @@ public class Aileron {
     @ExpectPlatform
     public static void smokeDash() {}
 
-    @ExpectPlatform public static AileronConfigInfo getConfigInfo() {
+    @ExpectPlatform
+    public static AileronConfigInfo getConfigInfo() {
         return null;
+    }
+
+    @ExpectPlatform
+    public static boolean isModInstalled(String modId) {
+        return false;
     }
 
     public static void clientLaunchPlayer() {
         LocalPlayer player = Minecraft.getInstance().player;
-        player.setDeltaMovement(player.getDeltaMovement().add(new Vec3(0.0, 1.5, 0.0)));
+        ((ISmokeStackChargeData) player).setBoostTicks(30);
     }
 
     public static void playerDashedServer(ServerPlayer player) {
@@ -44,6 +50,8 @@ public class Aileron {
                 serverLevel.sendParticles(serverPlayer, ParticleTypes.CAMPFIRE_COSY_SMOKE, false, player.getX(), player.getY(), player.getZ(), 40, 0.5, 0.5, 0.5, 0.1);
                 serverLevel.sendParticles(serverPlayer, ParticleTypes.SMOKE, false, player.getX(), player.getY(), player.getZ(), 120, 0.5, 0.5, 0.5, 0.4);
             }
+
+            ((ISmokeStackChargeData) player).setBoostTicks(30);
         }
     }
 

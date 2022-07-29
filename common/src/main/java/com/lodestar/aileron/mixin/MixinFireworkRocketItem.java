@@ -1,5 +1,8 @@
 package com.lodestar.aileron.mixin;
 
+import com.lodestar.aileron.Aileron;
+import com.lodestar.aileron.ISmokeStackChargeData;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -16,6 +19,14 @@ public class MixinFireworkRocketItem {
 
     @Inject(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/FireworkRocketEntity;<init>(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/LivingEntity;)V"), cancellable = true)
     public void use(Level level, Player player, InteractionHand interactionHand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir) {
+        ItemStack itemStack = player.getItemInHand(interactionHand);
+
+        if (!player.getAbilities().instabuild) {
+            itemStack.shrink(1);
+        }
+
+        ((ISmokeStackChargeData) player).setSmokeTrailTicks(40);
+        player.awardStat(Stats.ITEM_USED.get((FireworkRocketItem) (Object) this));
         cir.setReturnValue(InteractionResultHolder.pass(player.getItemInHand(interactionHand)));
     }
 }

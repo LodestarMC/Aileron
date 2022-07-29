@@ -6,10 +6,10 @@ license = "Insert License Here"
 [[mods]]
 modId = "aileron"
 version = "${version}"
-displayName = "Example Mod"
+displayName = "Aileron"
 authors = "Team Lodestar"
 description = '''
-This is an example description! Tell everyone what your mod is about!
+A unique and expansive Elytra overhaul
 '''
 #logoFile = ""
 

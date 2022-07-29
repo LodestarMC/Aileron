@@ -2,8 +2,12 @@ package com.lodestar.aileron.mixin;
 
 import com.lodestar.aileron.Aileron;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.Registry;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -42,6 +46,14 @@ public abstract class LivingEntityMixin extends Entity {
 
         fac *= 0.6;
         fac *= cloudSkipper / 3.0;
+
+        if(fac > 0.1 && !level.isClientSide && tickCount % 4 == 0) {
+            ServerLevel serverLevel = ((ServerLevel) level);
+
+            for (ServerPlayer player : serverLevel.players()) {
+                serverLevel.sendParticles(player, ParticleTypes.POOF, false, getX(), getY(), getZ(), 2, 0.1, 0.1, 0.1, 0.025);
+            }
+        }
 
         negator = new Vec3(negator.x, 1.0, negator.z);
 

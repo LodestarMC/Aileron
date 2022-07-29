@@ -9,13 +9,13 @@
     "id": "aileron",
     "version": "${version}",
     "name": "Aileron",
-    "description": "This is an example description! Tell everyone what your mod is about!",
+    "description": "A unique and expansive Elytra overhaul",
     "authors": ["Team Lodestar"],
     "contact": {
-      "sources": "https://github.com/architectury/architectury-templates"
+      "sources": "https://github.com/OrtusMC/Aileron"
     },
     "license": "Insert License Here",
-    "icon": "assets/examplemod/icon.png",
+    "icon": "assets/aileron/icon.png",
     "intermediate_mappings": "net.fabricmc:intermediary",
     "environment": "*",
     "entrypoints": {

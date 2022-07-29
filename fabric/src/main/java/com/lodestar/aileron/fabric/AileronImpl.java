@@ -6,6 +6,7 @@ import com.lodestar.aileron.fabriclike.AileronFabricLike;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.level.ServerPlayer;
 
 public class AileronImpl {
@@ -27,5 +28,9 @@ public class AileronImpl {
         configInfo.smokeStackChargeTicks = AileronFabricLikeConfig.smokeStackChargeTicks;
 
         return configInfo;
+    }
+
+    public static boolean isModInstalled(String modId) {
+        return FabricLoader.getInstance().isModLoaded(modId);
     }
 }
