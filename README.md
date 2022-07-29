@@ -8,9 +8,6 @@
 Aileron is a unique overhaul to Minecraft's Elytra, adding new enchantments and behaviours while rebalancing some of it's existing behavior to be better suited for multiplayer gameplay.
 
 ## Mechanics
-### Barrel Rolling
-Players may now double-tap A or D to barrel roll left or right for quick maneuvering. This also works if they press A or D while holding their sprint key during flight.
-
 ### Camera Tilt
 The player's camera tilts while rapidly turning at high velocities.
 
