@@ -10,7 +10,7 @@
   "contact": {
       "sources": "https://github.com/OrtusMC/Aileron"
   },
-  "license": "Insert License Here",
+  "license": "GNU Lesser General Public License",
   "icon": "assets/aileron/icon.png",
   "environment": "*",
   "entrypoints": {
