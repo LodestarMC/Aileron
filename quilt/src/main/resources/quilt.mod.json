@@ -14,7 +14,7 @@
     "contact": {
       "sources": "https://github.com/OrtusMC/Aileron"
     },
-    "license": "GNU Lesser General Public License",
+    "license": "Insert License Here",
     "icon": "assets/aileron/icon.png",
     "intermediate_mappings": "net.fabricmc:intermediary",
     "environment": "*",
