@@ -1,42 +1,29 @@
 package com.lodestar.aileron.mixin;
 
-import com.lodestar.aileron.Aileron;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.core.Registry;
+import com.lodestar.aileron.AileronEnchantments;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends Entity {
+public class LivingEntityMixin {
 
-    public LivingEntityMixin(EntityType<?> entityType, Level level) {
-        super(entityType, level);
-    }
+    @ModifyArg(method = "travel(Lnet/minecraft/world/phys/Vec3;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;setDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V", ordinal = 6))
+    private Vec3 modifyVelocity(Vec3 vec3) {
+        LivingEntity self = (LivingEntity) (Object) this;
 
-
-    @Redirect(method = "travel(Lnet/minecraft/world/phys/Vec3;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;setDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V", ordinal = 6))
-    private void modifyVelocity(LivingEntity instance, Vec3 vec3) {
         Vec3 negator = new Vec3(1.0 / 0.9900000095367432D, 1.0, 1.0 / 0.9900000095367432D);
 
-        int cloudSkipper = instance instanceof Player ? EnchantmentHelper.getItemEnchantmentLevel(Registry.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "cloudskipper")), ((Player) instance).getInventory().getArmor(2)) : 0;
+        int cloudSkipper = EnchantmentHelper.getEnchantmentLevel(AileronEnchantments.CLOUDSKIPPER, self);
 
         double fac = 0;
-        double y = instance.position().y;
+        double y = self.position().y;
         if (y < 100)
             fac = 0.0;
         else if (y < 230)
@@ -47,11 +34,11 @@ public abstract class LivingEntityMixin extends Entity {
         fac *= 0.6;
         fac *= cloudSkipper / 3.0;
 
-        if(fac > 0.1 && !level.isClientSide && tickCount % ((int) (1.0 - fac) * 2 + 1) == 0) {
-            ServerLevel serverLevel = ((ServerLevel) level);
+        if(fac > 0.1 && !self.level.isClientSide && self.tickCount % ((int) (1.0 - fac) * 2 + 1) == 0) {
+            ServerLevel serverLevel = ((ServerLevel) self.level);
 
             for (ServerPlayer player : serverLevel.players()) {
-                Vec3 pos = instance.position().add(instance.getLookAngle().scale(-1.0));
+                Vec3 pos = self.position().add(self.getLookAngle().scale(-1.0));
                 serverLevel.sendParticles(player, ParticleTypes.POOF, false, pos.x, pos.y, pos.z, 1 + (int)(fac * 4.0), 0.1, 0.1, 0.1, 0.025);
             }
         }
@@ -61,6 +48,6 @@ public abstract class LivingEntityMixin extends Entity {
         // lerp between vec3 and vec3 * negator based on fac
         vec3 = vec3.lerp(vec3.multiply(negator), fac);
 
-        instance.setDeltaMovement(vec3);
+        return vec3;
     }
 }

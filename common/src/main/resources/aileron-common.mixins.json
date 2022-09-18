@@ -9,11 +9,10 @@
     "GuiMixin"
   ],
   "mixins": [
-    "MixinFireworkRocketItem",
-    "CampfireBlockEntityMixin",
-    "PlayerEntityMixin",
     "CampfireBlockMixin",
-    "LivingEntityMixin"
+    "LivingEntityMixin",
+    "MixinFireworkRocketItem",
+    "PlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
