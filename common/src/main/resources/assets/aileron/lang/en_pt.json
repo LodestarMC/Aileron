@@ -1,0 +1,15 @@
+{
+  "enchantment.aileron.smokestack": "Cannon o' smoke",
+  "enchantment.aileron.smokestack.desc": "Lets yer store tha updraft from yer campfires fer later",
+  "enchantment.aileron.cloudskipper": "Angels' blessin'",
+  "enchantment.aileron.cloudskipper.desc": "The wind be always to yer favor when ye be above tha clouds",
+  "aileron.midnightconfig.title": "Aileron configgin'",
+  "aileron.midnightconfig.cameraSettings": "Vision configgin'",
+  "aileron.midnightconfig.doCameraRoll": "Tilt yer sight on sharp turns",
+  "aileron.midnightconfig.cameraRollScale": "How much",
+  "aileron.midnightconfig.cameraRollSpeed": "Fastness o' sight turnin'",
+  "aileron.midnightconfig.campfires": "Campfires",
+  "aileron.midnightconfig.campfiresPushPlayers": "Push sailors",
+  "aileron.midnightconfig.smokeStackChargeTicks": "Ticks between yer smoke cannon charge"
+
+}
