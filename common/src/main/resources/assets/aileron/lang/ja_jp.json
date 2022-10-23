@@ -1,0 +1,15 @@
+{
+  "enchantment.aileron.smokestack": "煙溜め",
+  "enchantment.aileron.smokestack.desc": "焚き火の煙を保持しジャンプキーでエリトラを加速させることが出来ます。",
+  "enchantment.aileron.cloudskipper": "征層圏",
+  "enchantment.aileron.cloudskipper.desc": "雲の高さでエリトラの空気抵抗を抑え、より高速で飛べます。",
+  "aileron.midnightconfig.title": "Aileronコンフィグ",
+  "aileron.midnightconfig.cameraSettings": "画面設定",
+  "aileron.midnightconfig.doCameraRoll": "旋回時の画面の傾き",
+  "aileron.midnightconfig.cameraRollScale": "画面の傾斜角",
+  "aileron.midnightconfig.cameraRollSpeed": "画面の傾斜速度",
+  "aileron.midnightconfig.campfires": "焚き火",
+  "aileron.midnightconfig.campfiresPushPlayers": "プレイヤーを飛ばすか",
+  "aileron.midnightconfig.smokeStackChargeTicks": "煙溜めのチャージ速度"
+
+}
