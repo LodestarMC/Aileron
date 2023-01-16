@@ -9,13 +9,13 @@
     "GuiMixin"
   ],
   "mixins": [
-    "MixinFireworkRocketItem",
-    "CampfireBlockEntityMixin",
-    "PlayerEntityMixin",
     "CampfireBlockMixin",
-    "LivingEntityMixin"
+    "LivingEntityMixin",
+    "MixinFireworkRocketItem",
+    "PlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "minVersion": "0.8.5"
 }

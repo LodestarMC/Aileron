@@ -12,7 +12,7 @@ import org.quiltmc.loader.api.QuiltLoader;
 
 public class AileronImpl {
     public static void launchClient(ServerPlayer player) {
-        ServerPlayNetworking.send((ServerPlayer) player, AileronFabricLike.LAUNCH_SMOKE_STACK_PACKET_ID, PacketByteBufs.empty());
+        ServerPlayNetworking.send(player, AileronFabricLike.LAUNCH_SMOKE_STACK_PACKET_ID, PacketByteBufs.empty());
     }
 
     public static void smokeDash() {
@@ -22,6 +22,7 @@ public class AileronImpl {
     public static AileronConfigInfo getConfigInfo() {
         AileronConfigInfo configInfo = new AileronConfigInfo();
 
+        configInfo.fireworkChanges = AileronFabricLikeConfig.fireworkChanges;
         configInfo.cameraRoll = AileronFabricLikeConfig.doCameraRoll;
         configInfo.cameraRollScale = AileronFabricLikeConfig.cameraRollScale;
         configInfo.cameraRollSpeed = AileronFabricLikeConfig.cameraRollSpeed;

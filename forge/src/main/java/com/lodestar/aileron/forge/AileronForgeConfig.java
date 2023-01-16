@@ -12,6 +12,7 @@ public class AileronForgeConfig {
     public static final ForgeConfigSpec.BooleanValue DO_CAMERA_ROLL;
     public static final ForgeConfigSpec.ConfigValue<Double> CAMERA_ROLL_SCALE;
     public static final ForgeConfigSpec.ConfigValue<Double> CAMERA_ROLL_SPEED;
+    public static final ForgeConfigSpec.BooleanValue FIREWORK_CHANGES;
     public static final ForgeConfigSpec.BooleanValue PUSH_PLAYERS;
     public static final ForgeConfigSpec.ConfigValue<Integer> SMOKE_STACK_CHARGE_TICKS;
 
@@ -30,6 +31,12 @@ public class AileronForgeConfig {
         SPEC_CLIENT = CLIENT_BUILDER.build();
 
         SERVER_BUILDER.push("Aileron Forge Config");
+
+        SERVER_BUILDER.push("Fireworks");
+
+        FIREWORK_CHANGES = SERVER_BUILDER.comment("Enable changes to fireworks").define("doFireworkChanges", true);
+
+        SERVER_BUILDER.pop();
 
         SERVER_BUILDER.push("Campfires");
 
