@@ -4,6 +4,9 @@ import static com.lodestar.aileron.fabriclike.MidnightConfig.*;
 
 public class AileronFabricLikeConfig {
 
+    @Comment public static Comment generalChanges;
+    @Entry public static boolean fireworkChanges = true;
+
     @Comment public static Comment cameraSettings;
     @Entry public static boolean doCameraRoll = true;
     @Entry(min=0.0,max=2.0) public static double cameraRollScale = 1.0;

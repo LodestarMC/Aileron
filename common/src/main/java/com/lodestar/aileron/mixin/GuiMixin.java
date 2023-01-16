@@ -38,7 +38,7 @@ public class GuiMixin {
         }
     }
 
-    private static final ResourceLocation smokeStock = new ResourceLocation("minecraft:textures/particle/flame.png");
+    private static final ResourceLocation smokeStock = new ResourceLocation("aileron:textures/gui/smokestack.png");
 
     @Inject(method = "renderExperienceBar", at = @At(value = "TAIL"))
     public void renderExperienceBar(PoseStack poseStack, int i, CallbackInfo ci) {

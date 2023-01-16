@@ -21,6 +21,7 @@ public class AileronImpl {
     public static AileronConfigInfo getConfigInfo() {
         AileronConfigInfo configInfo = new AileronConfigInfo();
 
+        configInfo.fireworkChanges = AileronForgeConfig.FIREWORK_CHANGES.get();
         configInfo.cameraRoll = AileronForgeConfig.DO_CAMERA_ROLL.get();
         configInfo.cameraRollScale = AileronForgeConfig.CAMERA_ROLL_SCALE.get();
         configInfo.cameraRollSpeed = AileronForgeConfig.CAMERA_ROLL_SPEED.get();

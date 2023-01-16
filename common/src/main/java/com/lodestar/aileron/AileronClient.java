@@ -10,9 +10,9 @@ public class AileronClient {
     public static boolean wasJumping = false;
 
     public static void localPlayerTick(Player self) {
-        if(self instanceof LocalPlayer) {
-            boolean jumping = ((LocalPlayer) self).input.jumping;
-            if (jumping && !wasJumping && cooldown <= 0 && self.isFallFlying() && ((LocalPlayer) self).getFallFlyingTicks() > 0) {
+        if(self instanceof LocalPlayer localPlayer) {
+            boolean jumping = localPlayer.input.jumping;
+            if (jumping && !wasJumping && cooldown <= 0 && self.isFallFlying() && localPlayer.getFallFlyingTicks() > 0) {
                 int stocks = self.getEntityData().get(SmokeStocks.DATA_SMOKE_STOCKS);
 
                 if (stocks > 0) {
