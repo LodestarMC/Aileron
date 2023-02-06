@@ -1,7 +1,6 @@
 package com.lodestar.aileron.mixin;
 
 import com.lodestar.aileron.Aileron;
-import com.lodestar.aileron.AileronEnchantments;
 import com.lodestar.aileron.SmokeStocks;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -9,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import org.spongepowered.asm.mixin.Mixin;
@@ -49,7 +49,7 @@ public class GuiMixin {
 
         if ((player.getEntityData().get(SmokeStocks.DATA_SMOKE_STOCKS) > 0 && player.isFallFlying() && wearingElytra) || (wearingElytra && player.isCrouching())) {
             int y = this.screenHeight - 40;
-            int smokeStockMaxLevel = EnchantmentHelper.getEnchantmentLevel(AileronEnchantments.SMOKESTACK, player);
+            int smokeStockMaxLevel = EnchantmentHelper.getItemEnchantmentLevel(Registry.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "smokestack")), player.getInventory().getArmor(2));
 
             RenderSystem.setShaderTexture(0, smokeStock);
             int x = screenWidth / 2 - 10 + ((3 - smokeStockMaxLevel) * 3);

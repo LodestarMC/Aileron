@@ -7,13 +7,14 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 
 public class SmokeStackEnchantment extends Enchantment {
+
     public SmokeStackEnchantment(Rarity rarity, EnchantmentCategory enchantmentCategory, EquipmentSlot[] equipmentSlots) {
         super(rarity, EnchantmentCategory.ARMOR_CHEST, equipmentSlots);
     }
 
     @Override
     public boolean canEnchant(ItemStack itemStack) {
-        return itemStack.getItem() instanceof ElytraItem;
+        return Aileron.isElytra(itemStack);
     }
 
     @Override
@@ -33,6 +34,6 @@ public class SmokeStackEnchantment extends Enchantment {
 
     @Override
     public boolean checkCompatibility(Enchantment enchantment) {
-        return super.checkCompatibility(enchantment) && !(enchantment instanceof CloudSkipperEnchantment) ;
+        return super.checkCompatibility(enchantment) && !(enchantment instanceof CloudSkipperEnchantment);
     }
 }
