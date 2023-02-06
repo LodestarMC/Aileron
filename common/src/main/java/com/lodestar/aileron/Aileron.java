@@ -6,9 +6,8 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 public class Aileron {
     public static final String MOD_ID = "aileron";
@@ -30,6 +29,16 @@ public class Aileron {
 
     @ExpectPlatform
     public static boolean isModInstalled(String modId) {
+        return false;
+    }
+
+    @ExpectPlatform
+    public static boolean wearingElytra(Player player) {
+        return false;
+    }
+
+    @ExpectPlatform
+    public static boolean isElytra(ItemStack stack) {
         return false;
     }
 
