@@ -22,19 +22,16 @@ public class MixinFireworkRocketItem {
     public void use(Level level, Player player, InteractionHand interactionHand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir) {
         AileronConfigInfo config = Aileron.getConfigInfo();
         if (!config.fireworkChanges) {
-            cir.cancel();
+            ItemStack itemStack = player.getItemInHand(interactionHand);
+
+            if (!player.getAbilities().instabuild) {
+                itemStack.shrink(1);
+            }
+
+            ((ISmokeStackChargeData) player).setSmokeTrailTicks(100);
+            player.getCooldowns().addCooldown((FireworkRocketItem) (Object) this, 100);
+            player.awardStat(Stats.ITEM_USED.get((FireworkRocketItem) (Object) this));
+            cir.setReturnValue(InteractionResultHolder.pass(player.getItemInHand(interactionHand)));
         }
-
-
-        ItemStack itemStack = player.getItemInHand(interactionHand);
-
-        if (!player.getAbilities().instabuild) {
-            itemStack.shrink(1);
-        }
-
-        ((ISmokeStackChargeData) player).setSmokeTrailTicks(100);
-        player.getCooldowns().addCooldown((FireworkRocketItem) (Object) this, 100);
-        player.awardStat(Stats.ITEM_USED.get((FireworkRocketItem) (Object) this));
-        cir.setReturnValue(InteractionResultHolder.pass(player.getItemInHand(interactionHand)));
     }
 }
