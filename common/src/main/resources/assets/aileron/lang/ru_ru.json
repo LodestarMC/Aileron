@@ -1,0 +1,14 @@
+{
+  "enchantment.aileron.smokestack": "Задымление",
+  "enchantment.aileron.smokestack.desc": "Позволяет элитре накапливать заряды дыма от костра для последующего применения.",
+  "enchantment.aileron.cloudskipper": "Облаколёт",
+  "enchantment.aileron.cloudskipper.desc": "Понижает горизонтальное притяжение элитры при нахождении выше уровня облаков.",
+  "aileron.midnightconfig.title": "Настройка мода Aileron",
+  "aileron.midnightconfig.cameraSettings": "Настройка камеры",
+  "aileron.midnightconfig.doCameraRoll": "Наклон камеры на поворотах",
+  "aileron.midnightconfig.cameraRollScale": "Шкала наклона камеры",
+  "aileron.midnightconfig.cameraRollSpeed": "Скорость наклона камеры",
+  "aileron.midnightconfig.campfires": "Костры",
+  "aileron.midnightconfig.campfiresPushPlayers": "Отталкивать игроков",
+  "aileron.midnightconfig.smokeStackChargeTicks": "Накопление зарядов дымы"
+}
