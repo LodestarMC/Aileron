@@ -15,7 +15,7 @@ import java.util.List;
 
 @Mixin(EnchantmentHelper.class)
 public class EnchantmentHelperMixin {
-	@Inject(at=@At("RETURN"), method="getAvailableEnchantmentResults")
+	@Inject(at = @At("RETURN"), method = "getAvailableEnchantmentResults")
 	private static void getPossibleEntries(int power, ItemStack stack, boolean treasureAllowed, CallbackInfoReturnable<List<EnchantmentInstance>> ci) {
 		if (!Aileron.isElytra(stack)) {
 			ci.getReturnValue().removeIf(ele -> ele != null && (ele.enchantment instanceof CloudSkipperEnchantment || ele.enchantment instanceof SmokeStackEnchantment));

@@ -29,7 +29,9 @@ public class AileronNetworkingImpl {
 	}
 
 	public static void register() {
-		CHANNEL.registerMessage(packetID++, S2CSmokeStackLaunch.class, (a, b) -> {}, fBBuf -> new S2CSmokeStackLaunch(), S2CSmokeStackLaunch::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-		CHANNEL.registerMessage(packetID++, S2CSmokeStackDash.class, (a, b) -> {}, fBBuf -> new S2CSmokeStackDash(), S2CSmokeStackDash::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
+		CHANNEL.registerMessage(packetID++, S2CSmokeStackLaunch.class, (a, b) -> {
+		}, fBBuf -> new S2CSmokeStackLaunch(), S2CSmokeStackLaunch::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+		CHANNEL.registerMessage(packetID++, S2CSmokeStackDash.class, (a, b) -> {
+		}, fBBuf -> new S2CSmokeStackDash(), S2CSmokeStackDash::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
 	}
 }

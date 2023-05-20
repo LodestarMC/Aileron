@@ -1,7 +1,7 @@
 package com.lodestar.aileron.client.fabric;
 
-import com.lodestar.aileron.particle.CustomCampfireParticle;
 import com.lodestar.aileron.fabric.AileronParticlesImpl;
+import com.lodestar.aileron.particle.CustomCampfireParticle;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 
 public class AileronClientParticlesImpl {

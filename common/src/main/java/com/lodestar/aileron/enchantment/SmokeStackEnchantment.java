@@ -8,32 +8,32 @@ import net.minecraft.world.item.enchantment.EnchantmentCategory;
 
 public class SmokeStackEnchantment extends Enchantment {
 
-    public SmokeStackEnchantment(Rarity rarity) {
-        super(rarity, EnchantmentCategory.BREAKABLE, new EquipmentSlot[0]);
-    }
+	public SmokeStackEnchantment(Rarity rarity) {
+		super(rarity, EnchantmentCategory.BREAKABLE, new EquipmentSlot[0]);
+	}
 
-    @Override
-    public boolean canEnchant(ItemStack itemStack) {
-        return Aileron.isElytra(itemStack);
-    }
+	@Override
+	public boolean canEnchant(ItemStack itemStack) {
+		return Aileron.isElytra(itemStack);
+	}
 
-    @Override
-    public int getMinCost(int i) {
-        return 5 + (i - 1) * 8;
-    }
+	@Override
+	public int getMinCost(int i) {
+		return 5 + (i - 1) * 8;
+	}
 
-    @Override
-    public int getMaxCost(int i) {
-        return super.getMinCost(i) + 50;
-    }
+	@Override
+	public int getMaxCost(int i) {
+		return super.getMinCost(i) + 50;
+	}
 
-    @Override
-    public int getMaxLevel() {
-        return 3;
-    }
+	@Override
+	public int getMaxLevel() {
+		return 3;
+	}
 
-    @Override
-    public boolean checkCompatibility(Enchantment enchantment) {
-        return super.checkCompatibility(enchantment) && !(enchantment instanceof CloudSkipperEnchantment);
-    }
+	@Override
+	public boolean checkCompatibility(Enchantment enchantment) {
+		return super.checkCompatibility(enchantment) && !(enchantment instanceof CloudSkipperEnchantment);
+	}
 }

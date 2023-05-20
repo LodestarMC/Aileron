@@ -16,5 +16,6 @@ public class AileronClientParticlesImpl {
 		event.register(CUSTOM_CAMPFIRE_SMOKE.get(), CustomCampfireParticle.CustomCampfireParticleProvider::new);
 	}
 
-	public static void register() {}
+	public static void register() {
+	}
 }

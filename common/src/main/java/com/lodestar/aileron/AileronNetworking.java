@@ -5,8 +5,10 @@ import net.minecraft.server.level.ServerPlayer;
 
 public class AileronNetworking {
 	@ExpectPlatform
-	public static void sendSmokeStackLaunch(ServerPlayer player) {}
+	public static void sendSmokeStackLaunch(ServerPlayer player) {
+	}
 
 	@ExpectPlatform
-	public static void register() {}
+	public static void register() {
+	}
 }

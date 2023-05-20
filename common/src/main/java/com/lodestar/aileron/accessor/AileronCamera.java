@@ -1,11 +1,13 @@
 package com.lodestar.aileron.accessor;
 
 public interface AileronCamera {
-    double getPreviousEMAValue();
-    double getEMAValue();
+	double getPreviousEMAValue();
 
-    void setPreviousEMAValue(float previousEMA);
-    void setEMAValue(float EMA);
+	void setPreviousEMAValue(float previousEMA);
 
-    float getSmoothedEMADifference();
+	double getEMAValue();
+
+	void setEMAValue(float EMA);
+
+	float getSmoothedEMADifference();
 }

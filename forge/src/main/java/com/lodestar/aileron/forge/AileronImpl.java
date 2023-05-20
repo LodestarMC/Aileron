@@ -16,20 +16,20 @@ import org.jetbrains.annotations.Nullable;
 
 @Mod(Aileron.MOD_ID)
 public class AileronImpl {
-    public AileronImpl() {
-        Aileron.init();
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> AileronClient::init);
-    }
+	public AileronImpl() {
+		Aileron.init();
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> AileronClient::init);
+	}
 
-    public static boolean isElytra(ItemStack stack) {
-        return stack.is(Items.ELYTRA) || stack.getItem() instanceof ElytraItem;
-    }
+	public static boolean isElytra(ItemStack stack) {
+		return stack.is(Items.ELYTRA) || stack.getItem() instanceof ElytraItem;
+	}
 
-    public static boolean canChargeSmokeStack(@Nullable Player player) {
-        return player != null && player.getItemBySlot(EquipmentSlot.CHEST).canElytraFly(player) && ((player.getEntityData().get(AileronEntityData.SMOKE_STACK_CHARGES) > 0 && player.isFallFlying()) || player.isCrouching());
-    }
+	public static boolean canChargeSmokeStack(@Nullable Player player) {
+		return player != null && player.getItemBySlot(EquipmentSlot.CHEST).canElytraFly(player) && ((player.getEntityData().get(AileronEntityData.SMOKE_STACK_CHARGES) > 0 && player.isFallFlying()) || player.isCrouching());
+	}
 
-    public static boolean isModInstalled(String modId) {
-        return ModList.get().isLoaded(modId);
-    }
+	public static boolean isModInstalled(String modId) {
+		return ModList.get().isLoaded(modId);
+	}
 }

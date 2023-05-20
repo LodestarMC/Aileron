@@ -15,23 +15,22 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Minecraft.class)
 public class MinecraftMixin {
 
-    float previousEMA = 0.0f;
-    float EMA = 0.0f;
+	@Shadow @Final public GameRenderer gameRenderer;
+	float previousEMA = 0.0f;
+	float EMA = 0.0f;
 
-    @Shadow @Final public GameRenderer gameRenderer;
+	@Inject(method = "tick", at = @At("TAIL"))
+	public void tick(CallbackInfo ci) {
+		Camera camera = gameRenderer.getMainCamera();
+		AileronCamera ema = ((AileronCamera) camera);
 
-    @Inject(method = "tick", at = @At("TAIL"))
-    public void tick(CallbackInfo ci) {
-        Camera camera = gameRenderer.getMainCamera();
-        AileronCamera ema = ((AileronCamera) camera);
+		float curYaw = camera.getEntity() != null ? camera.getEntity().getYRot() : 0;
 
-        float curYaw = camera.getEntity() != null ? camera.getEntity().getYRot() : 0;
+		previousEMA = EMA;
+		EMA = (float) (EMA + (curYaw - EMA) * AileronConfig.cameraRollSpeed());
 
-        previousEMA = EMA;
-        EMA = (float) (EMA + (curYaw - EMA) * AileronConfig.cameraRollSpeed());
-
-        ema.setPreviousEMAValue(previousEMA);
-        ema.setEMAValue(EMA);
-    }
+		ema.setPreviousEMAValue(previousEMA);
+		ema.setEMAValue(EMA);
+	}
 
 }

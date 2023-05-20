@@ -14,20 +14,20 @@ import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
 
 public class AileronImpl implements ModInitializer {
-    @Override
-    public void onInitialize() {
-        Aileron.init();
-    }
+	public static boolean isElytra(ItemStack stack) {
+		return stack.is(Items.ELYTRA) || stack.getItem() instanceof FabricElytraItem;
+	}
 
-    public static boolean isElytra(ItemStack stack) {
-        return stack.is(Items.ELYTRA) || stack.getItem() instanceof FabricElytraItem;
-    }
+	public static boolean isModInstalled(String modId) {
+		return FabricLoader.getInstance().isModLoaded(modId);
+	}
 
-    public static boolean isModInstalled(String modId) {
-        return FabricLoader.getInstance().isModLoaded(modId);
-    }
+	public static boolean canChargeSmokeStack(@Nullable Player player) {
+		return player != null && ((isElytra(player.getItemBySlot(EquipmentSlot.CHEST)) && ElytraItem.isFlyEnabled(player.getItemBySlot(EquipmentSlot.CHEST))) || EntityElytraEvents.ALLOW.invoker().allowElytraFlight(player)) && ((player.getEntityData().get(AileronEntityData.SMOKE_STACK_CHARGES) > 0 && player.isFallFlying()) || player.isCrouching());
+	}
 
-    public static boolean canChargeSmokeStack(@Nullable Player player) {
-        return player != null && ((isElytra(player.getItemBySlot(EquipmentSlot.CHEST)) && ElytraItem.isFlyEnabled(player.getItemBySlot(EquipmentSlot.CHEST))) || EntityElytraEvents.ALLOW.invoker().allowElytraFlight(player)) && ((player.getEntityData().get(AileronEntityData.SMOKE_STACK_CHARGES) > 0 && player.isFallFlying()) || player.isCrouching());
-    }
+	@Override
+	public void onInitialize() {
+		Aileron.init();
+	}
 }

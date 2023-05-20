@@ -6,5 +6,5 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.player.Player;
 
 public class AileronEntityData {
-    public static final EntityDataAccessor<Integer> SMOKE_STACK_CHARGES = SynchedEntityData.defineId(Player.class, EntityDataSerializers.INT);
+	public static final EntityDataAccessor<Integer> SMOKE_STACK_CHARGES = SynchedEntityData.defineId(Player.class, EntityDataSerializers.INT);
 }
