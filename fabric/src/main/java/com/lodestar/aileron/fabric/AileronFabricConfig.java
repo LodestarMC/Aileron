@@ -1,8 +1,8 @@
-package com.lodestar.aileron.fabriclike;
+package com.lodestar.aileron.fabric;
 
-import static com.lodestar.aileron.fabriclike.MidnightConfig.*;
+import static com.lodestar.aileron.fabric.MidnightConfig.*;
 
-public class AileronFabricLikeConfig {
+public class AileronFabricConfig {
 
     @Comment public static Comment generalChanges;
     @Entry public static boolean fireworkChanges = true;

@@ -15,17 +15,16 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.lodestar.aileron.fabric.AileronModFabric"
+      "com.lodestar.aileron.fabric.AileronFabric"
     ],
     "client": [
-      "com.lodestar.aileron.fabric.AileronModFabricClient"
+      "com.lodestar.aileron.fabric.AileronFabricClient"
     ],
     "modmenu": [
-      "com.lodestar.aileron.fabriclike.FabricLikeModMenuIntegration"
+      "com.lodestar.aileron.fabric.AileronFabricModMenu"
     ]
   },
   "mixins": [
-    "aileron.mixins.json",
     "aileron-common.mixins.json"
   ],
   "depends": {

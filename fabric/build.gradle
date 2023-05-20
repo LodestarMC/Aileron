@@ -19,14 +19,19 @@ configurations {
     developmentFabric.extendsFrom common
 }
 
+repositories {
+    maven {
+        url = "https://maven.terraformersmc.com/releases"
+    }
+}
+
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+    modImplementation "com.terraformersmc:modmenu:3.2.3"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
-    common(project(path: ":fabric-like", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":fabric-like", configuration: "transformProductionFabric")) { transitive false }
 }
 
 processResources {
