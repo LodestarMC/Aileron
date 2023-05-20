@@ -1,8 +1,7 @@
 package com.lodestar.aileron.mixin;
 
-import com.lodestar.aileron.Aileron;
-import com.lodestar.aileron.AileronConfigInfo;
-import com.lodestar.aileron.ICameraEMA;
+import com.lodestar.aileron.AileronConfig;
+import com.lodestar.aileron.accessor.AileronCamera;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
@@ -16,25 +15,22 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Minecraft.class)
 public class MinecraftMixin {
 
-    float previousEMA = 0.0f;
-    float EMA = 0.0f;
+	@Shadow @Final public GameRenderer gameRenderer;
+	float previousEMA = 0.0f;
+	float EMA = 0.0f;
 
-    @Shadow @Final public GameRenderer gameRenderer;
+	@Inject(method = "tick", at = @At("TAIL"))
+	public void tick(CallbackInfo ci) {
+		Camera camera = gameRenderer.getMainCamera();
+		AileronCamera ema = ((AileronCamera) camera);
 
-    @Inject(method = "tick", at = @At("TAIL"))
-    public void tick(CallbackInfo ci) {
-        AileronConfigInfo config = Aileron.getConfigInfo();
+		float curYaw = camera.getEntity() != null ? camera.getEntity().getYRot() : 0;
 
-        Camera camera = gameRenderer.getMainCamera();
-        ICameraEMA ema = ((ICameraEMA) camera);
+		previousEMA = EMA;
+		EMA = (float) (EMA + (curYaw - EMA) * AileronConfig.cameraRollSpeed());
 
-        float curYaw = camera.getEntity() != null ? camera.getEntity().getYRot() : 0;
-
-        previousEMA = EMA;
-        EMA = (float) (EMA + (curYaw - EMA) * config.cameraRollSpeed);
-
-        ema.setPreviousEMAValue(previousEMA);
-        ema.setEMAValue(EMA);
-    }
+		ema.setPreviousEMAValue(previousEMA);
+		ema.setEMAValue(EMA);
+	}
 
 }

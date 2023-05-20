@@ -25,7 +25,6 @@ configurations {
 }
 
 
-
 repositories {
     maven {
         url = "https://www.cursemaven.com"
@@ -35,10 +34,11 @@ repositories {
 
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
+    modImplementation include("maven.modrinth:midnightlib:${project.midnightlib_version}-forge")
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
-//    modRuntimeOnlyMapped ("curse.maven:quark-243121:3840125")
+
 }
 
 processResources {
