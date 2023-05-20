@@ -25,7 +25,6 @@ configurations {
 }
 
 
-
 repositories {
     maven {
         url = "https://www.cursemaven.com"
@@ -38,7 +37,7 @@ dependencies {
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
-//    modRuntimeOnlyMapped ("curse.maven:quark-243121:3840125")
+
 }
 
 processResources {
