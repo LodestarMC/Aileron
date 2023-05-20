@@ -41,10 +41,6 @@ public class Aileron {
         }
     }
 
-    public static void clientLaunchPlayer() {
-        boostPlayer(Minecraft.getInstance().player);
-    }
-
     public static void playerDashedServer(ServerPlayer player) {
         ServerLevel serverLevel = (ServerLevel) player.level;
         int stocks = player.getEntityData().get(AileronEntityData.SMOKE_STACK_CHARGES);

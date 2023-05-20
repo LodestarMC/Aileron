@@ -1,6 +1,8 @@
 package com.lodestar.aileron.client;
 
+import com.lodestar.aileron.Aileron;
 import com.lodestar.aileron.AileronEntityData;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -14,6 +16,11 @@ public class AileronClient {
         AileronClientNetworking.register();
         AileronClientParticles.register();
     }
+
+    public static void launchPlayer() {
+        Aileron.boostPlayer(Minecraft.getInstance().player);
+    }
+
 
     public static void localPlayerTick(Player self) {
         if(self instanceof LocalPlayer localPlayer) {
