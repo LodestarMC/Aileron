@@ -1,8 +1,8 @@
 package com.lodestar.aileron.fabric;
 
-import static com.lodestar.aileron.fabric.MidnightConfig.*;
+import java.eu.midnightdust.lib.config.MidnightConfig;
 
-public class AileronFabricConfig {
+public class AileronFabricConfig extends MidnightConfig {
 
     @Comment public static Comment generalChanges;
     @Entry public static boolean fireworkChanges = true;

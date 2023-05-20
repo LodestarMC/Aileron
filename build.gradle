@@ -1,6 +1,7 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "dev.architectury.loom" version "1.1.+" apply false
+    id "maven-publish"
 }
 
 architectury {
@@ -26,10 +27,16 @@ allprojects {
     apply plugin: "maven-publish"
 
     archivesBaseName = rootProject.archives_base_name
-    version = "${rootProject.minecraft_version}-${rootProject.mod_version}"
+    version = "${rootProject.mod_version}+${rootProject.mod_version}-${project.name}"
     group = rootProject.maven_group
 
     repositories {
+        maven {
+            url = "https://maven.terraformersmc.com/releases"
+        }
+        maven {
+            url = "https://api.modrinth.com/maven"
+        }
     }
 
     tasks.withType(JavaCompile) {
