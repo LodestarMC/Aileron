@@ -1,26 +1,24 @@
 package com.lodestar.aileron;
 
+import com.lodestar.aileron.accessor.AileronPlayer;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 public class Aileron {
     public static final String MOD_ID = "aileron";
 
     public static void init() {
-
+        AileronConfig.init();
+        AileronParticles.register();
+        AileronEnchantments.register();
+        AileronNetworking.register();
     }
-
-    @ExpectPlatform
-    public static void launchClient(ServerPlayer player) {}
-
-    @ExpectPlatform
-    public static void smokeDash() {}
 
     @ExpectPlatform
     public static boolean isModInstalled(String modId) {
@@ -32,26 +30,35 @@ public class Aileron {
         return false;
     }
 
+    public static boolean canChargeSmokeStack(@Nullable Player player) {
+        return player != null && Aileron.wearingElytra(player) && ((player.getEntityData().get(AileronEntityData.SMOKE_STACK_CHARGES) > 0 && player.isFallFlying()) || player.isCrouching());
+    }
+
     @ExpectPlatform
     public static boolean isElytra(ItemStack stack) {
         return false;
     }
 
+    public static void boostPlayer(Player player) {
+        if (player instanceof AileronPlayer ap) {
+            ap.setBoostTicks(50);
+        }
+    }
+
     public static void clientLaunchPlayer() {
-        LocalPlayer player = Minecraft.getInstance().player;
-        ((ISmokeStackChargeData) player).setBoostTicks(50);
+        boostPlayer(Minecraft.getInstance().player);
     }
 
     public static void playerDashedServer(ServerPlayer player) {
         ServerLevel serverLevel = (ServerLevel) player.level;
-        int stocks = player.getEntityData().get(SmokeStocks.DATA_SMOKE_STOCKS);
+        int stocks = player.getEntityData().get(AileronEntityData.SMOKE_STACK_CHARGES);
 
         if(stocks > 0) {
-            player.getEntityData().set(SmokeStocks.DATA_SMOKE_STOCKS, stocks - 1);
+            player.getEntityData().set(AileronEntityData.SMOKE_STACK_CHARGES, stocks - 1);
 
             sendBoostParticles(serverLevel, player.getX(), player.getY(), player.getZ());
 
-            ((ISmokeStackChargeData) player).setBoostTicks(50);
+            boostPlayer(player);
         }
     }
 

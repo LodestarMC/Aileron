@@ -1,5 +1,6 @@
-package com.lodestar.aileron;
+package com.lodestar.aileron.enchantment;
 
+import com.lodestar.aileron.Aileron;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;

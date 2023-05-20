@@ -1,6 +1,8 @@
 package com.lodestar.aileron.mixin;
 
 import com.lodestar.aileron.*;
+import com.lodestar.aileron.accessor.AileronPlayer;
+import com.lodestar.aileron.client.AileronClient;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
@@ -25,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Player.class)
-public abstract class PlayerEntityMixin implements ISmokeStackChargeData {
+public abstract class PlayerEntityMixin implements AileronPlayer {
 
     @Shadow public abstract boolean isLocalPlayer();
 
@@ -88,77 +90,72 @@ public abstract class PlayerEntityMixin implements ISmokeStackChargeData {
 
         }
 
+        BlockState underBlockState = level.getBlockState(self.blockPosition());
+        if(self.isCrouching() && underBlockState.is(BlockTags.CAMPFIRES) && self.getInventory().getArmor(2).getItem() instanceof ElytraItem) {
 
+            if(level.isClientSide) {
+                SimpleParticleType[] particles = { ParticleTypes.FLAME, ParticleTypes.SMOKE };
 
-        if(true) {
-
-            BlockState underBlockState = level.getBlockState(self.blockPosition());
-            if(self.isCrouching() && underBlockState.is(BlockTags.CAMPFIRES) && self.getInventory().getArmor(2).getItem() instanceof ElytraItem) {
-
-                if(level.isClientSide) {
-                    SimpleParticleType[] particles = { ParticleTypes.FLAME, ParticleTypes.SMOKE };
-
-                    for (SimpleParticleType particle : particles) {
-                        Vec3 randomOffset = new Vec3(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5);
-                        randomOffset = randomOffset.normalize().scale(2.0);
-                        Vec3 motion = randomOffset.scale(-0.075);
-                        Vec3 position = self.position().add(0.0, self.getEyeHeight() / 2.0, 0.0).add(randomOffset);
-                        level.addParticle(particle, position.x, position.y, position.z, motion.x, motion.y, motion.z);
-                    }
-                } else {
-                    final ServerLevel serverLevel = ((ServerLevel) level);
-                    chargeTime++;
-
-                    if (chargeTime % AileronConfig.smokeStackChargeTicks() == 0 && chargeTime > 0) {
-                        int stocks = self.getEntityData().get(SmokeStocks.DATA_SMOKE_STOCKS);
-
-                        int smokeStockMaxLevel = EnchantmentHelper.getItemEnchantmentLevel(Registry.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "smokestack")), self.getInventory().getArmor(2));
-
-                        if (stocks < smokeStockMaxLevel || !charged) {
-                            charged = true;
-
-                            if (stocks < smokeStockMaxLevel)
-                                self.getEntityData().set(SmokeStocks.DATA_SMOKE_STOCKS, stocks + 1);
-
-
-                            for (ServerPlayer player : serverLevel.players()) {
-                                serverLevel.sendParticles(player, ParticleTypes.LARGE_SMOKE, false, self.getX(), self.getY(), self.getZ(), 20, 0.5, 0.5, 0.5, 0.1);
-                                serverLevel.sendParticles(player, ParticleTypes.SMOKE, false, self.getX(), self.getY(), self.getZ(), 100, 0.5, 0.5, 0.5, 0.4);
-                            }
-                            level.playSound(null, self.blockPosition(), SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 0.8f, 0.8f + (stocks * 0.2f));
-                        }
-                    }
+                for (SimpleParticleType particle : particles) {
+                    Vec3 randomOffset = new Vec3(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5);
+                    randomOffset = randomOffset.normalize().scale(2.0);
+                    Vec3 motion = randomOffset.scale(-0.075);
+                    Vec3 position = self.position().add(0.0, self.getEyeHeight() / 2.0, 0.0).add(randomOffset);
+                    level.addParticle(particle, position.x, position.y, position.z, motion.x, motion.y, motion.z);
                 }
             } else {
-                chargeTime = 0;
+                final ServerLevel serverLevel = ((ServerLevel) level);
+                chargeTime++;
 
-                if (!level.isClientSide && !self.isFallFlying() && campfireDamageIFrames == 0 && !charged) {
-                    self.getEntityData().set(SmokeStocks.DATA_SMOKE_STOCKS, 0);
+                if (chargeTime % AileronConfig.smokeStackChargeTicks() == 0 && chargeTime > 0) {
+                    int stocks = self.getEntityData().get(AileronEntityData.SMOKE_STACK_CHARGES);
+
+                    int smokeStockMaxLevel = EnchantmentHelper.getItemEnchantmentLevel(Registry.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "smokestack")), self.getInventory().getArmor(2));
+
+                    if (stocks < smokeStockMaxLevel || !charged) {
+                        charged = true;
+
+                        if (stocks < smokeStockMaxLevel)
+                            self.getEntityData().set(AileronEntityData.SMOKE_STACK_CHARGES, stocks + 1);
+
+
+                        for (ServerPlayer player : serverLevel.players()) {
+                            serverLevel.sendParticles(player, ParticleTypes.LARGE_SMOKE, false, self.getX(), self.getY(), self.getZ(), 20, 0.5, 0.5, 0.5, 0.1);
+                            serverLevel.sendParticles(player, ParticleTypes.SMOKE, false, self.getX(), self.getY(), self.getZ(), 100, 0.5, 0.5, 0.5, 0.4);
+                        }
+                        level.playSound(null, self.blockPosition(), SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 0.8f, 0.8f + (stocks * 0.2f));
+                    }
                 }
             }
+        } else {
+            chargeTime = 0;
 
-            if(startFlyingTimer == 0 && !level.isClientSide) {
-                startFlyingTimer = -1;
-                self.startFallFlying();
+            if (!level.isClientSide && !self.isFallFlying() && campfireDamageIFrames == 0 && !charged) {
+                self.getEntityData().set(AileronEntityData.SMOKE_STACK_CHARGES, 0);
             }
+        }
 
-            if(!self.isCrouching() && charged) {
-                final ServerLevel serverLevel = ((ServerLevel) level);
+        if(startFlyingTimer == 0 && !level.isClientSide) {
+            startFlyingTimer = -1;
+            self.startFallFlying();
+        }
 
-                charged = false;
-                chargeTime = 0;
+        if(!self.isCrouching() && charged) {
+            final ServerLevel serverLevel = ((ServerLevel) level);
 
-                Aileron.sendBoostParticles(serverLevel, self.getX(), self.getY(), self.getZ());
+            charged = false;
+            chargeTime = 0;
 
-                setCampfireDamageIFrames(20);
+            Aileron.sendBoostParticles(serverLevel, self.getX(), self.getY(), self.getZ());
 
-                level.playSound(null, self.blockPosition(), SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 0.8f, 0.8f);
+            setCampfireDamageIFrames(20);
 
-                self.startFallFlying();
-                Aileron.launchClient((ServerPlayer) self);
-                self.tryToStartFallFlying();
-                startFlyingTimer = 5;
-            }
+            level.playSound(null, self.blockPosition(), SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 0.8f, 0.8f);
+
+            self.startFallFlying();
+            AileronNetworking.sendSmokeStackLaunch((ServerPlayer) self);
+            self.tryToStartFallFlying();
+            startFlyingTimer = 5;
         }
 
         if(self.isFallFlying() && self.level.isClientSide && self.isLocalPlayer()) {
@@ -220,7 +217,7 @@ public abstract class PlayerEntityMixin implements ISmokeStackChargeData {
 
     @Inject(method = "defineSynchedData", at = @At("TAIL"))
     public void defineSynchedData(CallbackInfo ci) {
-        ((Player) (Object) this).getEntityData().define(SmokeStocks.DATA_SMOKE_STOCKS, 0);
+        ((Player) (Object) this).getEntityData().define(AileronEntityData.SMOKE_STACK_CHARGES, 0);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.lodestar.aileron;
+package com.lodestar.aileron.particle;
 
 
 import net.fabricmc.api.EnvType;
@@ -6,6 +6,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
+import org.jetbrains.annotations.NotNull;
 
 @Environment(EnvType.CLIENT)
 public class CustomCampfireParticle extends TextureSheetParticle {
@@ -40,7 +41,7 @@ public class CustomCampfireParticle extends TextureSheetParticle {
         }
     }
 
-    public ParticleRenderType getRenderType() {
+    public @NotNull ParticleRenderType getRenderType() {
         return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 

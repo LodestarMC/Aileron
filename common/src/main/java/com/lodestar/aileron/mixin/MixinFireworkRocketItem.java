@@ -1,7 +1,7 @@
 package com.lodestar.aileron.mixin;
 
 import com.lodestar.aileron.AileronConfig;
-import com.lodestar.aileron.ISmokeStackChargeData;
+import com.lodestar.aileron.accessor.AileronPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -26,7 +26,7 @@ public class MixinFireworkRocketItem {
                 itemStack.shrink(1);
             }
 
-            ((ISmokeStackChargeData) player).setSmokeTrailTicks(100);
+            ((AileronPlayer) player).setSmokeTrailTicks(100);
             player.getCooldowns().addCooldown((FireworkRocketItem) (Object) this, 100);
             player.awardStat(Stats.ITEM_USED.get((FireworkRocketItem) (Object) this));
             cir.setReturnValue(InteractionResultHolder.pass(player.getItemInHand(interactionHand)));

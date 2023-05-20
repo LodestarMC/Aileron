@@ -1,7 +1,7 @@
 package com.lodestar.aileron.mixin;
 
 import com.lodestar.aileron.Aileron;
-import com.lodestar.aileron.SmokeStocks;
+import com.lodestar.aileron.AileronEntityData;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -28,10 +28,7 @@ public class GuiMixin {
     @ModifyArg(method = "renderExperienceBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Font;draw(Lcom/mojang/blaze3d/vertex/PoseStack;Ljava/lang/String;FFI)I"), index = 3)
     public float shiftUpwards(float g) {
         LocalPlayer player = Minecraft.getInstance().player;
-
-        boolean wearingElytra = Aileron.wearingElytra(player);
-
-        if ((player.getEntityData().get(SmokeStocks.DATA_SMOKE_STOCKS) > 0 && player.isFallFlying() && wearingElytra) || (wearingElytra && player.isCrouching())) {
+        if (Aileron.canChargeSmokeStack(player)) {
             return g + 4;
         } else {
             return g;
@@ -45,9 +42,7 @@ public class GuiMixin {
         final Gui self = (Gui) (Object) this;
 
         LocalPlayer player = Minecraft.getInstance().player;
-        boolean wearingElytra = Aileron.wearingElytra(player);
-
-        if ((player.getEntityData().get(SmokeStocks.DATA_SMOKE_STOCKS) > 0 && player.isFallFlying() && wearingElytra) || (wearingElytra && player.isCrouching())) {
+        if (Aileron.canChargeSmokeStack(player)) {
             int y = this.screenHeight - 40;
             int smokeStockMaxLevel = EnchantmentHelper.getItemEnchantmentLevel(Registry.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "smokestack")), player.getInventory().getArmor(2));
 
@@ -55,7 +50,7 @@ public class GuiMixin {
             int x = screenWidth / 2 - 10 + ((3 - smokeStockMaxLevel) * 3);
 
             for (int j = 0; j < smokeStockMaxLevel; j ++) {
-                if(player.getEntityData().get(SmokeStocks.DATA_SMOKE_STOCKS) > j) {
+                if(player.getEntityData().get(AileronEntityData.SMOKE_STACK_CHARGES) > j) {
                     RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
                 } else {
                     RenderSystem.setShaderColor(0f, 0f, 0f, 0.5f);

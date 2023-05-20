@@ -2,7 +2,7 @@ package com.lodestar.aileron.mixin;
 
 import com.lodestar.aileron.Aileron;
 import com.lodestar.aileron.AileronConfig;
-import com.lodestar.aileron.ICameraEMA;
+import com.lodestar.aileron.accessor.AileronCamera;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Camera;
@@ -25,7 +25,7 @@ public class MixinGameRenderer {
     public void renderLevel(float partial, long l, PoseStack poseStack, CallbackInfo ci) {
         LocalPlayer player = Minecraft.getInstance().player;
         if(player != null && player.isFallFlying() && !Aileron.isModInstalled("cameraoverhaul")) {
-            float roll = ((ICameraEMA) mainCamera).getSmoothedEMADifference() * 0.225f;
+            float roll = ((AileronCamera) mainCamera).getSmoothedEMADifference() * 0.225f;
 
             float deltaMovementSpeed = (float) player.getDeltaMovement().length();
 

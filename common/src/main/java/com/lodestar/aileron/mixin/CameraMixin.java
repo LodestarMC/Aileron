@@ -1,6 +1,6 @@
 package com.lodestar.aileron.mixin;
 
-import com.lodestar.aileron.ICameraEMA;
+import com.lodestar.aileron.accessor.AileronCamera;
 import net.minecraft.client.Camera;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Camera.class)
-public abstract class CameraMixin implements ICameraEMA {
+public abstract class CameraMixin implements AileronCamera {
 
     @Shadow public abstract float getYRot();
 

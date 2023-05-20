@@ -1,5 +1,6 @@
-package com.lodestar.aileron;
+package com.lodestar.aileron.client;
 
+import com.lodestar.aileron.AileronEntityData;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -9,17 +10,22 @@ public class AileronClient {
     public static int cooldown = 0;
     public static boolean wasJumping = false;
 
+    public static void init() {
+        AileronClientNetworking.register();
+        AileronClientParticles.register();
+    }
+
     public static void localPlayerTick(Player self) {
         if(self instanceof LocalPlayer localPlayer) {
             boolean jumping = localPlayer.input.jumping;
             if (jumping && !wasJumping && cooldown <= 0 && self.isFallFlying() && localPlayer.getFallFlyingTicks() > 0) {
-                int stocks = self.getEntityData().get(SmokeStocks.DATA_SMOKE_STOCKS);
+                int stocks = self.getEntityData().get(AileronEntityData.SMOKE_STACK_CHARGES);
 
                 if (stocks > 0) {
                     self.setDeltaMovement(self.getDeltaMovement().add(self.getLookAngle().scale(1.5)));
-                    self.getEntityData().set(SmokeStocks.DATA_SMOKE_STOCKS, stocks - 1);
+                    self.getEntityData().set(AileronEntityData.SMOKE_STACK_CHARGES, stocks - 1);
                     self.level.playSound(null, self.blockPosition(), SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 0.8f, 0.4f);
-                    Aileron.smokeDash();
+                    AileronClientNetworking.sendSmokeStackDash();
                 }
 
                 cooldown = 50;

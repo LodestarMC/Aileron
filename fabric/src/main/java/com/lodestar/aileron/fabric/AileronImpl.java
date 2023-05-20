@@ -1,25 +1,20 @@
 package com.lodestar.aileron.fabric;
 
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import com.lodestar.aileron.Aileron;
+import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.EntityElytraEvents;
 import net.fabricmc.fabric.api.entity.event.v1.FabricElytraItem;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ElytraItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
-public class AileronImpl {
-    public static void launchClient(ServerPlayer player) {
-        ServerPlayNetworking.send(player, AileronFabric.LAUNCH_SMOKE_STACK_PACKET_ID, PacketByteBufs.empty());
-    }
-
-    public static void smokeDash() {
-        ClientPlayNetworking.send(AileronFabric.SMOKE_STACK_DASH_PACKET_ID, PacketByteBufs.empty());
+public class AileronImpl implements ModInitializer {
+    @Override
+    public void onInitialize() {
+        Aileron.init();
     }
 
     public static boolean wearingElytra(Player player) {

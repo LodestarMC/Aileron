@@ -1,7 +1,7 @@
 package com.lodestar.aileron.mixin;
 
 import com.lodestar.aileron.AileronConfig;
-import com.lodestar.aileron.ICameraEMA;
+import com.lodestar.aileron.accessor.AileronCamera;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
@@ -23,7 +23,7 @@ public class MinecraftMixin {
     @Inject(method = "tick", at = @At("TAIL"))
     public void tick(CallbackInfo ci) {
         Camera camera = gameRenderer.getMainCamera();
-        ICameraEMA ema = ((ICameraEMA) camera);
+        AileronCamera ema = ((AileronCamera) camera);
 
         float curYaw = camera.getEntity() != null ? camera.getEntity().getYRot() : 0;
 

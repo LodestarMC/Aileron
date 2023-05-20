@@ -1,5 +1,4 @@
-package com.lodestar.aileron.forge;
-
+package com.lodestar.aileron.forge.packets;
 
 import com.lodestar.aileron.Aileron;
 import net.minecraft.server.level.ServerPlayer;

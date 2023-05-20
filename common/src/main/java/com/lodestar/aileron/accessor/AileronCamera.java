@@ -1,6 +1,6 @@
-package com.lodestar.aileron;
+package com.lodestar.aileron.accessor;
 
-public interface ICameraEMA {
+public interface AileronCamera {
     double getPreviousEMAValue();
     double getEMAValue();
 

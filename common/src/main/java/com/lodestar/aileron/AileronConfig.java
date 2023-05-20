@@ -32,4 +32,7 @@ public class AileronConfig {
     public static int smokeStackChargeTicks() {
         return 0;
     }
+
+    @ExpectPlatform
+    public static void init() {}
 }

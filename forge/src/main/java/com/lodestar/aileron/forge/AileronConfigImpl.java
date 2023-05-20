@@ -1,5 +1,6 @@
 package com.lodestar.aileron.forge;
 
+import com.lodestar.aileron.Aileron;
 import eu.midnightdust.lib.config.MidnightConfig;
 
 public class AileronConfigImpl extends MidnightConfig {
@@ -39,5 +40,9 @@ public class AileronConfigImpl extends MidnightConfig {
     public static int smokeStackChargeTicks() {
         return smokeStackChargeTicks;
     }
+
+	public static void init() {
+        MidnightConfig.init(Aileron.MOD_ID, AileronConfigImpl.class);
+	}
 }
 

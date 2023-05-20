@@ -1,6 +1,6 @@
-package com.lodestar.aileron;
+package com.lodestar.aileron.accessor;
 
-public interface ISmokeStackChargeData {
+public interface AileronPlayer {
     boolean charged();
     int getBoostTicks();
     void setBoostTicks(int boostTicks);
