@@ -1,8 +1,5 @@
 package com.lodestar.aileron.fabric;
 
-import com.lodestar.aileron.AileronConfigInfo;
-import com.lodestar.aileron.fabric.AileronFabricConfig;
-import com.lodestar.aileron.fabric.AileronFabric;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.entity.event.v1.EntityElytraEvents;
 import net.fabricmc.fabric.api.entity.event.v1.FabricElytraItem;
@@ -18,24 +15,11 @@ import net.minecraft.world.item.Items;
 
 public class AileronImpl {
     public static void launchClient(ServerPlayer player) {
-        ServerPlayNetworking.send((ServerPlayer) player, AileronFabric.LAUNCH_SMOKE_STACK_PACKET_ID, PacketByteBufs.empty());
+        ServerPlayNetworking.send(player, AileronFabric.LAUNCH_SMOKE_STACK_PACKET_ID, PacketByteBufs.empty());
     }
 
     public static void smokeDash() {
         ClientPlayNetworking.send(AileronFabric.SMOKE_STACK_DASH_PACKET_ID, PacketByteBufs.empty());
-    }
-
-    public static AileronConfigInfo getConfigInfo() {
-        AileronConfigInfo configInfo = new AileronConfigInfo();
-
-        configInfo.fireworkChanges = AileronFabricConfig.fireworkChanges;
-        configInfo.cameraRoll = AileronFabricConfig.doCameraRoll;
-        configInfo.cameraRollScale = AileronFabricConfig.cameraRollScale;
-        configInfo.cameraRollSpeed = AileronFabricConfig.cameraRollSpeed;
-        configInfo.campfiresPushPlayers = AileronFabricConfig.campfiresPushPlayers;
-        configInfo.smokeStackChargeTicks = AileronFabricConfig.smokeStackChargeTicks;
-
-        return configInfo;
     }
 
     public static boolean wearingElytra(Player player) {

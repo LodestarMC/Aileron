@@ -23,11 +23,6 @@ public class Aileron {
     public static void smokeDash() {}
 
     @ExpectPlatform
-    public static AileronConfigInfo getConfigInfo() {
-        return null;
-    }
-
-    @ExpectPlatform
     public static boolean isModInstalled(String modId) {
         return false;
     }
@@ -54,13 +49,17 @@ public class Aileron {
         if(stocks > 0) {
             player.getEntityData().set(SmokeStocks.DATA_SMOKE_STOCKS, stocks - 1);
 
-            for (ServerPlayer serverPlayer : serverLevel.players()) {
-                serverLevel.sendParticles(serverPlayer, ParticleTypes.LARGE_SMOKE, false, player.getX(), player.getY(), player.getZ(), 40, 0.5, 0.5, 0.5, 0.1);
-                serverLevel.sendParticles(serverPlayer, ParticleTypes.CAMPFIRE_COSY_SMOKE, false, player.getX(), player.getY(), player.getZ(), 40, 0.5, 0.5, 0.5, 0.1);
-                serverLevel.sendParticles(serverPlayer, ParticleTypes.SMOKE, false, player.getX(), player.getY(), player.getZ(), 120, 0.5, 0.5, 0.5, 0.4);
-            }
+            sendBoostParticles(serverLevel, player.getX(), player.getY(), player.getZ());
 
             ((ISmokeStackChargeData) player).setBoostTicks(50);
+        }
+    }
+
+    public static void sendBoostParticles(ServerLevel serverLevel, double x, double y, double z) {
+        for (ServerPlayer serverPlayer : serverLevel.players()) {
+            serverLevel.sendParticles(serverPlayer, ParticleTypes.LARGE_SMOKE, false, x, y, z, 40, 0.5, 0.5, 0.5, 0.1);
+            serverLevel.sendParticles(serverPlayer, ParticleTypes.CAMPFIRE_COSY_SMOKE, false, x, y, z, 40, 0.5, 0.5, 0.5, 0.1);
+            serverLevel.sendParticles(serverPlayer, ParticleTypes.SMOKE, false, x, y, z, 120, 0.5, 0.5, 0.5, 0.4);
         }
     }
 

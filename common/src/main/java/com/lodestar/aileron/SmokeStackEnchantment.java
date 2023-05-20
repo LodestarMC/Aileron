@@ -1,15 +1,14 @@
 package com.lodestar.aileron;
 
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.ElytraItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 
 public class SmokeStackEnchantment extends Enchantment {
 
-    public SmokeStackEnchantment(Rarity rarity, EnchantmentCategory enchantmentCategory, EquipmentSlot[] equipmentSlots) {
-        super(rarity, EnchantmentCategory.ARMOR_CHEST, equipmentSlots);
+    public SmokeStackEnchantment(Rarity rarity) {
+        super(rarity, EnchantmentCategory.BREAKABLE, new EquipmentSlot[0]);
     }
 
     @Override

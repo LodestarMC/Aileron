@@ -1,20 +1,18 @@
 package com.lodestar.aileron;
 
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.ElytraItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
-import net.minecraft.world.item.enchantment.Enchantments;
 
 public class CloudSkipperEnchantment extends Enchantment {
-    public CloudSkipperEnchantment(Rarity rarity, EnchantmentCategory enchantmentCategory, EquipmentSlot[] equipmentSlots) {
-        super(rarity, EnchantmentCategory.ARMOR_CHEST, equipmentSlots);
+    public CloudSkipperEnchantment(Rarity rarity) {
+        super(rarity, EnchantmentCategory.BREAKABLE, new EquipmentSlot[0]);
     }
 
     @Override
     public boolean canEnchant(ItemStack itemStack) {
-        return itemStack.getItem() instanceof ElytraItem;
+        return Aileron.isElytra(itemStack);
     }
 
     @Override

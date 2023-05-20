@@ -1,21 +1,16 @@
 package com.lodestar.aileron.mixin;
 
 import com.lodestar.aileron.*;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ElytraItem;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -42,8 +37,6 @@ public abstract class PlayerEntityMixin implements ISmokeStackChargeData {
 
     @Inject(method = "tick", at = @At("TAIL"))
     public void postTick(CallbackInfo ci) {
-        AileronConfigInfo config = Aileron.getConfigInfo();
-
         Player self = ((Player) (Object) this);
         Level level = self.level;
 
@@ -116,7 +109,7 @@ public abstract class PlayerEntityMixin implements ISmokeStackChargeData {
                     final ServerLevel serverLevel = ((ServerLevel) level);
                     chargeTime++;
 
-                    if (chargeTime % config.smokeStackChargeTicks == 0 && chargeTime > 0) {
+                    if (chargeTime % AileronConfig.smokeStackChargeTicks() == 0 && chargeTime > 0) {
                         int stocks = self.getEntityData().get(SmokeStocks.DATA_SMOKE_STOCKS);
 
                         int smokeStockMaxLevel = EnchantmentHelper.getItemEnchantmentLevel(Registry.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "smokestack")), self.getInventory().getArmor(2));
@@ -155,11 +148,7 @@ public abstract class PlayerEntityMixin implements ISmokeStackChargeData {
                 charged = false;
                 chargeTime = 0;
 
-                for (ServerPlayer player : serverLevel.players()) {
-                    serverLevel.sendParticles(player, ParticleTypes.LARGE_SMOKE, false, self.getX(), self.getY(), self.getZ(), 40, 0.5, 0.5, 0.5, 0.1);
-                    serverLevel.sendParticles(player, ParticleTypes.CAMPFIRE_COSY_SMOKE, false, self.getX(), self.getY(), self.getZ(), 40, 0.5, 0.5, 0.5, 0.1);
-                    serverLevel.sendParticles(player, ParticleTypes.SMOKE, false, self.getX(), self.getY(), self.getZ(), 120, 0.5, 0.5, 0.5, 0.4);
-                }
+                Aileron.sendBoostParticles(serverLevel, self.getX(), self.getY(), self.getZ());
 
                 setCampfireDamageIFrames(20);
 
@@ -184,7 +173,7 @@ public abstract class PlayerEntityMixin implements ISmokeStackChargeData {
             }
 
             BlockState blockState = level.getBlockState(blockPosition);
-            if (blockState.is(BlockTags.CAMPFIRES) && config.campfiresPushPlayers) {
+            if (blockState.is(BlockTags.CAMPFIRES) && AileronConfig.campfiresPushPlayers()) {
                 // player is over a campfire
                 // determine range of campfire
                 boolean isLit = blockState.getValue(CampfireBlock.LIT);
