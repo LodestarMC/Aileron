@@ -21,12 +21,12 @@ public class AileronImpl {
     public static AileronConfigInfo getConfigInfo() {
         AileronConfigInfo configInfo = new AileronConfigInfo();
 
-        configInfo.fireworkChanges = AileronForgeConfig.FIREWORK_CHANGES.get();
-        configInfo.cameraRoll = AileronForgeConfig.DO_CAMERA_ROLL.get();
-        configInfo.cameraRollScale = AileronForgeConfig.CAMERA_ROLL_SCALE.get();
-        configInfo.cameraRollSpeed = AileronForgeConfig.CAMERA_ROLL_SPEED.get();
-        configInfo.campfiresPushPlayers = AileronForgeConfig.PUSH_PLAYERS.get();
-        configInfo.smokeStackChargeTicks = AileronForgeConfig.SMOKE_STACK_CHARGE_TICKS.get();
+        configInfo.fireworkChanges = AileronFabricConfig.fireworkChanges;
+        configInfo.cameraRoll = AileronFabricConfig.doCameraRoll;
+        configInfo.cameraRollScale = AileronFabricConfig.cameraRollScale;
+        configInfo.cameraRollSpeed = AileronFabricConfig.cameraRollSpeed;
+        configInfo.campfiresPushPlayers = AileronFabricConfig.campfiresPushPlayers;
+        configInfo.smokeStackChargeTicks = AileronFabricConfig.smokeStackChargeTicks;
 
         return configInfo;
     }
