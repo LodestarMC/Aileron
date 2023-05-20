@@ -1,6 +1,6 @@
 package com.lodestar.aileron.fabric;
 
-import java.eu.midnightdust.lib.config.MidnightConfig;
+import eu.midnightdust.lib.config.MidnightConfig;
 
 public class AileronFabricConfig extends MidnightConfig {
 
