@@ -26,12 +26,8 @@ public class Aileron {
     }
 
     @ExpectPlatform
-    public static boolean wearingElytra(Player player) {
-        return false;
-    }
-
     public static boolean canChargeSmokeStack(@Nullable Player player) {
-        return player != null && Aileron.wearingElytra(player) && ((player.getEntityData().get(AileronEntityData.SMOKE_STACK_CHARGES) > 0 && player.isFallFlying()) || player.isCrouching());
+        return false;
     }
 
     @ExpectPlatform
