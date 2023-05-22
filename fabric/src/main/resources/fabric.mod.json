@@ -15,21 +15,17 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.lodestar.aileron.fabric.AileronModFabric"
+      "com.lodestar.aileron.fabric.AileronImpl"
     ],
     "client": [
-      "com.lodestar.aileron.fabric.AileronModFabricClient"
-    ],
-    "modmenu": [
-      "com.lodestar.aileron.fabriclike.FabricLikeModMenuIntegration"
+      "com.lodestar.aileron.client.fabric.AileronClientImpl"
     ]
   },
   "mixins": [
-    "aileron.mixins.json",
     "aileron-common.mixins.json"
   ],
   "depends": {
     "fabric": "*",
-    "minecraft": ">=1.18.2"
+    "minecraft": ">=1.18"
   }
 }
