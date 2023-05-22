@@ -1,39 +1,45 @@
 package com.lodestar.aileron;
 
-import dev.architectury.injectables.annotations.ExpectPlatform;
+import eu.midnightdust.lib.config.MidnightConfig;
 
-public class AileronConfig {
-	@ExpectPlatform
+public class AileronConfig extends MidnightConfig {
+	@Comment public static Comment generalChanges;
+	@Entry public static boolean fireworkChanges = true;
+
+	@Comment public static Comment cameraSettings;
+	@Entry public static boolean doCameraRoll = true;
+	@Entry(min = 0.0, max = 2.0) public static double cameraRollScale = 1.0;
+	@Entry(min = 0.05, max = 1.0) public static double cameraRollSpeed = 0.1;
+
+	@Comment public static Comment campfires;
+	@Entry public static boolean campfiresPushPlayers = true;
+	@Entry(min = 2) public static int smokeStackChargeTicks = 20;
+
 	public static boolean fireworkChanges() {
-		return false;
+		return fireworkChanges;
 	}
 
-	@ExpectPlatform
 	public static boolean doCameraRoll() {
-		return false;
+		return doCameraRoll;
 	}
 
-	@ExpectPlatform
 	public static double cameraRollScale() {
-		return 0.0;
+		return cameraRollScale;
 	}
 
-	@ExpectPlatform
 	public static double cameraRollSpeed() {
-		return 0.0;
+		return cameraRollSpeed;
 	}
 
-	@ExpectPlatform
 	public static boolean campfiresPushPlayers() {
-		return false;
+		return campfiresPushPlayers;
 	}
 
-	@ExpectPlatform
 	public static int smokeStackChargeTicks() {
-		return 0;
+		return smokeStackChargeTicks;
 	}
 
-	@ExpectPlatform
 	public static void init() {
+		MidnightConfig.init(Aileron.MOD_ID, AileronConfig.class);
 	}
 }
