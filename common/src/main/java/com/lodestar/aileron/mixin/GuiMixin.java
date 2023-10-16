@@ -3,12 +3,11 @@ package com.lodestar.aileron.mixin;
 import com.lodestar.aileron.Aileron;
 import com.lodestar.aileron.AileronEntityData;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,24 +24,24 @@ public class GuiMixin {
 	@Shadow private int screenWidth;
 	@Shadow private int screenHeight;
 
-	@ModifyArg(method = "renderExperienceBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Font;draw(Lcom/mojang/blaze3d/vertex/PoseStack;Ljava/lang/String;FFI)I"), index = 3)
-	public float shiftUpwards(float g) {
+	@ModifyArg(method = "renderExperienceBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;drawString(Lnet/minecraft/client/gui/Font;Ljava/lang/String;IIIZ)I"), index = 3)
+	public int shiftUpwards(int i) {
 		LocalPlayer player = Minecraft.getInstance().player;
 		if (Aileron.canChargeSmokeStack(player)) {
-			return g + 4;
+			return i + 4;
 		} else {
-			return g;
+			return i;
 		}
 	}
 
 	@Inject(method = "renderExperienceBar", at = @At(value = "TAIL"))
-	public void renderExperienceBar(PoseStack poseStack, int i, CallbackInfo ci) {
+	public void renderExperienceBar(GuiGraphics graphics, int i, CallbackInfo ci) {
 		final Gui self = (Gui) (Object) this;
 
 		LocalPlayer player = Minecraft.getInstance().player;
 		if (Aileron.canChargeSmokeStack(player)) {
 			int y = this.screenHeight - 40;
-			int smokeStockMaxLevel = EnchantmentHelper.getItemEnchantmentLevel(Registry.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "smokestack")), player.getInventory().getArmor(2));
+			int smokeStockMaxLevel = EnchantmentHelper.getItemEnchantmentLevel(BuiltInRegistries.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "smokestack")), player.getInventory().getArmor(2));
 
 			RenderSystem.setShaderTexture(0, smokeStock);
 			int x = screenWidth / 2 - 10 + ((3 - smokeStockMaxLevel) * 3);
@@ -53,7 +52,7 @@ public class GuiMixin {
 				} else {
 					RenderSystem.setShaderColor(0f, 0f, 0f, 0.5f);
 				}
-				GuiComponent.blit(poseStack, x + (j * 6), y, self.getBlitOffset(), 0, 0, 8, 8, 8, 8);
+				graphics.blit(new ResourceLocation("textures/gui/icons.png"), x + (j * 6), y, 0, 0, 8, 8, 8, 8);
 			}
 		}
 

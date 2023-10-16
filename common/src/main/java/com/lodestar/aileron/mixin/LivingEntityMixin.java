@@ -1,8 +1,8 @@
 package com.lodestar.aileron.mixin;
 
 import com.lodestar.aileron.Aileron;
-import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -29,7 +29,7 @@ public abstract class LivingEntityMixin extends Entity {
 	private void modifyVelocity(LivingEntity instance, Vec3 vec3) {
 		Vec3 negator = new Vec3(1.0 / 0.9900000095367432D, 1.0, 1.0 / 0.9900000095367432D);
 
-		int cloudSkipper = instance instanceof Player ? EnchantmentHelper.getItemEnchantmentLevel(Registry.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "cloudskipper")), ((Player) instance).getInventory().getArmor(2)) : 0;
+		int cloudSkipper = instance instanceof Player ? EnchantmentHelper.getItemEnchantmentLevel(BuiltInRegistries.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "cloudskipper")), ((Player) instance).getInventory().getArmor(2)) : 0;
 
 		double fac = 0;
 		double y = instance.position().y;
@@ -43,8 +43,8 @@ public abstract class LivingEntityMixin extends Entity {
 		fac *= 0.6;
 		fac *= cloudSkipper / 3.0;
 
-		if (fac > 0.1 && !level.isClientSide && tickCount % ((int) (1.0 - fac) * 2 + 1) == 0) {
-			ServerLevel serverLevel = ((ServerLevel) level);
+		if (fac > 0.1 && !level().isClientSide && tickCount % ((int) (1.0 - fac) * 2 + 1) == 0) {
+			ServerLevel serverLevel = ((ServerLevel) level());
 
 			for (ServerPlayer player : serverLevel.players()) {
 				Vec3 pos = instance.position().add(instance.getLookAngle().scale(-1.0));
