@@ -30,4 +30,5 @@ public class MixinFireworkRocketItem {
 		player.awardStat(Stats.ITEM_USED.get(item));
 		cir.setReturnValue(InteractionResultHolder.pass(stack));
 	}
+
 }
