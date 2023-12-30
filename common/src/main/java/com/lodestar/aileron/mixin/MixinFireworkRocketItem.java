@@ -18,18 +18,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class MixinFireworkRocketItem {
 
 	@Inject(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/FireworkRocketEntity;<init>(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/LivingEntity;)V"), cancellable = true)
-	public void use(Level level, Player player, InteractionHand interactionHand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir) {
-		if (!AileronConfig.fireworkChanges()) {
-			ItemStack itemStack = player.getItemInHand(interactionHand);
+	public void use(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir) {
+		if (!AileronConfig.fireworkChanges()) return;
 
-			if (!player.getAbilities().instabuild) {
-				itemStack.shrink(1);
-			}
+		ItemStack stack = player.getItemInHand(hand);
+		if (!player.getAbilities().instabuild) stack.shrink(1);
 
-			((AileronPlayer) player).setSmokeTrailTicks(100);
-			player.getCooldowns().addCooldown((FireworkRocketItem) (Object) this, 100);
-			player.awardStat(Stats.ITEM_USED.get((FireworkRocketItem) (Object) this));
-			cir.setReturnValue(InteractionResultHolder.pass(player.getItemInHand(interactionHand)));
-		}
+		((AileronPlayer) player).setSmokeTrailTicks(100);
+		FireworkRocketItem item = (FireworkRocketItem) (Object) this;
+		player.getCooldowns().addCooldown(item, 100);
+		player.awardStat(Stats.ITEM_USED.get(item));
+		cir.setReturnValue(InteractionResultHolder.pass(stack));
 	}
 }
