@@ -84,7 +84,7 @@ public abstract class PlayerEntityMixin implements AileronPlayer {
 		// smoke trail
 		if (smokeTrailTicks > 0) {
 
-			if (self.tickCount == 0) {
+			if (self.tickCount % 3 == 0) {
 				final ServerLevel serverLevel = ((ServerLevel) level);
 
 				for (ServerPlayer player : serverLevel.players()) {
