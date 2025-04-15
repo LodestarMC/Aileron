@@ -1,6 +1,7 @@
 package com.lodestar.aileron.mixin;
 
 import com.lodestar.aileron.Aileron;
+import com.lodestar.aileron.AileronConfig;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -33,14 +34,17 @@ public abstract class LivingEntityMixin extends Entity {
 
 		double fac = 0;
 		double y = instance.position().y;
-		if (y < 100)
+		double cloudLevel = AileronConfig.cloudskipperCloudLevel();
+		double bottom = cloudLevel - 92.0;
+		double top = cloudLevel + 38.0;
+		if (y < bottom)
 			fac = 0.0;
-		else if (y < 230)
-			fac = 0.00006 * Math.pow(y - 100, 2);
+		else if (y < top)
+			fac = 0.00006 * Math.pow(y - bottom, 2);
 		else
 			fac = 1;
 
-		fac *= 0.6;
+		fac *= 0.6 * AileronConfig.cloudskipperSpeedMultiplier();
 		fac *= cloudSkipper / 3.0;
 
 		if (fac > 0.1 && !level().isClientSide && tickCount % ((int) (1.0 - fac) * 2 + 1) == 0) {

@@ -6,12 +6,16 @@
   "aileron.midnightconfig.title": "Aileron Config",
   "aileron.midnightconfig.generalChanges": "General Changes",
   "aileron.midnightconfig.fireworkChanges": "Disable Firework Boost",
+  "aileron.midnightconfig.enchantments": "Enchantments",
+  "aileron.midnightconfig.cloudskipperSpeedMultiplier": "Cloudskipper Speed Multiplier",
+  "aileron.midnightconfig.cloudskipperCloudLevel": "Cloudskipper Cloud Level",
   "aileron.midnightconfig.cameraSettings": "Camera Settings",
   "aileron.midnightconfig.doCameraRoll": "Tilt Camera on Turns",
   "aileron.midnightconfig.cameraRollScale": "Camera Tilt Scale",
   "aileron.midnightconfig.cameraRollSpeed": "Camera Tilt Speed",
   "aileron.midnightconfig.campfires": "Campfires",
   "aileron.midnightconfig.campfiresPushPlayers": "Push Players",
-  "aileron.midnightconfig.smokeStackChargeTicks": "Smoke Stack Charge Ticks"
-
+  "aileron.midnightconfig.smokeStackChargeTicks": "Smoke Stack Charge Ticks",
+  "key.category.aileron": "Aileron",
+  "key.aileron.smokestack_boost": "Smokestack Boost"
 }

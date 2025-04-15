@@ -6,11 +6,16 @@
   "aileron.midnightconfig.title": "Настройка Aileron",
   "aileron.midnightconfig.generalChanges": "Общие изменения",
   "aileron.midnightconfig.fireworkChanges": "Отключить ускорение фейерверками",
+  "aileron.midnightconfig.enchantments": "Зачарования",
+  "aileron.midnightconfig.cloudskipperSpeedMultiplier": "Множитель скорости облаколёта",
+  "aileron.midnightconfig.cloudskipperCloudLevel": "Высота облаков для облаколёта",
   "aileron.midnightconfig.cameraSettings": "Настройки камеры",
   "aileron.midnightconfig.doCameraRoll": "Наклон камеры при поворотах",
   "aileron.midnightconfig.cameraRollScale": "Сила наклона камеры",
   "aileron.midnightconfig.cameraRollSpeed": "Скорость наклона камеры",
   "aileron.midnightconfig.campfires": "Костры",
   "aileron.midnightconfig.campfiresPushPlayers": "Толкание игроков",
-  "aileron.midnightconfig.smokeStackChargeTicks": "Тики до накопления дымового заряда"
+  "aileron.midnightconfig.smokeStackChargeTicks": "Тики до накопления дымового заряда",
+  "key.category.aileron": "Aileron",
+  "key.aileron.smokestack_boost": "Дымовой заряд"
 }
