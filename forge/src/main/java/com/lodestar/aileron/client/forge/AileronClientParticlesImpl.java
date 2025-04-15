@@ -13,7 +13,7 @@ import static com.lodestar.aileron.forge.AileronParticlesImpl.CUSTOM_CAMPFIRE_SM
 public class AileronClientParticlesImpl {
 	@SubscribeEvent
 	public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
-		event.register(CUSTOM_CAMPFIRE_SMOKE.get(), CustomCampfireParticle.CustomCampfireParticleProvider::new);
+		event.registerSpriteSet(CUSTOM_CAMPFIRE_SMOKE.get(), CustomCampfireParticle.CustomCampfireParticleProvider::new);
 	}
 
 	public static void register() {

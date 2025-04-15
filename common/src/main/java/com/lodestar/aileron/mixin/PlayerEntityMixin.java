@@ -7,9 +7,9 @@ import com.lodestar.aileron.AileronNetworking;
 import com.lodestar.aileron.accessor.AileronPlayer;
 import com.lodestar.aileron.client.AileronClient;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -45,7 +45,7 @@ public abstract class PlayerEntityMixin implements AileronPlayer {
 	@Inject(method = "tick", at = @At("TAIL"))
 	public void postTick(CallbackInfo ci) {
 		Player self = ((Player) (Object) this);
-		Level level = self.level;
+		Level level = self.level();
 
 		if (boostTicks > 0) boostTicks--;
 		if (!self.isFallFlying()) boostTicks = 0;
@@ -84,7 +84,7 @@ public abstract class PlayerEntityMixin implements AileronPlayer {
 		// smoke trail
 		if (smokeTrailTicks > 0) {
 
-			if (self.tickCount == 0) {
+			if (self.tickCount % 3 == 0) {
 				final ServerLevel serverLevel = ((ServerLevel) level);
 
 				for (ServerPlayer player : serverLevel.players()) {
@@ -115,7 +115,7 @@ public abstract class PlayerEntityMixin implements AileronPlayer {
 				if (chargeTime % AileronConfig.smokeStackChargeTicks() == 0 && chargeTime > 0) {
 					int stocks = self.getEntityData().get(AileronEntityData.SMOKE_STACK_CHARGES);
 
-					int smokeStockMaxLevel = EnchantmentHelper.getItemEnchantmentLevel(Registry.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "smokestack")), self.getInventory().getArmor(2));
+					int smokeStockMaxLevel = EnchantmentHelper.getItemEnchantmentLevel(BuiltInRegistries.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "smokestack")), self.getInventory().getArmor(2));
 
 					if (stocks < smokeStockMaxLevel || !charged) {
 						charged = true;
@@ -163,7 +163,7 @@ public abstract class PlayerEntityMixin implements AileronPlayer {
 			startFlyingTimer = 5;
 		}
 
-		if (self.isFallFlying() && self.level.isClientSide && self.isLocalPlayer()) {
+		if (self.isFallFlying() && self.level().isClientSide && self.isLocalPlayer()) {
 			int maxRange = 38;
 			int depth = 0;
 
@@ -216,7 +216,7 @@ public abstract class PlayerEntityMixin implements AileronPlayer {
 			}
 
 		}
-		if (self.level.isClientSide && self.isLocalPlayer())
+		if (self.level().isClientSide && self.isLocalPlayer())
 			AileronClient.localPlayerTick(self);
 	}
 

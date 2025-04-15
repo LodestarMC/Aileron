@@ -31,7 +31,7 @@ public class AileronClient {
 				if (stocks > 0) {
 					self.setDeltaMovement(self.getDeltaMovement().add(self.getLookAngle().scale(1.5)));
 					self.getEntityData().set(AileronEntityData.SMOKE_STACK_CHARGES, stocks - 1);
-					self.level.playSound(null, self.blockPosition(), SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 0.8f, 0.4f);
+					self.level().playSound(null, self.blockPosition(), SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 0.8f, 0.4f);
 					AileronClientNetworking.sendSmokeStackDash();
 				}
 

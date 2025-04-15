@@ -4,7 +4,7 @@ import com.lodestar.aileron.Aileron;
 import com.lodestar.aileron.AileronConfig;
 import com.lodestar.aileron.accessor.AileronCamera;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -30,7 +30,7 @@ public class MixinGameRenderer {
 			float deltaMovementSpeed = (float) player.getDeltaMovement().length();
 
 			if (AileronConfig.doCameraRoll())
-				poseStack.mulPose(Vector3f.ZP.rotationDegrees((float) (roll * deltaMovementSpeed * AileronConfig.cameraRollScale())));
+				poseStack.mulPose(Axis.ZP.rotationDegrees((float) (roll * deltaMovementSpeed * AileronConfig.cameraRollScale())));
 		}
 	}
 }

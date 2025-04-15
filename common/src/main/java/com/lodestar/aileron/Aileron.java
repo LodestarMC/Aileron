@@ -41,7 +41,7 @@ public class Aileron {
 	}
 
 	public static void playerDashedServer(ServerPlayer player) {
-		ServerLevel serverLevel = (ServerLevel) player.level;
+		ServerLevel serverLevel = (ServerLevel) player.level();
 		int stocks = player.getEntityData().get(AileronEntityData.SMOKE_STACK_CHARGES);
 
 		if (stocks > 0) {
