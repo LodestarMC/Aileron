@@ -4,6 +4,8 @@
   "enchantment.aileron.cloudskipper": "Cloudskipper",
   "enchantment.aileron.cloudskipper.desc": "Reduces horizontal elytra drag while above the cloud layer.",
   "aileron.midnightconfig.title": "Aileron Config",
+  "aileron.midnightconfig.generalChanges": "General Changes",
+  "aileron.midnightconfig.fireworkChanges": "Disable Firework Boost",
   "aileron.midnightconfig.cameraSettings": "Camera Settings",
   "aileron.midnightconfig.doCameraRoll": "Tilt Camera on Turns",
   "aileron.midnightconfig.cameraRollScale": "Camera Tilt Scale",
