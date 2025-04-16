@@ -17,7 +17,7 @@ public class CampfireBlockMixin {
 
 	@Redirect(method = "entityInside", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"))
 	public boolean hurt(Entity instance, DamageSource damageSource, float f) {
-		if ((instance.isCrouching() && ((instance instanceof Player && Aileron.isElytra(((Player) instance).getItemBySlot(EquipmentSlot.CHEST)))) || (instance instanceof Player && (((AileronPlayer) instance).getCampfireDamageIFrames() > 0))))
+		if ((instance.isCrouching() && ((instance instanceof Player && Aileron.isElytra(Aileron.getElytra((Player) instance)))) || (instance instanceof Player && (((AileronPlayer) instance).getCampfireDamageIFrames() > 0))))
 			return false;
 		else
 			return instance.hurt(damageSource, f);

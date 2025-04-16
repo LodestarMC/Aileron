@@ -32,7 +32,7 @@ public class AileronGuiRender {
 
         int smokeStockLevel = EnchantmentHelper.getItemEnchantmentLevel(
                 BuiltInRegistries.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "smokestack")),
-                player.getItemBySlot(EquipmentSlot.CHEST)
+                Aileron.getElytra(player)
         );
 
         int screenX = (screenWidth / 2);

@@ -7,6 +7,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -34,6 +37,20 @@ public class Aileron {
 	@ExpectPlatform
 	public static boolean isElytra(ItemStack stack) {
 		return false;
+	}
+
+	@ExpectPlatform
+	public static ItemStack getAccessoryElytra(LivingEntity entity) {
+		return ItemStack.EMPTY;
+	}
+
+	public static ItemStack getElytra(LivingEntity entity) {
+		ItemStack stack = getAccessoryElytra(entity);
+		if (stack.isEmpty()) {
+			ItemStack chestItem = entity.getItemBySlot(EquipmentSlot.CHEST);
+			stack = isElytra(chestItem) ? chestItem : ItemStack.EMPTY;
+		}
+		return stack;
 	}
 
 	public static void boostPlayer(Player player) {

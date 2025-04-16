@@ -37,6 +37,7 @@ dependencies {
     // TODO: Revert in 1.21
     //modImplementation include("maven.modrinth:midnightlib:${project.midnightlib_version}-forge")
     modImplementation include("maven.modrinth:midnightlib:1.4.2-forge")
+    modCompileOnly "top.theillusivec4.curios:curios-forge:${curios_version}:api"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }

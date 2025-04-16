@@ -37,6 +37,12 @@ allprojects {
         maven {
             url = "https://api.modrinth.com/maven"
         }
+        maven {
+            url = "https://maven.theillusivec4.top/"
+        }
+        maven {
+            url = 'https://maven.ladysnake.org/releases'
+        }
     }
 
     tasks.withType(JavaCompile) {

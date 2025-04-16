@@ -233,7 +233,7 @@ public abstract class PlayerEntityMixin implements AileronPlayer {
 		ServerLevel serverLevel = (ServerLevel) level;
 
 		int stocks = self.getEntityData().get(AileronEntityData.SMOKE_STACK_CHARGES);
-		int smokeStockMaxLevel = EnchantmentHelper.getItemEnchantmentLevel(BuiltInRegistries.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "smokestack")), self.getItemBySlot(EquipmentSlot.CHEST));
+		int smokeStockMaxLevel = EnchantmentHelper.getItemEnchantmentLevel(BuiltInRegistries.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "smokestack")), Aileron.getElytra(self));
 		boolean chargeEffect = false;
 		if (shouldSetCharged && !charged) {
 			chargeEffect = true;
