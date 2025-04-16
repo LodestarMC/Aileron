@@ -17,6 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ElytraItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -49,6 +50,10 @@ public class AileronImpl implements ModInitializer {
 
 	public static boolean canChargeSmokeStack(@Nullable Player player) {
 		return player != null && ((isElytra(Aileron.getElytra(player)) && ElytraItem.isFlyEnabled(Aileron.getElytra(player))) || EntityElytraEvents.ALLOW.invoker().allowElytraFlight(player)) && ((player.getEntityData().get(AileronEntityData.SMOKE_STACK_CHARGES) > 0 && player.isFallFlying()) || player.isCrouching());
+	}
+
+	public static EnchantmentCategory getElytraEnchantmentCategory() {
+		return EnchantmentCategory.BREAKABLE;
 	}
 
 	@Override

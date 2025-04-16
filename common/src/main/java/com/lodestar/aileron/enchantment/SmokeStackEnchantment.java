@@ -9,7 +9,7 @@ import net.minecraft.world.item.enchantment.EnchantmentCategory;
 public class SmokeStackEnchantment extends Enchantment {
 
 	public SmokeStackEnchantment(Rarity rarity) {
-		super(rarity, EnchantmentCategory.BREAKABLE, new EquipmentSlot[0]);
+		super(rarity, Aileron.getElytraEnchantmentCategory(), new EquipmentSlot[0]);
 	}
 
 	@Override

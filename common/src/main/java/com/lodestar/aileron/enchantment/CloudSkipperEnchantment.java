@@ -8,7 +8,7 @@ import net.minecraft.world.item.enchantment.EnchantmentCategory;
 
 public class CloudSkipperEnchantment extends Enchantment {
 	public CloudSkipperEnchantment(Rarity rarity) {
-		super(rarity, EnchantmentCategory.BREAKABLE, new EquipmentSlot[0]);
+		super(rarity, Aileron.getElytraEnchantmentCategory(), new EquipmentSlot[0]);
 	}
 
 	@Override

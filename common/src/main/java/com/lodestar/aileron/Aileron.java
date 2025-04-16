@@ -12,6 +12,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import org.jetbrains.annotations.Nullable;
 
 public class Aileron {
@@ -42,6 +43,11 @@ public class Aileron {
 	@ExpectPlatform
 	public static ItemStack getAccessoryElytra(LivingEntity entity) {
 		return ItemStack.EMPTY;
+	}
+
+	@ExpectPlatform
+	public static EnchantmentCategory getElytraEnchantmentCategory() {
+		return EnchantmentCategory.BREAKABLE;
 	}
 
 	public static ItemStack getElytra(LivingEntity entity) {

@@ -11,6 +11,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ElytraItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.fml.DistExecutor;
@@ -59,5 +60,12 @@ public class AileronImpl {
 
 	public static boolean isModInstalled(String modId) {
 		return ModList.get().isLoaded(modId);
+	}
+
+	public static final EnchantmentCategory ELYTRA_ENCHANTMENT_CATEGORY = EnchantmentCategory.create("elytra", item -> {
+		return Aileron.isElytra(item.getDefaultInstance());
+	});
+	public static EnchantmentCategory getElytraEnchantmentCategory() {
+		return ELYTRA_ENCHANTMENT_CATEGORY;
 	}
 }
