@@ -100,7 +100,7 @@ public abstract class PlayerEntityMixin implements AileronPlayer {
 		}
 
 		BlockState underBlockState = level.getBlockState(self.blockPosition());
-		if (self.isCrouching() && underBlockState.is(BlockTags.CAMPFIRES) && self.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof ElytraItem) {
+		if (self.isCrouching() && underBlockState.is(BlockTags.CAMPFIRES) && Aileron.canChargeSmokeStack(self)) {
 
 			if (level.isClientSide) {
 				boolean isSoul = underBlockState.is(Blocks.SOUL_CAMPFIRE);
@@ -119,10 +119,6 @@ public abstract class PlayerEntityMixin implements AileronPlayer {
 				chargeTime++;
 
 				if (chargeTime % AileronConfig.smokestackChargeTicks() == 0 && chargeTime > 0) {
-					int stocks = self.getEntityData().get(AileronEntityData.SMOKE_STACK_CHARGES);
-
-					int smokeStockMaxLevel = EnchantmentHelper.getItemEnchantmentLevel(BuiltInRegistries.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "smokestack")), self.getItemBySlot(EquipmentSlot.CHEST));
-
 					smokeCharge(true);
 				}
 			}

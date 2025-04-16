@@ -28,7 +28,7 @@ public class AileronImpl {
 	}
 
 	public static boolean isElytra(ItemStack stack) {
-		return stack.is(Items.ELYTRA) || stack.getItem() instanceof ElytraItem || Objects.equals(ForgeRegistries.ITEMS.getKey(stack.getItem()), new ResourceLocation("alexmobs", "tarantula_hawk_elytra"));
+		return stack.is(Items.ELYTRA) || stack.getItem() instanceof ElytraItem;
 	}
 
 	public static boolean canChargeSmokeStack(@Nullable Player player) {
