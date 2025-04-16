@@ -5,6 +5,8 @@ import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -48,6 +50,7 @@ public class Aileron {
 			player.getEntityData().set(AileronEntityData.SMOKE_STACK_CHARGES, stocks - 1);
 
 			sendBoostParticles(serverLevel, player.getX(), player.getY(), player.getZ());
+			serverLevel.playSound(null, player.blockPosition(), SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 0.8f, 0.8f + (stocks * 0.2f));
 
 			boostPlayer(player);
 		}

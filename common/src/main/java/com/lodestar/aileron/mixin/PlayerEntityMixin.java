@@ -20,11 +20,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ElytraItem;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -35,6 +37,7 @@ public abstract class PlayerEntityMixin implements AileronPlayer {
 	int campfireDamageIFrames = 0;
 	int smokeTrailTicks = 0;
 	int chargeTime = 0;
+	int airChargeTime = 0;
 	boolean charged = false;
 	int startFlyingTimer = 0;
 	int boostTicks = 0;
@@ -99,7 +102,8 @@ public abstract class PlayerEntityMixin implements AileronPlayer {
 		if (self.isCrouching() && underBlockState.is(BlockTags.CAMPFIRES) && self.getInventory().getArmor(2).getItem() instanceof ElytraItem) {
 
 			if (level.isClientSide) {
-				SimpleParticleType[] particles = {ParticleTypes.FLAME, ParticleTypes.SMOKE};
+				boolean isSoul = underBlockState.is(Blocks.SOUL_CAMPFIRE);
+				SimpleParticleType[] particles = {isSoul ? ParticleTypes.SOUL_FIRE_FLAME : ParticleTypes.FLAME, ParticleTypes.SMOKE};
 
 				for (SimpleParticleType particle : particles) {
 					Vec3 randomOffset = new Vec3(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5);
@@ -108,31 +112,21 @@ public abstract class PlayerEntityMixin implements AileronPlayer {
 					Vec3 position = self.position().add(0.0, self.getEyeHeight() / 2.0, 0.0).add(randomOffset);
 					level.addParticle(particle, position.x, position.y, position.z, motion.x, motion.y, motion.z);
 				}
-			} else {
+			}
+			else {
 				final ServerLevel serverLevel = ((ServerLevel) level);
 				chargeTime++;
 
-				if (chargeTime % AileronConfig.smokeStackChargeTicks() == 0 && chargeTime > 0) {
+				if (chargeTime % AileronConfig.smokestackChargeTicks() == 0 && chargeTime > 0) {
 					int stocks = self.getEntityData().get(AileronEntityData.SMOKE_STACK_CHARGES);
 
 					int smokeStockMaxLevel = EnchantmentHelper.getItemEnchantmentLevel(BuiltInRegistries.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "smokestack")), self.getInventory().getArmor(2));
 
-					if (stocks < smokeStockMaxLevel || !charged) {
-						charged = true;
-
-						if (stocks < smokeStockMaxLevel)
-							self.getEntityData().set(AileronEntityData.SMOKE_STACK_CHARGES, stocks + 1);
-
-
-						for (ServerPlayer player : serverLevel.players()) {
-							serverLevel.sendParticles(player, ParticleTypes.LARGE_SMOKE, false, self.getX(), self.getY(), self.getZ(), 20, 0.5, 0.5, 0.5, 0.1);
-							serverLevel.sendParticles(player, ParticleTypes.SMOKE, false, self.getX(), self.getY(), self.getZ(), 100, 0.5, 0.5, 0.5, 0.4);
-						}
-						level.playSound(null, self.blockPosition(), SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 0.8f, 0.8f + (stocks * 0.2f));
-					}
+					smokeCharge(true);
 				}
 			}
-		} else {
+		}
+		else {
 			chargeTime = 0;
 
 			if (!level.isClientSide && !self.isFallFlying() && campfireDamageIFrames == 0 && !charged) {
@@ -163,7 +157,7 @@ public abstract class PlayerEntityMixin implements AileronPlayer {
 			startFlyingTimer = 5;
 		}
 
-		if (self.isFallFlying() && self.level().isClientSide && self.isLocalPlayer()) {
+		if (self.isFallFlying()) {
 			int maxRange = 38;
 			int depth = 0;
 
@@ -206,18 +200,57 @@ public abstract class PlayerEntityMixin implements AileronPlayer {
 
 					// if player is within range of campfire
 					if (distance < range) {
-						double force = Math.min(range / distance / 7, 1.0);
+						if (self.level().isClientSide) {
+							if (self.isLocalPlayer()) {
+								double force = Math.min(range / distance / 7, 1.0);
 
-
-						Vec3 existingDeltaMovement = self.getDeltaMovement();
-						self.setDeltaMovement(existingDeltaMovement.x, Math.min(existingDeltaMovement.y + force, 1.0), existingDeltaMovement.z);
+								Vec3 existingDeltaMovement = self.getDeltaMovement();
+								self.setDeltaMovement(existingDeltaMovement.x, Math.min(existingDeltaMovement.y + force, 1.0), existingDeltaMovement.z);
+							}
+						}
+						else if (AileronConfig.smokestackAirRecharge()) {
+							airChargeTime++;
+							if (airChargeTime >= AileronConfig.smokestackChargeTicks()) {
+								airChargeTime = 0;
+								smokeCharge(false);
+							}
+						}
 					}
 				}
 			}
 
 		}
+		else {
+			airChargeTime = 0;
+		}
 		if (self.level().isClientSide && self.isLocalPlayer())
 			AileronClient.localPlayerTick(self);
+	}
+
+	@Unique
+	public void smokeCharge(boolean shouldSetCharged) {
+		Player self = ((Player) (Object) this);
+		Level level = self.level();
+		ServerLevel serverLevel = (ServerLevel) level;
+
+		int stocks = self.getEntityData().get(AileronEntityData.SMOKE_STACK_CHARGES);
+		int smokeStockMaxLevel = EnchantmentHelper.getItemEnchantmentLevel(BuiltInRegistries.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "smokestack")), self.getInventory().getArmor(2));
+		boolean chargeEffect = false;
+		if (shouldSetCharged && !charged) {
+			chargeEffect = true;
+			charged = true;
+		}
+		if (stocks < smokeStockMaxLevel) {
+			chargeEffect = true;
+			self.getEntityData().set(AileronEntityData.SMOKE_STACK_CHARGES, stocks + 1);
+		}
+		if (chargeEffect) {
+			for (ServerPlayer player : serverLevel.players()) {
+				serverLevel.sendParticles(player, ParticleTypes.LARGE_SMOKE, false, self.getX(), self.getY(), self.getZ(), 20, 0.5, 0.5, 0.5, 0.1);
+				serverLevel.sendParticles(player, ParticleTypes.SMOKE, false, self.getX(), self.getY(), self.getZ(), 100, 0.5, 0.5, 0.5, 0.4);
+			}
+			level.playSound(null, self.blockPosition(), SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 0.8f, 0.8f + (stocks * 0.2f));
+		}
 	}
 
 	@Inject(method = "defineSynchedData", at = @At("TAIL"))

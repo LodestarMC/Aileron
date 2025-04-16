@@ -14,10 +14,11 @@ public class AileronConfig extends MidnightConfig {
 	@Comment public static Comment enchantments;
 	@Entry(min = 0.1, max = 2.0) public static double cloudskipperSpeedMultiplier = 1.0;
 	@Entry(min = -2032.0, max = 4064.0) public static double cloudskipperCloudLevel = 192.0;
+	@Entry public static boolean smokestackAirRecharge = true;
+	@Entry(min = 2) public static int smokestackChargeTicks = 20;
 
 	@Comment public static Comment campfires;
 	@Entry public static boolean campfiresPushPlayers = true;
-	@Entry(min = 2) public static int smokeStackChargeTicks = 20;
 
 	public static boolean fireworkChanges() {
 		return fireworkChanges;
@@ -35,16 +36,24 @@ public class AileronConfig extends MidnightConfig {
 		return cameraRollSpeed;
 	}
 
-	public static double cloudskipperSpeedMultiplier() { return cloudskipperSpeedMultiplier; }
+	public static double cloudskipperSpeedMultiplier() {
+		return cloudskipperSpeedMultiplier;
+	}
 
-	public static double cloudskipperCloudLevel() { return cloudskipperCloudLevel; }
+	public static double cloudskipperCloudLevel() {
+		return cloudskipperCloudLevel;
+	}
+
+	public static boolean smokestackAirRecharge() {
+		return smokestackAirRecharge;
+	}
+
+	public static int smokestackChargeTicks() {
+		return smokestackChargeTicks;
+	}
 
 	public static boolean campfiresPushPlayers() {
 		return campfiresPushPlayers;
-	}
-
-	public static int smokeStackChargeTicks() {
-		return smokeStackChargeTicks;
 	}
 
 	public static void init() {
