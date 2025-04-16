@@ -1,5 +1,7 @@
 package com.lodestar.aileron.accessor;
 
+import net.minecraft.world.entity.Entity;
+
 public interface AileronCamera {
 	double getPreviousEMAValue();
 
@@ -9,5 +11,5 @@ public interface AileronCamera {
 
 	void setEMAValue(float EMA);
 
-	float getSmoothedEMADifference();
+	float getSmoothedEMADifference(Entity entity, float partial);
 }

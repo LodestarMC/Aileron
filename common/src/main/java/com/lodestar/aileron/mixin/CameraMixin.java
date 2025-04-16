@@ -2,6 +2,8 @@ package com.lodestar.aileron.mixin;
 
 import com.lodestar.aileron.accessor.AileronCamera;
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,15 +17,9 @@ public abstract class CameraMixin implements AileronCamera {
 
 	double previousEMAValue = 0.0;
 	double EMAValue = 0.0;
-	float smoothedEMADifference = 0.0f;
 
 	@Shadow
 	public abstract float getYRot();
-
-	@Inject(method = "setup", at = @At("TAIL"))
-	public void setup(BlockGetter blockGetter, Entity entity, boolean bl, boolean bl2, float partial, CallbackInfo ci) {
-		smoothedEMADifference = entity != null ? entity.getYRot() - (float) (EMAValue + (EMAValue - previousEMAValue) * partial) : 0.0f;
-	}
 
 	@Override
 	public double getPreviousEMAValue() {
@@ -46,7 +42,7 @@ public abstract class CameraMixin implements AileronCamera {
 	}
 
 	@Override
-	public float getSmoothedEMADifference() {
-		return smoothedEMADifference;
+	public float getSmoothedEMADifference(Entity entity, float partial) {
+		return entity != null ? entity.getYRot() - (float)Mth.lerp(partial, previousEMAValue, EMAValue) : 0.0f;
 	}
 }

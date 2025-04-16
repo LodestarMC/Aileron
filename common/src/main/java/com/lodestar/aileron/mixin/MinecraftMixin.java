@@ -5,6 +5,7 @@ import com.lodestar.aileron.accessor.AileronCamera;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.util.Mth;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -27,7 +28,7 @@ public class MinecraftMixin {
 		float curYaw = camera.getEntity() != null ? camera.getEntity().getYRot() : 0;
 
 		previousEMA = EMA;
-		EMA = (float) (EMA + (curYaw - EMA) * AileronConfig.cameraRollSpeed());
+		EMA = (float) Mth.lerp(AileronConfig.cameraRollSpeed(), EMA, curYaw);
 
 		ema.setPreviousEMAValue(previousEMA);
 		ema.setEMAValue(EMA);
