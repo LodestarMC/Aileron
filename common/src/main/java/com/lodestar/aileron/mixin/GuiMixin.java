@@ -36,9 +36,9 @@ public class GuiMixin {
 		return AileronGuiRender.moveAttackIndicator(x);
 	}
 
-	@Inject(method = "renderExperienceBar", at = @At(value = "TAIL"))
-	public void renderSmokeStackBar(GuiGraphics g, int i, CallbackInfo ci) {
-		AileronGuiRender.renderSmokeStackBar(g, screenHeight, screenWidth);
+	@Inject(method = "renderHotbar", at = @At(value = "TAIL"))
+	public void renderSmokeStackBar(float f, GuiGraphics guiGraphics, CallbackInfo ci) {
+		AileronGuiRender.renderSmokeStackBar(guiGraphics, screenHeight, screenWidth);
 	}
 
 }
