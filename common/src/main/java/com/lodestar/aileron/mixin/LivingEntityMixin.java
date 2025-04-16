@@ -9,6 +9,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -30,7 +31,7 @@ public abstract class LivingEntityMixin extends Entity {
 	private void modifyVelocity(LivingEntity instance, Vec3 vec3) {
 		Vec3 negator = new Vec3(1.0 / 0.9900000095367432D, 1.0, 1.0 / 0.9900000095367432D);
 
-		int cloudSkipper = instance instanceof Player ? EnchantmentHelper.getItemEnchantmentLevel(BuiltInRegistries.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "cloudskipper")), ((Player) instance).getInventory().getArmor(2)) : 0;
+		int cloudSkipper = instance instanceof Player ? EnchantmentHelper.getItemEnchantmentLevel(BuiltInRegistries.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "cloudskipper")), ((Player) instance).getItemBySlot(EquipmentSlot.CHEST)) : 0;
 
 		double fac = 0;
 		double y = instance.position().y;

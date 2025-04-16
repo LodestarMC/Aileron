@@ -16,6 +16,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ElytraItem;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -99,7 +100,7 @@ public abstract class PlayerEntityMixin implements AileronPlayer {
 		}
 
 		BlockState underBlockState = level.getBlockState(self.blockPosition());
-		if (self.isCrouching() && underBlockState.is(BlockTags.CAMPFIRES) && self.getInventory().getArmor(2).getItem() instanceof ElytraItem) {
+		if (self.isCrouching() && underBlockState.is(BlockTags.CAMPFIRES) && self.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof ElytraItem) {
 
 			if (level.isClientSide) {
 				boolean isSoul = underBlockState.is(Blocks.SOUL_CAMPFIRE);
@@ -120,7 +121,7 @@ public abstract class PlayerEntityMixin implements AileronPlayer {
 				if (chargeTime % AileronConfig.smokestackChargeTicks() == 0 && chargeTime > 0) {
 					int stocks = self.getEntityData().get(AileronEntityData.SMOKE_STACK_CHARGES);
 
-					int smokeStockMaxLevel = EnchantmentHelper.getItemEnchantmentLevel(BuiltInRegistries.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "smokestack")), self.getInventory().getArmor(2));
+					int smokeStockMaxLevel = EnchantmentHelper.getItemEnchantmentLevel(BuiltInRegistries.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "smokestack")), self.getItemBySlot(EquipmentSlot.CHEST));
 
 					smokeCharge(true);
 				}
@@ -169,7 +170,7 @@ public abstract class PlayerEntityMixin implements AileronPlayer {
 			}
 
 			BlockState blockState = level.getBlockState(blockPosition);
-			if (blockState.is(BlockTags.CAMPFIRES) && AileronConfig.campfiresPushPlayers()) {
+			if (blockState.is(BlockTags.CAMPFIRES)) {
 				// player is over a campfire
 				// determine range of campfire
 				boolean isLit = blockState.getValue(CampfireBlock.LIT);
@@ -201,7 +202,7 @@ public abstract class PlayerEntityMixin implements AileronPlayer {
 					// if player is within range of campfire
 					if (distance < range) {
 						if (self.level().isClientSide) {
-							if (self.isLocalPlayer()) {
+							if (AileronConfig.campfiresPushPlayers() && self.isLocalPlayer()) {
 								double force = Math.min(range / distance / 7, 1.0);
 
 								Vec3 existingDeltaMovement = self.getDeltaMovement();
@@ -229,12 +230,14 @@ public abstract class PlayerEntityMixin implements AileronPlayer {
 
 	@Unique
 	public void smokeCharge(boolean shouldSetCharged) {
+		shouldSetCharged = AileronConfig.campfiresPushPlayers() && shouldSetCharged;
+
 		Player self = ((Player) (Object) this);
 		Level level = self.level();
 		ServerLevel serverLevel = (ServerLevel) level;
 
 		int stocks = self.getEntityData().get(AileronEntityData.SMOKE_STACK_CHARGES);
-		int smokeStockMaxLevel = EnchantmentHelper.getItemEnchantmentLevel(BuiltInRegistries.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "smokestack")), self.getInventory().getArmor(2));
+		int smokeStockMaxLevel = EnchantmentHelper.getItemEnchantmentLevel(BuiltInRegistries.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "smokestack")), self.getItemBySlot(EquipmentSlot.CHEST));
 		boolean chargeEffect = false;
 		if (shouldSetCharged && !charged) {
 			chargeEffect = true;

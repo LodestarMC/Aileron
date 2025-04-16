@@ -18,17 +18,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class MixinFireworkRocketItem {
 
 	@Inject(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/FireworkRocketEntity;<init>(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/LivingEntity;)V"), cancellable = true)
-	public void use(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir) {
-		if (!AileronConfig.fireworkChanges()) return;
+	public void use(Level level, Player player, InteractionHand interactionHand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir) {
+		if (AileronConfig.fireworkUseBehaviour() == AileronConfig.FireworkUseBehaviour.NORMAL) return;
+		if (AileronConfig.fireworkUseBehaviour() == AileronConfig.FireworkUseBehaviour.DISABLE) {
+			cir.setReturnValue(InteractionResultHolder.pass(player.getItemInHand(interactionHand)));
+			return;
+		}
 
-		ItemStack stack = player.getItemInHand(hand);
+		ItemStack stack = player.getItemInHand(interactionHand);
 		if (!player.getAbilities().instabuild) stack.shrink(1);
 
 		((AileronPlayer) player).setSmokeTrailTicks(100);
 		FireworkRocketItem item = (FireworkRocketItem) (Object) this;
 		player.getCooldowns().addCooldown(item, 100);
 		player.awardStat(Stats.ITEM_USED.get(item));
-		cir.setReturnValue(InteractionResultHolder.pass(stack));
+		cir.setReturnValue(InteractionResultHolder.sidedSuccess(player.getItemInHand(interactionHand), level.isClientSide()));
 	}
 
 }

@@ -4,7 +4,10 @@ import eu.midnightdust.lib.config.MidnightConfig;
 
 public class AileronConfig extends MidnightConfig {
 	@Comment public static Comment generalChanges;
-	@Entry public static boolean fireworkChanges = true;
+	@Entry public static FireworkUseBehaviour fireworkUseBehaviour = FireworkUseBehaviour.COSMETIC;
+	public enum FireworkUseBehaviour {
+		COSMETIC, NORMAL, DISABLE
+	}
 
 	@Comment public static Comment cameraSettings;
 	@Entry public static boolean doCameraRoll = true;
@@ -20,8 +23,8 @@ public class AileronConfig extends MidnightConfig {
 	@Comment public static Comment campfires;
 	@Entry public static boolean campfiresPushPlayers = true;
 
-	public static boolean fireworkChanges() {
-		return fireworkChanges;
+	public static FireworkUseBehaviour fireworkUseBehaviour() {
+		return fireworkUseBehaviour;
 	}
 
 	public static boolean doCameraRoll() {

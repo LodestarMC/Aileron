@@ -5,6 +5,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 
@@ -31,7 +32,7 @@ public class AileronGuiRender {
 
         int smokeStockLevel = EnchantmentHelper.getItemEnchantmentLevel(
                 BuiltInRegistries.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "smokestack")),
-                player.getInventory().getArmor(2)
+                player.getItemBySlot(EquipmentSlot.CHEST)
         );
 
         int screenX = (screenWidth / 2);
