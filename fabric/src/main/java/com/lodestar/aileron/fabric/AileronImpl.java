@@ -3,6 +3,7 @@ package com.lodestar.aileron.fabric;
 import com.google.common.collect.Iterables;
 import com.lodestar.aileron.Aileron;
 import com.lodestar.aileron.AileronEntityData;
+import com.lodestar.aileron.fabric.loot.AileronLootModifiers;
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.TrinketComponent;
 import dev.emi.trinkets.api.TrinketsApi;
@@ -59,5 +60,6 @@ public class AileronImpl implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		Aileron.init();
+		AileronLootModifiers.modifyLootTables();
 	}
 }

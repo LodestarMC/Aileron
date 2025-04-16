@@ -3,6 +3,7 @@ package com.lodestar.aileron.forge;
 import com.lodestar.aileron.Aileron;
 import com.lodestar.aileron.AileronEntityData;
 import com.lodestar.aileron.client.AileronClient;
+import com.lodestar.aileron.forge.loot.AileronLootModifiers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -14,9 +15,11 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
@@ -32,6 +35,10 @@ public class AileronImpl {
 	public AileronImpl() {
 		Aileron.init();
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> AileronClient::init);
+
+		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+		AileronLootModifiers.register(modEventBus);
 	}
 
 	public static boolean isElytra(ItemStack stack) {
