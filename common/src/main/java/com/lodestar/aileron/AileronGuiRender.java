@@ -14,7 +14,9 @@ public class AileronGuiRender {
     private static final ResourceLocation TEXTURE_EMPTY = new ResourceLocation("aileron:textures/gui/sprites/hud/smokestack_empty.png");
     private static final ResourceLocation TEXTURE_FULL = new ResourceLocation("aileron:textures/gui/sprites/hud/smokestack_full.png");
 
-    public static int moveAttackIndicator(int spriteX) {
+    public static int moveAttackIndicator() {
+        int spriteX = 0;
+
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) return spriteX;
         if (!Aileron.canChargeSmokeStack(player)) return spriteX;

@@ -14,26 +14,14 @@ public class GuiMixin {
 	@Shadow private int screenWidth;
 	@Shadow private int screenHeight;
 
-	@ModifyArg(
-			method = "renderHotbar",
-			at = @At(
-					value = "INVOKE",
-					target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIIII)V"
-			),
-			slice = @Slice(
-					from = @At(
-							value = "INVOKE",
-							target = "Lcom/mojang/blaze3d/systems/RenderSystem;enableBlend()V"
-					),
-					to = @At(
-							value = "INVOKE",
-							target = "Lcom/mojang/blaze3d/systems/RenderSystem;disableBlend()V"
-					)
-			),
-			index = 1
-	)
-	private int renderAttackIndicator(int x) {
-		return AileronGuiRender.moveAttackIndicator(x);
+	@Inject(method = "renderHotbar", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;enableBlend()V"))
+	public void moveAttackIndicator1(float f, GuiGraphics guiGraphics, CallbackInfo ci) {
+		guiGraphics.pose().translate(AileronGuiRender.moveAttackIndicator(), 0, 0);
+	}
+
+	@Inject(method = "renderHotbar", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;disableBlend()V"))
+	public void moveAttackIndicator2(float f, GuiGraphics guiGraphics, CallbackInfo ci) {
+		guiGraphics.pose().translate(-AileronGuiRender.moveAttackIndicator(), 0, 0);
 	}
 
 	@Inject(method = "renderHotbar", at = @At(value = "TAIL"))
