@@ -194,7 +194,7 @@ public abstract class PlayerEntityMixin implements AileronPlayer {
 					float maxStrength = AileronConfig.campfirePushMaxStrength();
 					float minStrength = AileronConfig.campfirePushBaseStrength();
 					float rangePerNeighbor = (maxStrength - minStrength) / 4;
-					int range = isExtendedRange ? maxStrength : minStrength + (int) (rangePerNeighbor * neighbors);
+					int range = (int) (isExtendedRange ? maxStrength : minStrength + (rangePerNeighbor * neighbors));
 
 					double distance = Math.abs(blockPosition.getY() - self.position().y);
 
