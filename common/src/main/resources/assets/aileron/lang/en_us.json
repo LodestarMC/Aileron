@@ -20,6 +20,8 @@
   "aileron.midnightconfig.cameraRollSpeed": "Camera Tilt Speed",
   "aileron.midnightconfig.campfires": "Campfires",
   "aileron.midnightconfig.campfiresPushPlayers": "Push Players",
+  "aileron.midnightconfig.campfirePushMaxStrength": "Max Push Strength",
+  "aileron.midnightconfig.campfirePushBaseStrength": "Base Push Strength",
   "key.category.aileron": "Aileron",
   "key.aileron.smokestack_boost": "Smokestack Boost"
 }

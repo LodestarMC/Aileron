@@ -19,7 +19,9 @@
   "aileron.midnightconfig.cameraRollScale": "Сила наклона камеры",
   "aileron.midnightconfig.cameraRollSpeed": "Скорость наклона камеры",
   "aileron.midnightconfig.campfires": "Костры",
-  "aileron.midnightconfig.campfiresPushPlayers": "Толкание игроков",
+  "aileron.midnightconfig.campfiresPushPlayers": "Подъём игроков",
+  "aileron.midnightconfig.campfirePushMaxStrength": "Максимальная сила подъёма",
+  "aileron.midnightconfig.campfirePushBaseStrength": "Начальная сила подъёма",
   "key.category.aileron": "Aileron",
   "key.aileron.smokestack_boost": "Дымовой заряд"
 }
