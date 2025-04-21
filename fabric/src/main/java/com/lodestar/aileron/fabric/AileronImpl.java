@@ -25,8 +25,9 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class AileronImpl implements ModInitializer {
+
 	public static boolean isElytra(ItemStack stack) {
-		return stack.is(Items.ELYTRA) || stack.getItem() instanceof FabricElytraItem || ElytraItem.isFlyEnabled(stack);
+		return stack.is(Items.ELYTRA) || stack.getItem() instanceof ElytraItem || stack.getItem() instanceof FabricElytraItem;
 	}
 
 	public static ItemStack getAccessoryElytra(LivingEntity entity) {
@@ -50,7 +51,7 @@ public class AileronImpl implements ModInitializer {
 	}
 
 	public static boolean canChargeSmokeStack(@Nullable Player player) {
-		return player != null && ((isElytra(Aileron.getElytra(player)) && ElytraItem.isFlyEnabled(Aileron.getElytra(player))) || EntityElytraEvents.ALLOW.invoker().allowElytraFlight(player)) && ((player.getEntityData().get(AileronEntityData.SMOKE_STACK_CHARGES) > 0 && player.isFallFlying()) || player.isCrouching());
+		return player != null && ((Aileron.isElytra(Aileron.getElytra(player)) && ElytraItem.isFlyEnabled(Aileron.getElytra(player))) || EntityElytraEvents.ALLOW.invoker().allowElytraFlight(player)) && ((player.getEntityData().get(AileronEntityData.SMOKE_STACK_CHARGES) > 0 && player.isFallFlying()) || player.isCrouching());
 	}
 
 	public static EnchantmentCategory getElytraEnchantmentCategory() {

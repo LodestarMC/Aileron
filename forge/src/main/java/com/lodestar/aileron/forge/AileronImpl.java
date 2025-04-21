@@ -42,7 +42,7 @@ public class AileronImpl {
 	}
 
 	public static boolean isElytra(ItemStack stack) {
-		return stack.is(Items.ELYTRA) || stack.getItem() instanceof ElytraItem || ElytraItem.isFlyEnabled(stack);
+		return stack.is(Items.ELYTRA) || stack.getItem() instanceof ElytraItem || stack.canElytraFly(null);
 	}
 
 	public static ItemStack getAccessoryElytra(LivingEntity entity) {
@@ -69,9 +69,7 @@ public class AileronImpl {
 		return ModList.get().isLoaded(modId);
 	}
 
-	public static final EnchantmentCategory ELYTRA_ENCHANTMENT_CATEGORY = EnchantmentCategory.create("elytra", item -> {
-		return Aileron.isElytra(item.getDefaultInstance());
-	});
+	public static final EnchantmentCategory ELYTRA_ENCHANTMENT_CATEGORY = EnchantmentCategory.create("elytra", item -> Aileron.isElytra(item.getDefaultInstance()));
 	public static EnchantmentCategory getElytraEnchantmentCategory() {
 		return ELYTRA_ENCHANTMENT_CATEGORY;
 	}

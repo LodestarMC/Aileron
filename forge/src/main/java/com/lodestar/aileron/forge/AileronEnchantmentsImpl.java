@@ -15,10 +15,10 @@ public class AileronEnchantmentsImpl {
 			DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, Aileron.MOD_ID);
 
 	public static final RegistryObject<Enchantment> SMOKESTACK = ENCHANTMENTS.register("smokestack",
-			() -> new SmokeStackEnchantment(Enchantment.Rarity.UNCOMMON));
+            SmokeStackEnchantment::new);
 
 	public static final RegistryObject<Enchantment> CLOUDSKIPPER = ENCHANTMENTS.register("cloudskipper",
-			() -> new CloudSkipperEnchantment(Enchantment.Rarity.UNCOMMON));
+            CloudSkipperEnchantment::new);
 
 	public static void register(IEventBus bus) {
 		ENCHANTMENTS.register(bus);
