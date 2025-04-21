@@ -22,6 +22,8 @@ public class AileronConfig extends MidnightConfig {
 
 	@Comment public static Comment campfires;
 	@Entry public static boolean campfiresPushPlayers = true;
+	@Entry public static float campfirePushMaxStrength = 24;
+	@Entry public static float campfirePushBaseStrength = 10;
 
 	public static FireworkUseBehaviour fireworkUseBehaviour() {
 		return fireworkUseBehaviour;
@@ -57,6 +59,12 @@ public class AileronConfig extends MidnightConfig {
 
 	public static boolean campfiresPushPlayers() {
 		return campfiresPushPlayers;
+	}
+	public static float campfirePushMaxStrength() {
+		return campfirePushMaxStrength;
+	}
+	public static float campfirePushBaseStrength() {
+		return campfirePushBaseStrength;
 	}
 
 	public static void init() {
