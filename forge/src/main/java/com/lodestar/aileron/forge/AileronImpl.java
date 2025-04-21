@@ -42,7 +42,7 @@ public class AileronImpl {
 	}
 
 	public static boolean isElytra(ItemStack stack) {
-		return stack.is(Items.ELYTRA) || stack.getItem() instanceof ElytraItem;
+		return stack.is(Items.ELYTRA) || stack.getItem() instanceof ElytraItem || ElytraItem.isFlyEnabled(stack);
 	}
 
 	public static ItemStack getAccessoryElytra(LivingEntity entity) {

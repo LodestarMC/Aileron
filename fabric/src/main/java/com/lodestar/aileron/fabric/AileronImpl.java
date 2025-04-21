@@ -26,7 +26,7 @@ import java.util.Optional;
 
 public class AileronImpl implements ModInitializer {
 	public static boolean isElytra(ItemStack stack) {
-		return stack.is(Items.ELYTRA) || stack.getItem() instanceof FabricElytraItem;
+		return stack.is(Items.ELYTRA) || stack.getItem() instanceof FabricElytraItem || ElytraItem.isFlyEnabled(stack);
 	}
 
 	public static ItemStack getAccessoryElytra(LivingEntity entity) {
