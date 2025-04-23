@@ -1,18 +1,14 @@
 package com.lodestar.aileron.mixin;
 
-import com.lodestar.aileron.Aileron;
 import com.lodestar.aileron.AileronConfig;
+import com.lodestar.aileron.accessor.AileronPlayer;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
@@ -31,7 +27,7 @@ public abstract class LivingEntityMixin extends Entity {
 	private void modifyVelocity(LivingEntity instance, Vec3 vec3) {
 		Vec3 negator = new Vec3(1.0 / 0.9900000095367432D, 1.0, 1.0 / 0.9900000095367432D);
 
-		int cloudSkipper = instance instanceof Player ? EnchantmentHelper.getItemEnchantmentLevel(BuiltInRegistries.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "cloudskipper")), Aileron.getElytra((Player) instance)) : 0;
+		double cloudskipperDrag = instance instanceof Player ? ((AileronPlayer) (Player) instance).getCloudskipperDrag() : 1.0;
 
 		double fac = 0;
 		double y = instance.position().y;
@@ -46,7 +42,7 @@ public abstract class LivingEntityMixin extends Entity {
 			fac = 1;
 
 		fac *= 0.6 * AileronConfig.cloudskipperSpeedMultiplier();
-		fac *= cloudSkipper / 3.0;
+		fac *= (1.0 - cloudskipperDrag);
 
 		if (fac > 0.1 && !level().isClientSide && tickCount % ((int) (1.0 - fac) * 2 + 1) == 0) {
 			ServerLevel serverLevel = ((ServerLevel) level());

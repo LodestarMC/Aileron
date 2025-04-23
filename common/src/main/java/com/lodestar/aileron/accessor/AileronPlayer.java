@@ -12,4 +12,12 @@ public interface AileronPlayer {
 	int getCampfireDamageIFrames();
 
 	void setCampfireDamageIFrames(int campfireDamageIFrames);
+
+	int getSmokestackCharges();
+
+	void setSmokestackCharges(int charges);
+
+	int getSmokestackCapacity();
+
+	double getCloudskipperDrag();
 }

@@ -3,6 +3,15 @@
   "enchantment.aileron.smokestack.desc": "Дозволяє елітрі накопичувати заряди диму від багаття для подальшого застосування.",
   "enchantment.aileron.cloudskipper": "Хмароліт",
   "enchantment.aileron.cloudskipper.desc": "Знижує силу опору елітр вище рівня хмар.",
+
+  "attribute.aileron.cloudskipper_drag": "Опір хмароліта",
+  "attribute.aileron.smokestack_capacity": "Димові заряди",
+
+  "tag.item.aileron.elytra": "Елітри",
+
+  "key.category.aileron": "Aileron",
+  "key.aileron.smokestack_boost": "Димовий заряд",
+
   "aileron.midnightconfig.title": "Конфігурація Aileron",
   "aileron.midnightconfig.generalChanges": "Загальні зміни",
   "aileron.midnightconfig.fireworkUseBehaviour": "Використання феєрверків",
@@ -21,7 +30,5 @@
   "aileron.midnightconfig.campfires": "Багаття",
   "aileron.midnightconfig.campfiresPushPlayers": "Підйом гравців",
   "aileron.midnightconfig.campfirePushMaxStrength": "Максимальна сила підйому",
-  "aileron.midnightconfig.campfirePushBaseStrength": "Початкова сила підйому",
-  "key.category.aileron": "Aileron",
-  "key.aileron.smokestack_boost": "Димовий заряд"
+  "aileron.midnightconfig.campfirePushBaseStrength": "Початкова сила підйому"
 }

@@ -3,6 +3,15 @@
   "enchantment.aileron.smokestack.desc": "Allows elytra boosts from campfires to be stored for later use.",
   "enchantment.aileron.cloudskipper": "Cloudskipper",
   "enchantment.aileron.cloudskipper.desc": "Reduces horizontal elytra drag while above the cloud layer.",
+
+  "attribute.aileron.cloudskipper_drag": "Cloudskipper Drag",
+  "attribute.aileron.smokestack_capacity": "Smokestack Capacity",
+
+  "tag.item.aileron.elytra": "Elytras",
+
+  "key.category.aileron": "Aileron",
+  "key.aileron.smokestack_boost": "Smokestack Boost",
+
   "aileron.midnightconfig.title": "Aileron Config",
   "aileron.midnightconfig.generalChanges": "General Changes",
   "aileron.midnightconfig.fireworkUseBehaviour": "Firework Use Behaviour",
@@ -21,7 +30,5 @@
   "aileron.midnightconfig.campfires": "Campfires",
   "aileron.midnightconfig.campfiresPushPlayers": "Push Players",
   "aileron.midnightconfig.campfirePushMaxStrength": "Max Push Strength",
-  "aileron.midnightconfig.campfirePushBaseStrength": "Base Push Strength",
-  "key.category.aileron": "Aileron",
-  "key.aileron.smokestack_boost": "Smokestack Boost"
+  "aileron.midnightconfig.campfirePushBaseStrength": "Base Push Strength"
 }

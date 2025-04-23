@@ -1,0 +1,34 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+#issueTrackerURL = ""
+license = "GNU Lesser General Public License"
+
+[[mods]]
+modId = "aileron"
+version = "${version}"
+displayName = "Aileron"
+authors = "Team Lodestar"
+description = '''
+A unique and expansive Elytra overhaul
+'''
+#logoFile = ""
+
+[[dependencies.aileron]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.aileron]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[mixins]]
+config = "aileron-common.mixins.json"
+
+[[mixins]]
+config = "aileron-neoforge.mixins.json"

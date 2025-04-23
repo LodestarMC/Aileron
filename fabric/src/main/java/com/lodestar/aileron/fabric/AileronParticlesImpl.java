@@ -11,6 +11,6 @@ public class AileronParticlesImpl {
 	public static final SimpleParticleType CUSTOM_CAMPFIRE_SMOKE = FabricParticleTypes.simple();
 
 	public static void register() {
-		Registry.register(BuiltInRegistries.PARTICLE_TYPE, new ResourceLocation(Aileron.MOD_ID, "custom_campfire_smoke"), CUSTOM_CAMPFIRE_SMOKE);
+		Registry.register(BuiltInRegistries.PARTICLE_TYPE, ResourceLocation.fromNamespaceAndPath(Aileron.MOD_ID, "custom_campfire_smoke"), CUSTOM_CAMPFIRE_SMOKE);
 	}
 }

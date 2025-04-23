@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "com.lodestar.aileron.mixin.neoforge",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+  ],
+  "mixins": [
+    "QuarkCompatMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8.5"
+}

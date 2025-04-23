@@ -38,7 +38,7 @@ public class CampfireBlockEntityMixin {
 
 		if (neighbors > 0) {
 			RandomSource random = level.getRandom();
-			SimpleParticleType particleType = (SimpleParticleType) BuiltInRegistries.PARTICLE_TYPE.get(new ResourceLocation(Aileron.MOD_ID, "custom_campfire_smoke"));
+			SimpleParticleType particleType = (SimpleParticleType) BuiltInRegistries.PARTICLE_TYPE.get(ResourceLocation.fromNamespaceAndPath(Aileron.MOD_ID, "custom_campfire_smoke"));
 			level.addAlwaysVisibleParticle(particleType, true, (double) blockPos.getX() + 0.5D + random.nextDouble() / 3.0D * (double) (random.nextBoolean() ? 1 : -1), (double) blockPos.getY() + random.nextDouble() + random.nextDouble(), (double) blockPos.getZ() + 0.5D + random.nextDouble() / 3.0D * (double) (random.nextBoolean() ? 1 : -1), neighbors * 40 + (bl ? 280 : 80), 0.07D, 0.0D);
 			if (bl2) {
 				level.addParticle(ParticleTypes.SMOKE, (double) blockPos.getX() + 0.5D + random.nextDouble() / 4.0D * (double) (random.nextBoolean() ? 1 : -1), (double) blockPos.getY() + 0.4D, (double) blockPos.getZ() + 0.5D + random.nextDouble() / 4.0D * (double) (random.nextBoolean() ? 1 : -1), 0.0D, 0.005D, 0.0D);

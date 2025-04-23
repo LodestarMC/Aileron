@@ -1,0 +1,36 @@
+{
+  "description": {
+    "translate": "enchantment.aileron.smokestack"
+  },
+  "effects": {
+    "minecraft:attributes": [
+      {
+        "amount": {
+          "type": "minecraft:linear",
+          "base": 1,
+          "per_level_above_first": 1
+        },
+        "attribute": "aileron:smokestack_capacity",
+        "id": "aileron:enchantment.smokestack",
+        "operation": "add_value"
+      }
+    ]
+  },
+  "supported_items": "minecraft:elytra",
+  "primary_items": "minecraft:elytra",
+  "exclusive_set": "aileron:cloudskipper",
+  "weight": 6,
+  "max_level": 3,
+  "min_cost": {
+    "base": 5,
+    "per_level_above_first": 8
+  },
+  "max_cost": {
+    "base": 55,
+    "per_level_above_first": 8
+  },
+  "anvil_cost": 2,
+  "slots": [
+    "armor"
+  ]
+}

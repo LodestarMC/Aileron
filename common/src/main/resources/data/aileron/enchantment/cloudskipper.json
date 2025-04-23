@@ -1,0 +1,36 @@
+{
+  "description": {
+    "translate": "enchantment.aileron.cloudskipper"
+  },
+  "effects": {
+    "minecraft:attributes": [
+      {
+        "amount": {
+          "type": "minecraft:linear",
+          "base": -0.4,
+          "per_level_above_first": -0.3
+        },
+        "attribute": "aileron:cloudskipper_drag",
+        "id": "aileron:enchantment.cloudskipper",
+        "operation": "add_multiplied_base"
+      }
+    ]
+  },
+  "supported_items": "minecraft:elytra",
+  "primary_items": "minecraft:elytra",
+  "exclusive_set": "aileron:smokestack",
+  "weight": 6,
+  "max_level": 3,
+  "min_cost": {
+    "base": 5,
+    "per_level_above_first": 8
+  },
+  "max_cost": {
+    "base": 55,
+    "per_level_above_first": 8
+  },
+  "anvil_cost": 2,
+  "slots": [
+    "armor"
+  ]
+}

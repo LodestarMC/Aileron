@@ -1,25 +1,25 @@
 package com.lodestar.aileron.mixin;
 
-import com.lodestar.aileron.Aileron;
-import com.lodestar.aileron.AileronConfig;
-import com.lodestar.aileron.AileronEntityData;
-import com.lodestar.aileron.AileronNetworking;
+import com.lodestar.aileron.*;
 import com.lodestar.aileron.accessor.AileronPlayer;
 import com.lodestar.aileron.client.AileronClient;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ElytraItem;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
@@ -31,9 +31,17 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
-public abstract class PlayerEntityMixin implements AileronPlayer {
+public abstract class PlayerEntityMixin extends LivingEntity implements AileronPlayer {
+
+	@Unique
+	private static final EntityDataAccessor<Integer> SMOKESTACK_CHARGES = SynchedEntityData.defineId(PlayerEntityMixin.class, EntityDataSerializers.INT);
+
+	protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, Level level) {
+		super(entityType, level);
+	}
 
 	int campfireDamageIFrames = 0;
 	int smokeTrailTicks = 0;
@@ -127,7 +135,7 @@ public abstract class PlayerEntityMixin implements AileronPlayer {
 			chargeTime = 0;
 
 			if (!level.isClientSide && !self.isFallFlying() && campfireDamageIFrames == 0 && !charged) {
-				self.getEntityData().set(AileronEntityData.SMOKE_STACK_CHARGES, 0);
+				setSmokestackCharges(0);
 			}
 		}
 
@@ -235,8 +243,8 @@ public abstract class PlayerEntityMixin implements AileronPlayer {
 		Level level = self.level();
 		ServerLevel serverLevel = (ServerLevel) level;
 
-		int stocks = self.getEntityData().get(AileronEntityData.SMOKE_STACK_CHARGES);
-		int smokeStockMaxLevel = EnchantmentHelper.getItemEnchantmentLevel(BuiltInRegistries.ENCHANTMENT.get(new ResourceLocation(Aileron.MOD_ID, "smokestack")), Aileron.getElytra(self));
+		int stocks = getSmokestackCharges();
+		int smokeStockMaxLevel = getSmokestackCapacity();
 		boolean chargeEffect = false;
 		if (shouldSetCharged && !charged) {
 			chargeEffect = true;
@@ -244,7 +252,7 @@ public abstract class PlayerEntityMixin implements AileronPlayer {
 		}
 		if (stocks < smokeStockMaxLevel) {
 			chargeEffect = true;
-			self.getEntityData().set(AileronEntityData.SMOKE_STACK_CHARGES, stocks + 1);
+			setSmokestackCharges(stocks + 1);
 		}
 		if (chargeEffect) {
 			for (ServerPlayer player : serverLevel.players()) {
@@ -255,9 +263,28 @@ public abstract class PlayerEntityMixin implements AileronPlayer {
 		}
 	}
 
+	@Inject(method = "createAttributes", at = @At("RETURN"))
+	private static void addAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
+		cir.getReturnValue()
+				.add(AileronAttributes.CLOUDSKIPPER_DRAG, 1)
+				.add(AileronAttributes.SMOKESTACK_CAPACITY, 0);
+	}
+
 	@Inject(method = "defineSynchedData", at = @At("TAIL"))
-	public void defineSynchedData(CallbackInfo ci) {
-		((Player) (Object) this).getEntityData().define(AileronEntityData.SMOKE_STACK_CHARGES, 0);
+	public void addSynchedData(SynchedEntityData.Builder builder, CallbackInfo ci) {
+		builder.define(SMOKESTACK_CHARGES, 0);
+	}
+
+	@Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
+	public void readSynchedData(CompoundTag compoundTag, CallbackInfo ci) {
+		if (compoundTag.contains("smokestack_charges")) {
+			setSmokestackCharges(compoundTag.getInt("smokestack_charges"));
+			}
+	}
+
+	@Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
+	public void writeSynchedData(CompoundTag compoundTag, CallbackInfo ci) {
+		compoundTag.putInt("smokestack_charges", getSmokestackCharges());
 	}
 
 	@Override
@@ -288,5 +315,35 @@ public abstract class PlayerEntityMixin implements AileronPlayer {
 	@Override
 	public void setCampfireDamageIFrames(int campfireDamageIFrames) {
 		this.campfireDamageIFrames = campfireDamageIFrames;
+	}
+
+	@Override
+	public int getSmokestackCharges() {
+		return this.entityData.get(SMOKESTACK_CHARGES);
+	}
+
+	@Override
+	public void setSmokestackCharges(int charges) {
+		this.entityData.set(SMOKESTACK_CHARGES, charges);
+	}
+
+	@Override
+	public double getCloudskipperDrag() {
+		Player self = (Player) (Object) this;
+		AttributeInstance attribute = self.getAttribute(AileronAttributes.CLOUDSKIPPER_DRAG);
+		if (attribute != null) {
+			return (int) attribute.getValue();
+		}
+		return 0;
+	}
+
+	@Override
+	public int getSmokestackCapacity() {
+		Player self = (Player) (Object) this;
+		AttributeInstance attribute = self.getAttribute(AileronAttributes.SMOKESTACK_CAPACITY);
+		if (attribute != null) {
+			return (int) attribute.getValue();
+		}
+		return 0;
 	}
 }
