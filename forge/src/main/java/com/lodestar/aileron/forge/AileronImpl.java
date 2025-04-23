@@ -41,10 +41,6 @@ public class AileronImpl {
 		AileronLootModifiers.register(modEventBus);
 	}
 
-	public static boolean isElytra(ItemStack stack) {
-		return stack.is(Items.ELYTRA) || stack.getItem() instanceof ElytraItem || stack.canElytraFly(null);
-	}
-
 	public static ItemStack getAccessoryElytra(LivingEntity entity) {
 		if (Aileron.isModInstalled("curios")) {
 			Optional<IItemHandlerModifiable> optional = CuriosApi.getCuriosInventory(entity).map(ICuriosItemHandler::getEquippedCurios);

@@ -1,0 +1,39 @@
+{
+  "values": [
+    "minecraft:elytra",
+
+    { "required": false, "id": "#minecraft:elytra" },
+    { "required": false, "id": "#minecraft:elytras" },
+    { "required": false, "id": "#minecraft:enchantable/elytra" },
+    { "required": false, "id": "#c:elytra" },
+
+    { "required": false, "id": "silentgear:elytra" },
+    { "required": false, "id": "mekanism:hdpe_elytra" },
+    { "required": false, "id": "alexsmobs:tarantula_hawk_elytra" },
+    { "required": false, "id": "wooden_elytra:wooden_elytra" },
+    { "required": false, "id": "mna:spectral_elytra" },
+    { "required": false, "id": "deeperdarker:soul_elytra" },
+    { "required": false, "id": "enderitemod:enderite_elytra_seperated" },
+    { "required": false, "id": "netherelytra:netherite_elytra" },
+    { "required": false, "id": "lilwings:white_fox_elytra" },
+    { "required": false, "id": "lilwings:swamp_hopper_elytra" },
+    { "required": false, "id": "lilwings:swallow_tail_elytra" },
+    { "required": false, "id": "lilwings:shroom_skipper_elytra" },
+    { "required": false, "id": "lilwings:painted_panther_elytra" },
+    { "required": false, "id": "lilwings:crystal_puff_elytra" },
+    { "required": false, "id": "lilwings:cloudy_puff_elytra" },
+    { "required": false, "id": "lilwings:butter_gold_elytra" },
+    { "required": false, "id": "lilwings:aponi_elytra" },
+    { "required": false, "id": "lilwings:red_applefly_elytra" },
+    { "required": false, "id": "lilwings:gold_applefly_elytra" },
+    { "required": false, "id": "lilwings:grayling_elytra" },
+    { "required": false, "id": "lilwings:grayling_flowering_elytra" },
+    { "required": false, "id": "lilwings:grayling_blooming_elytra" },
+    { "required": false, "id": "lolenderite:enderite_plated_elytra" },
+    { "required": false, "id": "mythicmetals:celestium_elytra" },
+    { "required": false, "id": "crystalmod:black_tourmaline_elytra" },
+    { "required": false, "id": "crystalmod:sapphire_elytra" },
+
+    { "required": false, "id": "#icarus:wings" }
+  ]
+}
