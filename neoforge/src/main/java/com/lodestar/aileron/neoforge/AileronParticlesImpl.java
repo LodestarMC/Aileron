@@ -11,7 +11,6 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
 
-@EventBusSubscriber(modid = Aileron.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class AileronParticlesImpl {
 	public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES =
 			DeferredRegister.create(BuiltInRegistries.PARTICLE_TYPE, Aileron.MOD_ID);

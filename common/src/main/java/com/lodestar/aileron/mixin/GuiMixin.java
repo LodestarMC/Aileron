@@ -15,9 +15,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Gui.class)
 public class GuiMixin {
 
-	@Shadow @Final
-	private Minecraft minecraft;
-
 	@Inject(method = "renderItemHotbar", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;enableBlend()V", ordinal = 1))
 	public void moveAttackIndicator1(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
 		guiGraphics.pose().translate(AileronGuiRender.moveAttackIndicator(), 0, 0);
@@ -28,7 +25,7 @@ public class GuiMixin {
 		guiGraphics.pose().translate(-AileronGuiRender.moveAttackIndicator(), 0, 0);
 	}
 
-	@Inject(method = "renderHotbarAndDecorations", at = @At(value = "TAIL"))
+	@Inject(method = "renderItemHotbar", at = @At(value = "TAIL"))
 	public void renderSmokeStackBar(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
 		AileronGuiRender.renderSmokeStackBar(guiGraphics);
 	}

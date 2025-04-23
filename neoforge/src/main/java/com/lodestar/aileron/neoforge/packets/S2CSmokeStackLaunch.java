@@ -1,13 +1,11 @@
 package com.lodestar.aileron.neoforge.packets;
 
 import com.lodestar.aileron.client.AileronClient;
-import net.minecraftforge.network.NetworkEvent;
-
-import java.util.function.Supplier;
+import com.lodestar.aileron.payloads.SmokestackLaunchPayload;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public class S2CSmokeStackLaunch {
-	public void handle(Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(AileronClient::launchPlayer);
-		ctx.get().setPacketHandled(true);
+	public static void handle(SmokestackLaunchPayload payload, final IPayloadContext context) {
+		context.enqueueWork(AileronClient::launchPlayer);
 	}
 }

@@ -1,11 +1,11 @@
 package com.lodestar.aileron.client.neoforge;
 
-import com.lodestar.aileron.neoforge.AileronNetworkingImpl;
-import com.lodestar.aileron.neoforge.packets.S2CSmokeStackDash;
+import com.lodestar.aileron.payloads.SmokestackDashPayload;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class AileronClientNetworkingImpl {
 	public static void sendSmokeStackDash() {
-		AileronNetworkingImpl.CHANNEL.sendToServer(new S2CSmokeStackDash());
+		PacketDistributor.sendToServer(new SmokestackDashPayload());
 	}
 
 	public static void register() {

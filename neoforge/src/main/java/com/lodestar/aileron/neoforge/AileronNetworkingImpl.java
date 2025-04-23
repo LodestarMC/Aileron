@@ -1,37 +1,40 @@
 package com.lodestar.aileron.neoforge;
 
 import com.lodestar.aileron.Aileron;
-import com.lodestar.aileron.neoforge.packets.S2CSmokeStackDash;
+import com.lodestar.aileron.neoforge.packets.C2SSmokeStackDash;
 import com.lodestar.aileron.neoforge.packets.S2CSmokeStackLaunch;
-import net.minecraft.resources.ResourceLocation;
+import com.lodestar.aileron.payloads.SmokestackDashPayload;
+import com.lodestar.aileron.payloads.SmokestackLaunchPayload;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.NetworkDirection;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.network.simple.SimpleChannel;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
-import java.util.Optional;
-
+@EventBusSubscriber(modid = Aileron.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class AileronNetworkingImpl {
 	private static final String PROTOCOL_VERSION = "1";
 
-	public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
-			new ResourceLocation(Aileron.MOD_ID, "main"),
-			() -> PROTOCOL_VERSION,
-			PROTOCOL_VERSION::equals,
-			PROTOCOL_VERSION::equals
-	);
-
-	public static int packetID = 0;
-
 	public static void sendSmokeStackLaunch(ServerPlayer player) {
-		AileronNetworkingImpl.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new S2CSmokeStackLaunch());
+		PacketDistributor.sendToPlayer(player, new SmokestackLaunchPayload());
+	}
+
+	@SubscribeEvent
+	public static void register(final RegisterPayloadHandlersEvent event) {
+		final PayloadRegistrar registrar = event.registrar(PROTOCOL_VERSION);
+		registrar.playToServer(
+				SmokestackDashPayload.ID,
+				SmokestackDashPayload.CODEC,
+				C2SSmokeStackDash::handle
+		);
+		registrar.playToClient(
+				SmokestackLaunchPayload.ID,
+				SmokestackLaunchPayload.CODEC,
+				S2CSmokeStackLaunch::handle
+		);
 	}
 
 	public static void register() {
-		CHANNEL.registerMessage(packetID++, S2CSmokeStackLaunch.class, (a, b) -> {
-		}, fBBuf -> new S2CSmokeStackLaunch(), S2CSmokeStackLaunch::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-		CHANNEL.registerMessage(packetID++, S2CSmokeStackDash.class, (a, b) -> {
-		}, fBBuf -> new S2CSmokeStackDash(), S2CSmokeStackDash::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
 	}
 }
