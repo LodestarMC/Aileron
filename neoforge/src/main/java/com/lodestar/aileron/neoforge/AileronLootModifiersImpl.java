@@ -1,7 +1,6 @@
-package com.lodestar.aileron.neoforge.loot;
+package com.lodestar.aileron.neoforge;
 
 import com.lodestar.aileron.Aileron;
-import com.lodestar.aileron.neoforge.AileronImpl;
 import com.mojang.serialization.MapCodec;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;

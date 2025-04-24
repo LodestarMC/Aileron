@@ -1,4 +1,4 @@
-package com.lodestar.aileron.loot;
+package com.lodestar.aileron;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
 

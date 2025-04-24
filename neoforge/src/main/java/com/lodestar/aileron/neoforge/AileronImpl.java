@@ -1,14 +1,11 @@
 package com.lodestar.aileron.neoforge;
 
 import com.lodestar.aileron.Aileron;
-import com.lodestar.aileron.AileronEntityData;
 import com.lodestar.aileron.accessor.AileronPlayer;
 import com.lodestar.aileron.client.AileronClient;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ElytraItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
@@ -33,6 +30,8 @@ public class AileronImpl {
 		if (FMLLoader.getDist().isClient()) {
 			AileronClient.init();
 		}
+
+		AileronImpl.modEventBus = null;
 	}
 
 	public static ItemStack getAccessoryElytra(LivingEntity entity) {

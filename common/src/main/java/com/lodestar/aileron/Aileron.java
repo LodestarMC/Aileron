@@ -20,6 +20,7 @@ public class Aileron {
 		AileronConfig.init();
 		AileronParticles.register();
 		AileronAttributes.register();
+		AileronLootModifiers.register();
 		AileronNetworking.register();
 	}
 

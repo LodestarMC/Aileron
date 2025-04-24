@@ -1,4 +1,4 @@
-package com.lodestar.aileron.fabric.loot;
+package com.lodestar.aileron.fabric;
 
 import com.lodestar.aileron.AileronEnchantments;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
@@ -14,7 +14,7 @@ public class AileronLootModifiersImpl {
 
     public static void modifyLootTables() {
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registry) -> {
-            if (END_CITY_TREASURE_ID.equals(key.registry())) {
+            if (key.location().equals(END_CITY_TREASURE_ID)) {
                 LootPool.Builder poolBuilder = LootPool.lootPool()
                         .add(LootItem.lootTableItem(Items.BOOK)
                                 .apply(EnchantRandomlyFunction.randomEnchantment().withEnchantment(registry.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(AileronEnchantments.CLOUDSKIPPER)))

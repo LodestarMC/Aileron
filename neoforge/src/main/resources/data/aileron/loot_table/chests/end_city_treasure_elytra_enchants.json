@@ -1,16 +1,15 @@
 {
+  "type": "minecraft:chest",
   "pools": [
     {
-      "rolls": 1,
+      "rolls": 1.0,
       "entries": [
         {
           "type": "minecraft:item",
           "functions": [
             {
-              "enchantments": [
-                "aileron:cloudskipper"
-              ],
-              "function": "minecraft:enchant_randomly"
+              "function": "minecraft:enchant_randomly",
+              "options": "aileron:cloudskipper"
             }
           ],
           "name": "minecraft:book",
@@ -20,10 +19,8 @@
           "type": "minecraft:item",
           "functions": [
             {
-              "enchantments": [
-                "aileron:smokestack"
-              ],
-              "function": "minecraft:enchant_randomly"
+              "function": "minecraft:enchant_randomly",
+              "options": "aileron:smokestack"
             }
           ],
           "name": "minecraft:book",
@@ -35,5 +32,6 @@
         }
       ]
     }
-  ]
+  ],
+  "random_sequence": "minecraft:chests/end_city_treasure"
 }
