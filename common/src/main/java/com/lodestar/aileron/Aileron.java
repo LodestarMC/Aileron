@@ -22,6 +22,7 @@ public class Aileron {
 		AileronAttributes.register();
 		AileronLootModifiers.register();
 		AileronNetworking.register();
+		AileronAccessoryCompat.register();
 	}
 
 	@ExpectPlatform
@@ -34,17 +35,12 @@ public class Aileron {
 		return false;
 	}
 
-	@ExpectPlatform
-	public static ItemStack getAccessoryElytra(LivingEntity entity) {
-		return ItemStack.EMPTY;
-	}
-
 	public static boolean isElytra(ItemStack stack) {
 		return stack.is(AileronTags.ELYTRA);
 	}
 
 	public static ItemStack getElytra(LivingEntity entity) {
-		ItemStack stack = getAccessoryElytra(entity);
+		ItemStack stack = AileronAccessoryCompat.getAccessoryElytra(entity);
 		if (stack.isEmpty()) {
 			ItemStack chestItem = entity.getItemBySlot(EquipmentSlot.CHEST);
 			stack = isElytra(chestItem) ? chestItem : ItemStack.EMPTY;

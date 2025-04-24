@@ -22,22 +22,6 @@ import java.util.ArrayList;
 
 public class AileronImpl implements ModInitializer {
 
-	public static ItemStack getAccessoryElytra(LivingEntity entity) {
-		if (Aileron.isModInstalled("trinkets")) {
-			var v = TrinketsApi.TRINKET_COMPONENT.maybeGet(entity);
-			if (v.isPresent()) {
-				TrinketComponent component = v.get();
-				ArrayList<Tuple<SlotReference, ItemStack>> elytras = new ArrayList<>(component.getEquipped(
-						(itemStack -> (Aileron.isElytra(itemStack) && (itemStack.getMaxDamage() - itemStack.getDamageValue() > 0)))
-				));
-				if (!elytras.isEmpty()) {
-					return elytras.getFirst().getB();
-				}
-			}
-		}
-		return ItemStack.EMPTY;
-	}
-
 	public static boolean isModInstalled(String modId) {
 		return FabricLoader.getInstance().isModLoaded(modId);
 	}

@@ -34,22 +34,6 @@ public class AileronImpl {
 		AileronImpl.modEventBus = null;
 	}
 
-	public static ItemStack getAccessoryElytra(LivingEntity entity) {
-		if (Aileron.isModInstalled("curios")) {
-			Optional<IItemHandlerModifiable> optional = CuriosApi.getCuriosInventory(entity).map(ICuriosItemHandler::getEquippedCurios);
-			if (optional.isPresent()) {
-				IItemHandlerModifiable handler = optional.get();
-				for (int i = 0; i < handler.getSlots(); i++) {
-					ItemStack stack = handler.getStackInSlot(i);
-					if (Aileron.isElytra(stack) && (stack.getMaxDamage() - stack.getDamageValue() > 0)) {
-						return stack;
-					}
-				}
-			}
-		}
-		return ItemStack.EMPTY;
-	}
-
 	public static boolean canChargeSmokeStack(@Nullable Player player) {
 		return player != null && Aileron.getElytra(player).canElytraFly(player) && ((((AileronPlayer)player).getSmokestackCharges() > 0 && player.isFallFlying()) || player.isCrouching());
 	}
