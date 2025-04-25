@@ -39,11 +39,19 @@ public class Aileron {
 		return stack.is(AileronTags.ELYTRA);
 	}
 
+	public static ItemStack getChestElytra(LivingEntity entity) {
+		ItemStack chestItem = entity.getItemBySlot(EquipmentSlot.CHEST);
+		if (isElytra(chestItem)) {
+			return chestItem;
+		}
+		return ItemStack.EMPTY;
+	}
+
 	public static ItemStack getElytra(LivingEntity entity) {
 		ItemStack stack = AileronAccessoryCompat.getAccessoryElytra(entity);
 		if (stack.isEmpty()) {
-			ItemStack chestItem = entity.getItemBySlot(EquipmentSlot.CHEST);
-			stack = isElytra(chestItem) ? chestItem : ItemStack.EMPTY;
+			ItemStack chestItem = getChestElytra(entity);
+			stack = (!chestItem.isEmpty()) ? chestItem : ItemStack.EMPTY;
 		}
 		return stack;
 	}

@@ -2,10 +2,12 @@ package com.lodestar.aileron.neoforge;
 
 import com.lodestar.aileron.Aileron;
 import com.lodestar.aileron.AileronAccessoryCompat;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.event.CurioChangeEvent;
@@ -18,6 +20,7 @@ public class AileronAccessoryCompatImpl {
     public static void register() {
         if (isAccessoryModInstalled()) {
             NeoForge.EVENT_BUS.addListener(AileronAccessoryCompatImpl::curioChange);
+            NeoForge.EVENT_BUS.addListener(AileronAccessoryCompatImpl::equipmentChange);
         }
     }
 
@@ -26,9 +29,12 @@ public class AileronAccessoryCompatImpl {
     }
 
     public static void curioChange(CurioChangeEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            AileronAccessoryCompat.accessoryChange(player, event.getFrom(), event.getTo());
-        }
+        AileronAccessoryCompat.accessoryElytraChange(event.getEntity(), event.getFrom(), true);
+        AileronAccessoryCompat.accessoryElytraChange(event.getEntity(), event.getTo(), false);
+    }
+
+    public static void equipmentChange(LivingEquipmentChangeEvent event) {
+        AileronAccessoryCompat.equipmentChange(event.getEntity(), event.getSlot(), event.getFrom(), event.getTo());
     }
 
     public static ItemStack getAccessoryElytra(LivingEntity entity) {

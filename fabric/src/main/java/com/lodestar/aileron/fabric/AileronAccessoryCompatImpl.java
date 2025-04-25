@@ -5,9 +5,10 @@ import com.lodestar.aileron.AileronAccessoryCompat;
 import dev.emi.trinkets.api.*;
 import dev.emi.trinkets.api.event.TrinketEquipCallback;
 import dev.emi.trinkets.api.event.TrinketUnequipCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.minecraft.util.Tuple;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
@@ -18,13 +19,20 @@ public class AileronAccessoryCompatImpl {
         if (isAccessoryModInstalled()) {
             TrinketUnequipCallback.EVENT.register(
                 (stack, slot, entity) -> {
-                    AileronAccessoryCompat.accessoryChangeItem(entity, stack, true);
+                    AileronAccessoryCompat.accessoryElytraChange(entity, stack, true);
                 }
             );
             TrinketEquipCallback.EVENT.register(
-                    (stack, slot, entity) -> {
-                        AileronAccessoryCompat.accessoryChangeItem(entity, stack, false);
+                (stack, slot, entity) -> {
+                    AileronAccessoryCompat.accessoryElytraChange(entity, stack, false);
+                }
+            );
+            ServerEntityEvents.EQUIPMENT_CHANGE.register(
+                (entity, slot, from, to) -> {
+                    if (slot == EquipmentSlot.CHEST) {
+                        AileronAccessoryCompat.equipmentChange(entity, slot, from, to);
                     }
+                }
             );
         }
     }
