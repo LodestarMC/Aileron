@@ -7,10 +7,13 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 public class Aileron {
@@ -82,6 +85,17 @@ public class Aileron {
 			serverLevel.sendParticles(serverPlayer, ParticleTypes.CAMPFIRE_COSY_SMOKE, false, x, y, z, 40, 0.5, 0.5, 0.5, 0.1);
 			serverLevel.sendParticles(serverPlayer, ParticleTypes.SMOKE, false, x, y, z, 120, 0.5, 0.5, 0.5, 0.4);
 		}
+	}
+
+	public static boolean isElytraFlightPassable(BlockState blockState) {
+		return (blockState.getBlock() instanceof LeavesBlock) || blockState.is(AileronTags.ELYTRA_FLIGHT_PASSABLE);
+	}
+
+	public static boolean canGoThroughLeaves(LivingEntity entity) {
+		if (entity != null) {
+			return (entity.isFallFlying()) && (entity.getDeltaMovement().length() > 0.3);
+		}
+		return false;
 	}
 
 }

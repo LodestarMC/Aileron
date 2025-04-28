@@ -1,23 +1,24 @@
 {
-	"required": true,
-	"package": "com.lodestar.aileron.mixin",
-	"compatibilityLevel": "JAVA_21",
-	"client": [
-		"CameraMixin",
-		"GuiMixin",
-		"MinecraftMixin",
-		"MixinGameRenderer"
-	],
-	"mixins": [
-		"CampfireBlockEntityMixin",
-		"CampfireBlockMixin",
-		"EnchantmentHelperMixin",
-		"LivingEntityMixin",
-		"MixinFireworkRocketItem",
-		"PlayerEntityMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
-	},
-	"minVersion": "0.8.5"
+  "required": true,
+  "package": "com.lodestar.aileron.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "CameraMixin",
+    "GuiMixin",
+    "MinecraftMixin",
+    "MixinGameRenderer"
+  ],
+  "mixins": [
+    "CampfireBlockEntityMixin",
+    "CampfireBlockMixin",
+    "EnchantmentHelperMixin",
+    "BlockBehaviourMixin",
+    "LivingEntityMixin",
+    "MixinFireworkRocketItem",
+    "PlayerEntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8.5"
 }

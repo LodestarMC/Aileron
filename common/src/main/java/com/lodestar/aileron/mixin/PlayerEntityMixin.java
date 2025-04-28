@@ -108,7 +108,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements AileronP
 		}
 
 		BlockState underBlockState = level.getBlockState(self.blockPosition());
-		if (self.isCrouching() && underBlockState.is(BlockTags.CAMPFIRES) && Aileron.canChargeSmokeStack(self)) {
+		if (self.isCrouching() && (getSmokeForce() >= 0) && Aileron.canChargeSmokeStack(self)) {
 
 			if (level.isClientSide) {
 				boolean isSoul = underBlockState.is(Blocks.SOUL_CAMPFIRE);
@@ -163,70 +163,22 @@ public abstract class PlayerEntityMixin extends LivingEntity implements AileronP
 		}
 
 		if (self.isFallFlying()) {
-			int maxRange = 38;
-			int depth = 0;
-
-			BlockPos blockPosition = self.blockPosition();
-
-			while (depth < maxRange && level.isEmptyBlock(blockPosition) && level.isInWorldBounds(blockPosition)) {
-				depth++;
-				blockPosition = blockPosition.below();
-			}
-
-			BlockState blockState = level.getBlockState(blockPosition);
-			if (blockState.is(BlockTags.CAMPFIRES)) {
-				// player is over a campfire
-				// determine range of campfire
-				boolean isLit = blockState.getValue(CampfireBlock.LIT);
-
-
-				if (isLit) {
-					// check for neighboring campfires
-					BlockPos[] possibleNeighbors = new BlockPos[]{
-							blockPosition.north(),
-							blockPosition.south(),
-							blockPosition.east(),
-							blockPosition.west()
-					};
-
-					int neighbors = 0;
-
-					for (BlockPos neighbor : possibleNeighbors) {
-						if (level.getBlockState(neighbor).getBlock() instanceof CampfireBlock) {
-							neighbors++;
-						}
+			double force = getSmokeForce();
+			if (force >= 0) {
+				if (self.level().isClientSide) {
+					if (AileronConfig.campfiresPushPlayers() && self.isLocalPlayer()) {
+						Vec3 existingDeltaMovement = self.getDeltaMovement();
+						self.setDeltaMovement(existingDeltaMovement.x, Math.min(existingDeltaMovement.y + force, 1.0), existingDeltaMovement.z);
 					}
-
-
-					boolean isExtendedRange = blockState.getValue(CampfireBlock.SIGNAL_FIRE);
-					float maxStrength = AileronConfig.campfirePushMaxStrength();
-					float minStrength = AileronConfig.campfirePushBaseStrength();
-					float rangePerNeighbor = (maxStrength - minStrength) / 4;
-					int range = (int) (isExtendedRange ? maxStrength : minStrength + (rangePerNeighbor * neighbors));
-
-					double distance = Math.abs(blockPosition.getY() - self.position().y);
-
-					// if player is within range of campfire
-					if (distance < range) {
-						if (self.level().isClientSide) {
-							if (AileronConfig.campfiresPushPlayers() && self.isLocalPlayer()) {
-								double force = Math.min(range / distance / 7, 1.0);
-
-								Vec3 existingDeltaMovement = self.getDeltaMovement();
-								self.setDeltaMovement(existingDeltaMovement.x, Math.min(existingDeltaMovement.y + force, 1.0), existingDeltaMovement.z);
-							}
-						}
-						else if (AileronConfig.smokestackAirRecharge()) {
-							airChargeTime++;
-							if (airChargeTime >= AileronConfig.smokestackChargeTicks()) {
-								airChargeTime = 0;
-								smokeCharge(false);
-							}
-						}
+				}
+				else if (AileronConfig.smokestackAirRecharge()) {
+					airChargeTime++;
+					if (airChargeTime >= AileronConfig.smokestackChargeTicks()) {
+						airChargeTime = 0;
+						smokeCharge(false);
 					}
 				}
 			}
-
 		}
 		else {
 			airChargeTime = 0;
@@ -261,6 +213,62 @@ public abstract class PlayerEntityMixin extends LivingEntity implements AileronP
 			}
 			level.playSound(null, self.blockPosition(), SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 0.8f, 0.8f + (stocks * 0.2f));
 		}
+	}
+
+	@Unique
+	public double getSmokeForce() {
+		Player self = ((Player) (Object) this);
+		Level level = self.level();
+
+		int maxRange = 38;
+		int depth = 0;
+
+		BlockPos blockPosition = self.blockPosition();
+
+		while (depth < maxRange && level.isInWorldBounds(blockPosition) && (level.isEmptyBlock(blockPosition) || level.getBlockState(blockPosition).getCollisionShape(level, blockPosition).isEmpty())) {
+			depth++;
+			blockPosition = blockPosition.below();
+		}
+
+		BlockState blockState = level.getBlockState(blockPosition);
+		if (blockState.is(BlockTags.CAMPFIRES)) {
+			// player is over a campfire
+			// determine range of campfire
+			boolean isLit = blockState.getValue(CampfireBlock.LIT);
+
+
+			if (isLit) {
+				// check for neighboring campfires
+				BlockPos[] possibleNeighbors = new BlockPos[]{
+						blockPosition.north(),
+						blockPosition.south(),
+						blockPosition.east(),
+						blockPosition.west()
+				};
+
+				int neighbors = 0;
+
+				for (BlockPos neighbor : possibleNeighbors) {
+					if (level.getBlockState(neighbor).getBlock() instanceof CampfireBlock) {
+						neighbors++;
+					}
+				}
+
+				boolean isExtendedRange = blockState.getValue(CampfireBlock.SIGNAL_FIRE);
+				float maxStrength = AileronConfig.campfirePushMaxStrength();
+				float minStrength = AileronConfig.campfirePushBaseStrength();
+				float rangePerNeighbor = (maxStrength - minStrength) / 4;
+				int range = (int) (isExtendedRange ? maxStrength : minStrength + (rangePerNeighbor * neighbors));
+
+				double distance = Math.abs(blockPosition.getY() - self.position().y);
+
+				// if player is within range of campfire
+				if (distance < range) {
+					return Math.min(range / distance / 7, 1.0);
+				}
+			}
+		}
+		return -1;
 	}
 
 	@Inject(method = "createAttributes", at = @At("RETURN"))
