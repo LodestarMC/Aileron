@@ -12,6 +12,8 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
 import net.minecraft.world.item.enchantment.effects.EnchantmentAttributeEffect;
 
+import java.util.List;
+
 public class AileronAccessoryCompat {
 
     @ExpectPlatform
@@ -57,10 +59,13 @@ public class AileronAccessoryCompat {
     public static void elytraChangeItem(LivingEntity entity, ItemStack itemStack, EquipmentSlot slot, boolean remove) {
         if (Aileron.isElytra(itemStack)) {
             itemStack.getEnchantments().keySet().forEach(enchantment -> {
-                enchantment.value().effects().get(EnchantmentEffectComponents.ATTRIBUTES).forEach(attributeEffect -> {
-                    elytraChangeItemForAttribute(entity, itemStack, slot, remove, enchantment, attributeEffect, AileronAttributes.CLOUDSKIPPER_DRAG);
-                    elytraChangeItemForAttribute(entity, itemStack, slot, remove, enchantment, attributeEffect, AileronAttributes.SMOKESTACK_CAPACITY);
-                });
+                List<EnchantmentAttributeEffect> attributeEffects = enchantment.value().effects().get(EnchantmentEffectComponents.ATTRIBUTES);
+                if (attributeEffects != null) {
+                    attributeEffects.forEach(attributeEffect -> {
+                        elytraChangeItemForAttribute(entity, itemStack, slot, remove, enchantment, attributeEffect, AileronAttributes.CLOUDSKIPPER_DRAG);
+                        elytraChangeItemForAttribute(entity, itemStack, slot, remove, enchantment, attributeEffect, AileronAttributes.SMOKESTACK_CAPACITY);
+                    });
+                }
             });
         }
     }
@@ -69,10 +74,12 @@ public class AileronAccessoryCompat {
         if (forAttribute.value() == attributeEffect.attribute().value()) {
             AttributeModifier modifier = attributeEffect.getModifier(itemStack.getEnchantments().getLevel(enchantment), slot);
             AttributeInstance attribute = player.getAttributes().getInstance(forAttribute);
-            if (remove) {
-                attribute.removeModifier(modifier);
-            } else {
-                attribute.addOrUpdateTransientModifier(modifier);
+            if (attribute != null) {
+                if (remove) {
+                    attribute.removeModifier(modifier);
+                } else {
+                    attribute.addOrUpdateTransientModifier(modifier);
+                }
             }
         }
     }
