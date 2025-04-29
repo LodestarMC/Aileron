@@ -225,7 +225,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements AileronP
 
 		BlockPos blockPosition = self.blockPosition();
 
-		while (depth < maxRange && level.isInWorldBounds(blockPosition) && (level.isEmptyBlock(blockPosition) || level.getBlockState(blockPosition).getCollisionShape(level, blockPosition).isEmpty())) {
+		while (depth < maxRange && level.isInWorldBounds(blockPosition) && (level.isEmptyBlock(blockPosition) || level.getBlockState(blockPosition).getCollisionShape(level, blockPosition).isEmpty()) || level.getBlockState(blockPosition).is(AileronTags.SMOKE_PASSABLE)) {
 			depth++;
 			blockPosition = blockPosition.below();
 		}

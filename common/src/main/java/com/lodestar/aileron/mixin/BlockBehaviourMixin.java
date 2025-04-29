@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class BlockBehaviourMixin {
 
     @Unique
-    VoxelShape EMPTY_SHAPE = Shapes.box(0, 0, 0, 0, 0, 0);
+    private static VoxelShape EMPTY_SHAPE = Shapes.box(0, 0, 0, 0, 0, 0);
 
     @Inject(method = "getCollisionShape(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/shapes/CollisionContext;)Lnet/minecraft/world/phys/shapes/VoxelShape;", at = @At("HEAD"), cancellable = true)
     private void getCollisionShape(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, CollisionContext collisionContext, CallbackInfoReturnable<VoxelShape> cir) {
@@ -37,8 +37,10 @@ public class BlockBehaviourMixin {
                 return;
             }
         }
-        if (blockState.is(AileronTags.SMOKE_PASSABLE)) {
-            cir.setReturnValue(EMPTY_SHAPE);
+        if (Aileron.smokeCollisionCalculation) {
+            if (blockState.is(AileronTags.SMOKE_PASSABLE)) {
+                cir.setReturnValue(EMPTY_SHAPE);
+            }
         }
     }
 }

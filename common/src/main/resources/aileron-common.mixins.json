@@ -6,13 +6,14 @@
     "CameraMixin",
     "GuiMixin",
     "MinecraftMixin",
-    "MixinGameRenderer"
+    "MixinGameRenderer",
+    "ParticleMixin"
   ],
   "mixins": [
+    "BlockBehaviourMixin",
     "CampfireBlockEntityMixin",
     "CampfireBlockMixin",
     "EnchantmentHelperMixin",
-    "BlockBehaviourMixin",
     "LivingEntityMixin",
     "MixinFireworkRocketItem",
     "PlayerEntityMixin"

@@ -19,6 +19,8 @@ import org.jetbrains.annotations.Nullable;
 public class Aileron {
 	public static final String MOD_ID = "aileron";
 
+	public static boolean smokeCollisionCalculation = false;
+
 	public static void init() {
 		AileronConfig.init();
 		AileronParticles.register();
