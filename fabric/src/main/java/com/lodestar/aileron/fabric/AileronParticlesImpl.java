@@ -7,10 +7,15 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.function.Supplier;
+
 public class AileronParticlesImpl {
-	public static final SimpleParticleType CUSTOM_CAMPFIRE_SMOKE = FabricParticleTypes.simple();
+	public static Supplier<SimpleParticleType> registerSimpleParticle(String name) {
+		SimpleParticleType particleType = FabricParticleTypes.simple();
+		Registry.register(BuiltInRegistries.PARTICLE_TYPE, ResourceLocation.fromNamespaceAndPath(Aileron.MOD_ID, name), particleType);
+		return () -> particleType;
+	}
 
 	public static void register() {
-		Registry.register(BuiltInRegistries.PARTICLE_TYPE, ResourceLocation.fromNamespaceAndPath(Aileron.MOD_ID, "custom_campfire_smoke"), CUSTOM_CAMPFIRE_SMOKE);
 	}
 }

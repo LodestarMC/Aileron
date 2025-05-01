@@ -6,7 +6,7 @@
     "CameraMixin",
     "GuiMixin",
     "MinecraftMixin",
-    "MixinGameRenderer",
+    "GameRendererMixin",
     "ParticleMixin"
   ],
   "mixins": [
@@ -15,7 +15,7 @@
     "CampfireBlockMixin",
     "EnchantmentHelperMixin",
     "LivingEntityMixin",
-    "MixinFireworkRocketItem",
+    "FireworkRocketItemMixin",
     "PlayerEntityMixin"
   ],
   "injectors": {

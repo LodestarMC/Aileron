@@ -2,6 +2,7 @@ package com.lodestar.aileron.mixin;
 
 import com.lodestar.aileron.Aileron;
 import com.lodestar.aileron.AileronConfig;
+import com.lodestar.aileron.AileronParticles;
 import com.lodestar.aileron.accessor.AileronPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -57,21 +58,22 @@ public abstract class LivingEntityMixin extends Entity {
 		double bottom = cloudLevel - 92.0;
 		double top = cloudLevel + 38.0;
 		if (y < bottom)
-			fac = 0.0;
+			fac = 0.0f;
 		else if (y < top)
-			fac = 0.00006 * Math.pow(y - bottom, 2);
+			fac = 0.00006f * Math.pow(y - bottom, 2);
 		else
-			fac = 1;
+			fac = 1.0f;
 
-		fac *= 0.6 * AileronConfig.cloudskipperSpeedMultiplier();
 		fac *= (1.0 - cloudskipperDrag);
+		double speedFac = fac * 0.6f * AileronConfig.cloudskipperSpeedMultiplier();
 
-		if (fac > 0.1 && !level().isClientSide && tickCount % ((int) (1.0 - fac) * 2 + 1) == 0) {
+		if (speedFac > 0.1 && !level().isClientSide && tickCount % ((int) (1.0 - speedFac) * 2 + 1) == 0) {
 			ServerLevel serverLevel = ((ServerLevel) level());
 
 			for (ServerPlayer player : serverLevel.players()) {
 				Vec3 pos = instance.position().add(instance.getLookAngle().scale(-1.0));
-				serverLevel.sendParticles(player, ParticleTypes.POOF, false, pos.x, pos.y, pos.z, 1 + (int) (fac * 4.0), 0.1, 0.1, 0.1, 0.025);
+				if (fac >= instance.getRandom().nextDouble())
+					serverLevel.sendParticles(player, AileronParticles.CLOUDSKIPPER_TRAIL.get(), false, pos.x, pos.y, pos.z, 1 + (int) (speedFac * 4.0), 0.1, 0.1, 0.1, 0.025);
 			}
 		}
 

@@ -15,7 +15,9 @@ public class AileronParticlesImpl {
 	public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES =
 			DeferredRegister.create(BuiltInRegistries.PARTICLE_TYPE, Aileron.MOD_ID);
 
-	public static final Supplier<SimpleParticleType> CUSTOM_CAMPFIRE_SMOKE = PARTICLE_TYPES.register("custom_campfire_smoke", () -> new SimpleParticleType(true));
+	public static Supplier<SimpleParticleType> registerSimpleParticle(String name) {
+		return PARTICLE_TYPES.register(name, () -> new SimpleParticleType(true));
+	}
 
 	public static void register(IEventBus bus) {
 		PARTICLE_TYPES.register(bus);
