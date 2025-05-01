@@ -4,9 +4,9 @@
   "compatibilityLevel": "JAVA_21",
   "client": [
     "CameraMixin",
+    "GameRendererMixin",
     "GuiMixin",
     "MinecraftMixin",
-    "GameRendererMixin",
     "ParticleMixin"
   ],
   "mixins": [
@@ -14,8 +14,9 @@
     "CampfireBlockEntityMixin",
     "CampfireBlockMixin",
     "EnchantmentHelperMixin",
-    "LivingEntityMixin",
+    "FireworkRocketEntityMixin",
     "FireworkRocketItemMixin",
+    "LivingEntityMixin",
     "PlayerEntityMixin"
   ],
   "injectors": {
