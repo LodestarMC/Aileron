@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class AileronAccessoryCompatImpl {
 
     public static void register() {
-        if (isAccessoryModInstalled()) {
+        if (AileronAccessoryCompat.isAccessoryModInstalled()) {
             TrinketUnequipCallback.EVENT.register(
                 (stack, slot, entity) -> {
                     AileronAccessoryCompat.accessoryElytraChange(entity, stack, true);
@@ -37,13 +37,8 @@ public class AileronAccessoryCompatImpl {
         }
     }
 
-    public static boolean isAccessoryModInstalled() {
-        return Aileron.isModInstalled("trinkets");
-    }
-
-
     public static ItemStack getAccessoryElytra(LivingEntity entity) {
-        if (isAccessoryModInstalled()) {
+        if (AileronAccessoryCompat.isAccessoryModInstalled()) {
             var v = TrinketsApi.TRINKET_COMPONENT.maybeGet(entity);
             if (v.isPresent()) {
                 TrinketComponent component = v.get();

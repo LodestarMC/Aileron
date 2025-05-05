@@ -18,14 +18,10 @@ import java.util.Optional;
 public class AileronAccessoryCompatImpl {
 
     public static void register() {
-        if (isAccessoryModInstalled()) {
+        if (AileronAccessoryCompat.isAccessoryModInstalled()) {
             NeoForge.EVENT_BUS.addListener(AileronAccessoryCompatImpl::curioChange);
             NeoForge.EVENT_BUS.addListener(AileronAccessoryCompatImpl::equipmentChange);
         }
-    }
-
-    public static boolean isAccessoryModInstalled() {
-        return Aileron.isModInstalled("curios");
     }
 
     public static void curioChange(CurioChangeEvent event) {
@@ -38,7 +34,7 @@ public class AileronAccessoryCompatImpl {
     }
 
     public static ItemStack getAccessoryElytra(LivingEntity entity) {
-        if (isAccessoryModInstalled()) {
+        if (AileronAccessoryCompat.isAccessoryModInstalled()) {
             Optional<IItemHandlerModifiable> optional = CuriosApi.getCuriosInventory(entity).map(ICuriosItemHandler::getEquippedCurios);
             if (optional.isPresent()) {
                 IItemHandlerModifiable handler = optional.get();

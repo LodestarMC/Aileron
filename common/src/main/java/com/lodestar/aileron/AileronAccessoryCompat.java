@@ -21,13 +21,12 @@ public class AileronAccessoryCompat {
     }
 
     @ExpectPlatform
-    public static boolean isAccessoryModInstalled() {
-        return false;
-    }
-
-    @ExpectPlatform
     public static ItemStack getAccessoryElytra(LivingEntity entity) {
         return ItemStack.EMPTY;
+    }
+
+    public static boolean isAccessoryModInstalled() {
+        return Aileron.isModInstalled("elytraslot");
     }
 
     public static void equipmentChange(LivingEntity entity, EquipmentSlot slot, ItemStack from, ItemStack to) {
