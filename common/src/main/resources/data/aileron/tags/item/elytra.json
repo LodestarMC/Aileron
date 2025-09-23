@@ -7,6 +7,8 @@
     { "required": false, "id": "#minecraft:enchantable/elytra" },
     { "required": false, "id": "#c:elytra" },
 
+    { "required": false, "id": "betterend:elytra_armored" },
+    { "required": false, "id": "betterend:elytra_crystalite" },
     { "required": false, "id": "silentgear:elytra" },
     { "required": false, "id": "mekanism:hdpe_elytra" },
     { "required": false, "id": "alexsmobs:tarantula_hawk_elytra" },

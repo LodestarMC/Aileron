@@ -13,9 +13,11 @@ public class AileronClientNetworkingImpl {
 	}
 
 	public static void register() {
-		PayloadTypeRegistry.playS2C().register(AileronNetworking.SMOKESTACK_LAUNCH_PACKET_ID, SmokestackLaunchPayload.CODEC);
-		ClientPlayNetworking.registerGlobalReceiver(AileronNetworking.SMOKESTACK_LAUNCH_PACKET_ID, (payload, context) -> {
-			context.client().execute(AileronClient::launchPlayer);
-		});
+		ClientPlayNetworking.registerGlobalReceiver(
+                AileronNetworking.SMOKESTACK_LAUNCH_PACKET_ID,
+                (payload, context) -> {
+			        context.client().execute(AileronClient::launchPlayer);
+		        }
+        );
 	}
 }
